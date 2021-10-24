@@ -1,0 +1,5 @@
+[wrap-git]
+directory=libpanel
+url=https://gitlab.gnome.org/jf/libpanel.git
+revision=bda740da77d6528a01ba0a8b67229c07ca12a3da
+depth=1

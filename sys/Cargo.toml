@@ -1,0 +1,42 @@
+[package]
+name = "libpanel-sys"
+version = "0.1.0-alpha-0"
+edition = "2018"
+build = "build.rs"
+links = "libpanel-1"
+[package.metadata.docs.rs]
+features = ["dox"]
+[package.metadata.system-deps.libpanel_1]
+name = "libpanel-1"
+version = "1.0.0-alpha0"
+
+[lib]
+name = "libpanel_sys"
+
+[features]
+dox = []
+
+[dependencies]
+libc = "0.2"
+glib-sys = "0.14"
+gio-sys = "0.14"
+gobject-sys = "0.14"
+
+[dependencies.gdk-sys]
+version = "0.3"
+package = "gdk4-sys"
+
+[dependencies.gtk-sys]
+version = "0.3"
+package = "gtk4-sys"
+
+[dependencies.adw-sys]
+git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs"
+package = "libadwaita-sys"
+
+[build-dependencies]
+system-deps = "5"
+
+[dev-dependencies]
+shell-words = "1.0.0"
+tempfile = "3"

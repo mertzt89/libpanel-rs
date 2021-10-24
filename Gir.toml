@@ -1,0 +1,57 @@
+[options]
+girs_directories = [".", "gir-files"]
+library = "Panel"
+version = "1"
+min_cfg_version = "1.0.0-alpha0"
+work_mode = "normal"
+generate_safety_asserts = true
+single_version_file = true
+trust_return_value_nullability = true
+
+external_libraries = [
+    "GLib",
+    "GObject",
+    "Gtk",
+    "Adw",
+]
+
+generate = [
+  "Panel.*",
+  "Panel.Dock",
+  "Panel.DockPosition",
+  "Panel.DockSwitcher",
+  "Panel.Frame",
+  "Panel.FrameCallback",
+  "Panel.FrameHeader",
+  "Panel.FrameHeaderBar",
+  "Panel.FrameSwitcher",
+  "Panel.FrameTabBar",
+  "Panel.Grid",
+  "Panel.GridColumn",
+  "Panel.SaveDelegate",
+  "Panel.Statusbar",
+  "Panel.Widget",
+]
+
+manual = [
+  "GLib.Error",
+  "GLib.Variant",
+  "GObject.Object",
+  "GObject.Value",
+  "Gio.AsyncReadyCallback",
+  "Gio.AsyncResult",
+  "Gio.Cancellable",
+  "Gio.Icon",
+  "Gio.MenuModel",
+  "Gio.Resource",
+  "Gio.Task",
+  "Gdk.RGBA",
+  "Gtk.Accessible",
+  "Gtk.Buildable",
+  "Gtk.ConstraintTarget",
+  "Gtk.Orientable",
+  "Gtk.PopoverMenu",
+  "Gtk.SelectionModel",
+  "Gtk.Widget",
+]
+
