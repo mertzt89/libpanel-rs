@@ -23,7 +23,9 @@ glib::wrapper! {
     }
 }
 
-pub const NONE_FRAME_HEADER: Option<&FrameHeader> = None;
+impl FrameHeader {
+    pub const NONE: Option<&'static FrameHeader> = None;
+}
 
 pub trait FrameHeaderExt: 'static {
     #[doc(alias = "panel_frame_header_can_drop")]

@@ -311,7 +311,9 @@ impl FrameBuilder {
     }
 }
 
-pub const NONE_FRAME: Option<&Frame> = None;
+impl Frame {
+    pub const NONE: Option<&'static Frame> = None;
+}
 
 pub trait FrameExt: 'static {
     #[doc(alias = "panel_frame_add")]

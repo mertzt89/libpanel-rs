@@ -408,7 +408,9 @@ impl WidgetBuilder {
     }
 }
 
-pub const NONE_WIDGET: Option<&Widget> = None;
+impl Widget {
+    pub const NONE: Option<&'static Widget> = None;
+}
 
 pub trait WidgetExt: 'static {
     #[doc(alias = "panel_widget_focus_default")]

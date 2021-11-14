@@ -18,16 +18,22 @@ dox = []
 
 [dependencies]
 libc = "0.2"
-glib-sys = "0.14"
-gio-sys = "0.14"
-gobject-sys = "0.14"
+
+[dependencies.gio-sys]
+git = "https://github.com/gtk-rs/gtk-rs-core"
+
+[dependencies.glib-sys]
+git = "https://github.com/gtk-rs/gtk-rs-core"
+
+[dependencies.gobject-sys]
+git = "https://github.com/gtk-rs/gtk-rs-core"
 
 [dependencies.gdk-sys]
-version = "0.3"
+git = "https://github.com/gtk-rs/gtk4-rs"
 package = "gdk4-sys"
 
 [dependencies.gtk-sys]
-version = "0.3"
+git = "https://github.com/gtk-rs/gtk4-rs"
 package = "gtk4-sys"
 
 [dependencies.adw-sys]

@@ -4,19 +4,19 @@
 // DO NOT EDIT
 
 mod dock;
+pub use self::dock::Dock;
 pub use self::dock::DockBuilder;
-pub use self::dock::{Dock, NONE_DOCK};
 
 mod dock_switcher;
 pub use self::dock_switcher::DockSwitcher;
 pub use self::dock_switcher::DockSwitcherBuilder;
 
 mod frame;
+pub use self::frame::Frame;
 pub use self::frame::FrameBuilder;
-pub use self::frame::{Frame, NONE_FRAME};
 
 mod frame_header;
-pub use self::frame_header::{FrameHeader, NONE_FRAME_HEADER};
+pub use self::frame_header::FrameHeader;
 
 mod frame_header_bar;
 pub use self::frame_header_bar::FrameHeaderBar;
@@ -39,16 +39,16 @@ pub use self::grid_column::GridColumn;
 pub use self::grid_column::GridColumnBuilder;
 
 mod save_delegate;
+pub use self::save_delegate::SaveDelegate;
 pub use self::save_delegate::SaveDelegateBuilder;
-pub use self::save_delegate::{SaveDelegate, NONE_SAVE_DELEGATE};
 
 mod statusbar;
 pub use self::statusbar::Statusbar;
 pub use self::statusbar::StatusbarBuilder;
 
 mod widget;
+pub use self::widget::Widget;
 pub use self::widget::WidgetBuilder;
-pub use self::widget::{Widget, NONE_WIDGET};
 
 mod enums;
 pub use self::enums::DockPosition;

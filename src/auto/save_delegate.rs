@@ -116,7 +116,9 @@ impl SaveDelegateBuilder {
     }
 }
 
-pub const NONE_SAVE_DELEGATE: Option<&SaveDelegate> = None;
+impl SaveDelegate {
+    pub const NONE: Option<&'static SaveDelegate> = None;
+}
 
 pub trait SaveDelegateExt: 'static {
     #[doc(alias = "panel_save_delegate_get_icon")]

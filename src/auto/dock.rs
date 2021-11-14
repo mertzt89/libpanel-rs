@@ -364,7 +364,9 @@ impl DockBuilder {
     }
 }
 
-pub const NONE_DOCK: Option<&Dock> = None;
+impl Dock {
+    pub const NONE: Option<&'static Dock> = None;
+}
 
 pub trait DockExt: 'static {
     #[doc(alias = "panel_dock_foreach_frame")]
@@ -622,59 +624,19 @@ impl<O: IsA<Dock>> DockExt for O {
     }
 
     fn bottom_height(&self) -> i32 {
-        unsafe {
-            let mut value = glib::Value::from_type(<i32 as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"bottom-height\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `bottom-height` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "bottom-height")
     }
 
     fn end_width(&self) -> i32 {
-        unsafe {
-            let mut value = glib::Value::from_type(<i32 as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"end-width\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `end-width` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "end-width")
     }
 
     fn start_width(&self) -> i32 {
-        unsafe {
-            let mut value = glib::Value::from_type(<i32 as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"start-width\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `start-width` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "start-width")
     }
 
     fn top_height(&self) -> i32 {
-        unsafe {
-            let mut value = glib::Value::from_type(<i32 as StaticType>::static_type());
-            glib::gobject_ffi::g_object_get_property(
-                self.to_glib_none().0 as *mut glib::gobject_ffi::GObject,
-                b"top-height\0".as_ptr() as *const _,
-                value.to_glib_none_mut().0,
-            );
-            value
-                .get()
-                .expect("Return Value for property `top-height` getter")
-        }
+        glib::ObjectExt::property(self.as_ref(), "top-height")
     }
 
     fn connect_panel_drag_begin<F: Fn(&Self, &Widget) + 'static>(&self, f: F) -> SignalHandlerId {
