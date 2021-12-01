@@ -481,9 +481,6 @@ extern "C" {
     pub fn panel_frame_header_bar_get_foreground_rgba(
         self_: *mut PanelFrameHeaderBar,
     ) -> *const gdk::GdkRGBA;
-    pub fn panel_frame_header_bar_get_menu_model(
-        self_: *mut PanelFrameHeaderBar,
-    ) -> *mut gio::GMenuModel;
     pub fn panel_frame_header_bar_get_menu_popover(
         self_: *mut PanelFrameHeaderBar,
     ) -> *mut gtk::GtkPopoverMenu;
@@ -495,10 +492,6 @@ extern "C" {
     pub fn panel_frame_header_bar_set_foreground_rgba(
         self_: *mut PanelFrameHeaderBar,
         foreground_rgba: *const gdk::GdkRGBA,
-    );
-    pub fn panel_frame_header_bar_set_menu_model(
-        self_: *mut PanelFrameHeaderBar,
-        model: *mut gio::GMenuModel,
     );
     pub fn panel_frame_header_bar_set_show_icon(
         self_: *mut PanelFrameHeaderBar,

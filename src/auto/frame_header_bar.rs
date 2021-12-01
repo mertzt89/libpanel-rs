@@ -61,16 +61,6 @@ impl FrameHeaderBar {
         }
     }
 
-    #[doc(alias = "panel_frame_header_bar_get_menu_model")]
-    #[doc(alias = "get_menu_model")]
-    pub fn menu_model(&self) -> gio::MenuModel {
-        unsafe {
-            from_glib_none(ffi::panel_frame_header_bar_get_menu_model(
-                self.to_glib_none().0,
-            ))
-        }
-    }
-
     #[doc(alias = "panel_frame_header_bar_get_menu_popover")]
     #[doc(alias = "get_menu_popover")]
     pub fn menu_popover(&self) -> gtk::PopoverMenu {
@@ -107,16 +97,6 @@ impl FrameHeaderBar {
             ffi::panel_frame_header_bar_set_foreground_rgba(
                 self.to_glib_none().0,
                 foreground_rgba.to_glib_none().0,
-            );
-        }
-    }
-
-    #[doc(alias = "panel_frame_header_bar_set_menu_model")]
-    pub fn set_menu_model(&self, model: &impl IsA<gio::MenuModel>) {
-        unsafe {
-            ffi::panel_frame_header_bar_set_menu_model(
-                self.to_glib_none().0,
-                model.as_ref().to_glib_none().0,
             );
         }
     }

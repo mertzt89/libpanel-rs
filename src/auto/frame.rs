@@ -428,7 +428,7 @@ impl<O: IsA<Frame>> FrameExt for O {
         unsafe {
             ffi::panel_frame_set_header(
                 self.as_ref().to_glib_none().0,
-                header.map(|p| p.as_ref()).to_glib_full(),
+                header.map(|p| p.as_ref()).to_glib_none().0,
             );
         }
     }

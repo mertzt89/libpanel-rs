@@ -836,7 +836,7 @@ completes or was cancelled.</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="header"
-                     transfer-ownership="full"
+                     transfer-ownership="none"
                      nullable="1"
                      allow-none="1">
             <doc xml:space="preserve"
@@ -1202,7 +1202,7 @@ to display in the frame.</doc>
         <doc xml:space="preserve"
              filename="../src/panel-frame-header-bar.c"
              line="747">Gets the background color of the header bar.</doc>
-        <source-position filename="../src/panel-frame-header-bar.h" line="49"/>
+        <source-position filename="../src/panel-frame-header-bar.h" line="44"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-frame-header-bar.c"
@@ -1224,7 +1224,7 @@ to display in the frame.</doc>
         <doc xml:space="preserve"
              filename="../src/panel-frame-header-bar.c"
              line="783">Gets the foreground color of the header bar.</doc>
-        <source-position filename="../src/panel-frame-header-bar.h" line="44"/>
+        <source-position filename="../src/panel-frame-header-bar.h" line="39"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-frame-header-bar.c"
@@ -1240,25 +1240,12 @@ to display in the frame.</doc>
           </instance-parameter>
         </parameters>
       </method>
-      <method name="get_menu_model"
-              c:identifier="panel_frame_header_bar_get_menu_model"
-              introspectable="0">
-        <source-position filename="../src/panel-frame-header-bar.h" line="37"/>
-        <return-value>
-          <type name="Gio.MenuModel" c:type="GMenuModel*"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <type name="FrameHeaderBar" c:type="PanelFrameHeaderBar*"/>
-          </instance-parameter>
-        </parameters>
-      </method>
       <method name="get_menu_popover"
               c:identifier="panel_frame_header_bar_get_menu_popover">
         <doc xml:space="preserve"
              filename="../src/panel-frame-header-bar.c"
              line="731">Gets the menu popover attached to this menubar.</doc>
-        <source-position filename="../src/panel-frame-header-bar.h" line="42"/>
+        <source-position filename="../src/panel-frame-header-bar.h" line="37"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/panel-frame-header-bar.c"
@@ -1277,7 +1264,7 @@ to display in the frame.</doc>
       <method name="get_show_icon"
               c:identifier="panel_frame_header_bar_get_show_icon"
               glib:get-property="show-icon">
-        <source-position filename="../src/panel-frame-header-bar.h" line="54"/>
+        <source-position filename="../src/panel-frame-header-bar.h" line="49"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -1293,7 +1280,7 @@ to display in the frame.</doc>
         <doc xml:space="preserve"
              filename="../src/panel-frame-header-bar.c"
              line="763">Sets the background color of the header bar.</doc>
-        <source-position filename="../src/panel-frame-header-bar.h" line="51"/>
+        <source-position filename="../src/panel-frame-header-bar.h" line="46"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -1321,7 +1308,7 @@ to display in the frame.</doc>
         <doc xml:space="preserve"
              filename="../src/panel-frame-header-bar.c"
              line="799">Sets the foreground color of the header bar.</doc>
-        <source-position filename="../src/panel-frame-header-bar.h" line="46"/>
+        <source-position filename="../src/panel-frame-header-bar.h" line="41"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -1343,25 +1330,10 @@ to display in the frame.</doc>
           </parameter>
         </parameters>
       </method>
-      <method name="set_menu_model"
-              c:identifier="panel_frame_header_bar_set_menu_model">
-        <source-position filename="../src/panel-frame-header-bar.h" line="39"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <type name="FrameHeaderBar" c:type="PanelFrameHeaderBar*"/>
-          </instance-parameter>
-          <parameter name="model" transfer-ownership="none">
-            <type name="Gio.MenuModel" c:type="GMenuModel*"/>
-          </parameter>
-        </parameters>
-      </method>
       <method name="set_show_icon"
               c:identifier="panel_frame_header_bar_set_show_icon"
               glib:set-property="show-icon">
-        <source-position filename="../src/panel-frame-header-bar.h" line="56"/>
+        <source-position filename="../src/panel-frame-header-bar.h" line="51"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
