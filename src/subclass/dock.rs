@@ -63,7 +63,7 @@ unsafe extern "C" fn dock_panel_drag_begin<T: DockImpl>(
     widget: *mut ffi::PanelWidget,
 ) {
     let instance = &*(ptr as *mut T::Instance);
-    let imp = instance.impl_();
+    let imp = instance.imp();
     let wrap: Borrowed<Dock> = from_glib_borrow(ptr);
     let widget: Borrowed<Widget> = from_glib_borrow(widget);
 
@@ -75,7 +75,7 @@ unsafe extern "C" fn dock_panel_drag_end<T: DockImpl>(
     widget: *mut ffi::PanelWidget,
 ) {
     let instance = &*(ptr as *mut T::Instance);
-    let imp = instance.impl_();
+    let imp = instance.imp();
     let wrap: Borrowed<Dock> = from_glib_borrow(ptr);
     let widget: Borrowed<Widget> = from_glib_borrow(widget);
 

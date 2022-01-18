@@ -29,8 +29,10 @@ generate = [
   "Panel.FrameTabBar",
   "Panel.Grid",
   "Panel.GridColumn",
-  "Panel.SaveDelegate",
+  "Panel.OmniBar",
+  "Panel.Paned",
   "Panel.Statusbar",
+  "Panel.ThemeSelector",
   "Panel.Widget",
 ]
 
@@ -56,3 +58,11 @@ manual = [
   "Gtk.Widget",
 ]
 
+[[object]]
+name = "Panel.SaveDelegate"
+status = "generate"
+manual_traits = ["SaveDelegateExtManual"]
+    [[object.signal]]
+    name = "save"
+    manual = true
+    doc_trait_name = "SaveDelegateExtManual"

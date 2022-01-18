@@ -3,8 +3,6 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::Frame;
-use crate::FrameHeader;
 use glib::object::Cast;
 use glib::object::IsA;
 use glib::object::ObjectType as ObjectType_;
@@ -18,79 +16,53 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
-    #[doc(alias = "PanelFrameTabBar")]
-    pub struct FrameTabBar(Object<ffi::PanelFrameTabBar, ffi::PanelFrameTabBarClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, FrameHeader;
+    #[doc(alias = "PanelThemeSelector")]
+    pub struct ThemeSelector(Object<ffi::PanelThemeSelector, ffi::PanelThemeSelectorClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 
     match fn {
-        type_ => || ffi::panel_frame_tab_bar_get_type(),
+        type_ => || ffi::panel_theme_selector_get_type(),
     }
 }
 
-impl FrameTabBar {
-    #[doc(alias = "panel_frame_tab_bar_new")]
-    pub fn new() -> FrameTabBar {
+impl ThemeSelector {
+    #[doc(alias = "panel_theme_selector_new")]
+    pub fn new() -> ThemeSelector {
         assert_initialized_main_thread!();
-        unsafe { gtk::Widget::from_glib_full(ffi::panel_frame_tab_bar_new()).unsafe_cast() }
+        unsafe { gtk::Widget::from_glib_none(ffi::panel_theme_selector_new()).unsafe_cast() }
     }
 
     // rustdoc-stripper-ignore-next
-    /// Creates a new builder-pattern struct instance to construct [`FrameTabBar`] objects.
+    /// Creates a new builder-pattern struct instance to construct [`ThemeSelector`] objects.
     ///
-    /// This method returns an instance of [`FrameTabBarBuilder`](crate::builders::FrameTabBarBuilder) which can be used to create [`FrameTabBar`] objects.
-    pub fn builder() -> FrameTabBarBuilder {
-        FrameTabBarBuilder::default()
+    /// This method returns an instance of [`ThemeSelectorBuilder`](crate::builders::ThemeSelectorBuilder) which can be used to create [`ThemeSelector`] objects.
+    pub fn builder() -> ThemeSelectorBuilder {
+        ThemeSelectorBuilder::default()
     }
 
-    #[doc(alias = "panel_frame_tab_bar_get_autohide")]
-    #[doc(alias = "get_autohide")]
-    pub fn is_autohide(&self) -> bool {
-        unsafe { from_glib(ffi::panel_frame_tab_bar_get_autohide(self.to_glib_none().0)) }
-    }
-
-    #[doc(alias = "panel_frame_tab_bar_get_expand_tabs")]
-    #[doc(alias = "get_expand_tabs")]
-    pub fn expands_tabs(&self) -> bool {
+    #[doc(alias = "panel_theme_selector_get_action_name")]
+    #[doc(alias = "get_action_name")]
+    pub fn action_name(&self) -> glib::GString {
         unsafe {
-            from_glib(ffi::panel_frame_tab_bar_get_expand_tabs(
+            from_glib_none(ffi::panel_theme_selector_get_action_name(
                 self.to_glib_none().0,
             ))
         }
     }
 
-    #[doc(alias = "panel_frame_tab_bar_get_inverted")]
-    #[doc(alias = "get_inverted")]
-    pub fn is_inverted(&self) -> bool {
-        unsafe { from_glib(ffi::panel_frame_tab_bar_get_inverted(self.to_glib_none().0)) }
-    }
-
-    #[doc(alias = "panel_frame_tab_bar_set_autohide")]
-    pub fn set_autohide(&self, autohide: bool) {
+    #[doc(alias = "panel_theme_selector_set_action_name")]
+    pub fn set_action_name(&self, action_name: &str) {
         unsafe {
-            ffi::panel_frame_tab_bar_set_autohide(self.to_glib_none().0, autohide.into_glib());
-        }
-    }
-
-    #[doc(alias = "panel_frame_tab_bar_set_expand_tabs")]
-    pub fn set_expand_tabs(&self, expand_tabs: bool) {
-        unsafe {
-            ffi::panel_frame_tab_bar_set_expand_tabs(
+            ffi::panel_theme_selector_set_action_name(
                 self.to_glib_none().0,
-                expand_tabs.into_glib(),
+                action_name.to_glib_none().0,
             );
         }
     }
 
-    #[doc(alias = "panel_frame_tab_bar_set_inverted")]
-    pub fn set_inverted(&self, inverted: bool) {
-        unsafe {
-            ffi::panel_frame_tab_bar_set_inverted(self.to_glib_none().0, inverted.into_glib());
-        }
-    }
-
-    #[doc(alias = "autohide")]
-    pub fn connect_autohide_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_autohide_trampoline<F: Fn(&FrameTabBar) + 'static>(
-            this: *mut ffi::PanelFrameTabBar,
+    #[doc(alias = "action-name")]
+    pub fn connect_action_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_action_name_trampoline<F: Fn(&ThemeSelector) + 'static>(
+            this: *mut ffi::PanelThemeSelector,
             _param_spec: glib::ffi::gpointer,
             f: glib::ffi::gpointer,
         ) {
@@ -101,55 +73,9 @@ impl FrameTabBar {
             let f: Box_<F> = Box_::new(f);
             connect_raw(
                 self.as_ptr() as *mut _,
-                b"notify::autohide\0".as_ptr() as *const _,
+                b"notify::action-name\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_autohide_trampoline::<F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
-
-    #[doc(alias = "expand-tabs")]
-    pub fn connect_expand_tabs_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_expand_tabs_trampoline<F: Fn(&FrameTabBar) + 'static>(
-            this: *mut ffi::PanelFrameTabBar,
-            _param_spec: glib::ffi::gpointer,
-            f: glib::ffi::gpointer,
-        ) {
-            let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this))
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::expand-tabs\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_expand_tabs_trampoline::<F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
-
-    #[doc(alias = "inverted")]
-    pub fn connect_inverted_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_inverted_trampoline<F: Fn(&FrameTabBar) + 'static>(
-            this: *mut ffi::PanelFrameTabBar,
-            _param_spec: glib::ffi::gpointer,
-            f: glib::ffi::gpointer,
-        ) {
-            let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this))
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::inverted\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_inverted_trampoline::<F> as *const (),
+                    notify_action_name_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
@@ -157,7 +83,7 @@ impl FrameTabBar {
     }
 }
 
-impl Default for FrameTabBar {
+impl Default for ThemeSelector {
     fn default() -> Self {
         Self::new()
     }
@@ -165,14 +91,12 @@ impl Default for FrameTabBar {
 
 #[derive(Clone, Default)]
 // rustdoc-stripper-ignore-next
-/// A [builder-pattern] type to construct [`FrameTabBar`] objects.
+/// A [builder-pattern] type to construct [`ThemeSelector`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
 #[must_use = "The builder must be built to be used"]
-pub struct FrameTabBarBuilder {
-    autohide: Option<bool>,
-    expand_tabs: Option<bool>,
-    inverted: Option<bool>,
+pub struct ThemeSelectorBuilder {
+    action_name: Option<String>,
     can_focus: Option<bool>,
     can_target: Option<bool>,
     css_classes: Option<Vec<String>>,
@@ -203,29 +127,22 @@ pub struct FrameTabBarBuilder {
     visible: Option<bool>,
     width_request: Option<i32>,
     //accessible-role: /*Unknown type*/,
-    frame: Option<Frame>,
 }
 
-impl FrameTabBarBuilder {
+impl ThemeSelectorBuilder {
     // rustdoc-stripper-ignore-next
-    /// Create a new [`FrameTabBarBuilder`].
+    /// Create a new [`ThemeSelectorBuilder`].
     pub fn new() -> Self {
         Self::default()
     }
 
     // rustdoc-stripper-ignore-next
-    /// Build the [`FrameTabBar`].
+    /// Build the [`ThemeSelector`].
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
-    pub fn build(self) -> FrameTabBar {
+    pub fn build(self) -> ThemeSelector {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
-        if let Some(ref autohide) = self.autohide {
-            properties.push(("autohide", autohide));
-        }
-        if let Some(ref expand_tabs) = self.expand_tabs {
-            properties.push(("expand-tabs", expand_tabs));
-        }
-        if let Some(ref inverted) = self.inverted {
-            properties.push(("inverted", inverted));
+        if let Some(ref action_name) = self.action_name {
+            properties.push(("action-name", action_name));
         }
         if let Some(ref can_focus) = self.can_focus {
             properties.push(("can-focus", can_focus));
@@ -299,25 +216,12 @@ impl FrameTabBarBuilder {
         if let Some(ref width_request) = self.width_request {
             properties.push(("width-request", width_request));
         }
-        if let Some(ref frame) = self.frame {
-            properties.push(("frame", frame));
-        }
-        glib::Object::new::<FrameTabBar>(&properties)
-            .expect("Failed to create an instance of FrameTabBar")
+        glib::Object::new::<ThemeSelector>(&properties)
+            .expect("Failed to create an instance of ThemeSelector")
     }
 
-    pub fn autohide(mut self, autohide: bool) -> Self {
-        self.autohide = Some(autohide);
-        self
-    }
-
-    pub fn expand_tabs(mut self, expand_tabs: bool) -> Self {
-        self.expand_tabs = Some(expand_tabs);
-        self
-    }
-
-    pub fn inverted(mut self, inverted: bool) -> Self {
-        self.inverted = Some(inverted);
+    pub fn action_name(mut self, action_name: &str) -> Self {
+        self.action_name = Some(action_name.to_string());
         self
     }
 
@@ -440,15 +344,10 @@ impl FrameTabBarBuilder {
         self.width_request = Some(width_request);
         self
     }
-
-    pub fn frame(mut self, frame: &impl IsA<Frame>) -> Self {
-        self.frame = Some(frame.clone().upcast());
-        self
-    }
 }
 
-impl fmt::Display for FrameTabBar {
+impl fmt::Display for ThemeSelector {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("FrameTabBar")
+        f.write_str("ThemeSelector")
     }
 }

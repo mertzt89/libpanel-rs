@@ -28,18 +28,18 @@ impl FrameHeader {
 }
 
 pub trait FrameHeaderExt: 'static {
+    #[doc(alias = "panel_frame_header_add_prefix")]
+    fn add_prefix(&self, priority: i32, child: &impl IsA<gtk::Widget>);
+
+    #[doc(alias = "panel_frame_header_add_suffix")]
+    fn add_suffix(&self, priority: i32, child: &impl IsA<gtk::Widget>);
+
     #[doc(alias = "panel_frame_header_can_drop")]
     fn can_drop(&self, widget: &impl IsA<Widget>) -> bool;
 
     #[doc(alias = "panel_frame_header_get_frame")]
     #[doc(alias = "get_frame")]
     fn frame(&self) -> Option<Frame>;
-
-    #[doc(alias = "panel_frame_header_pack_end")]
-    fn pack_end(&self, priority: i32, child: &impl IsA<gtk::Widget>);
-
-    #[doc(alias = "panel_frame_header_pack_start")]
-    fn pack_start(&self, priority: i32, child: &impl IsA<gtk::Widget>);
 
     #[doc(alias = "panel_frame_header_page_changed")]
     fn page_changed(&self, widget: Option<&impl IsA<Widget>>);
@@ -52,6 +52,26 @@ pub trait FrameHeaderExt: 'static {
 }
 
 impl<O: IsA<FrameHeader>> FrameHeaderExt for O {
+    fn add_prefix(&self, priority: i32, child: &impl IsA<gtk::Widget>) {
+        unsafe {
+            ffi::panel_frame_header_add_prefix(
+                self.as_ref().to_glib_none().0,
+                priority,
+                child.as_ref().to_glib_none().0,
+            );
+        }
+    }
+
+    fn add_suffix(&self, priority: i32, child: &impl IsA<gtk::Widget>) {
+        unsafe {
+            ffi::panel_frame_header_add_suffix(
+                self.as_ref().to_glib_none().0,
+                priority,
+                child.as_ref().to_glib_none().0,
+            );
+        }
+    }
+
     fn can_drop(&self, widget: &impl IsA<Widget>) -> bool {
         unsafe {
             from_glib(ffi::panel_frame_header_can_drop(
@@ -66,26 +86,6 @@ impl<O: IsA<FrameHeader>> FrameHeaderExt for O {
             from_glib_none(ffi::panel_frame_header_get_frame(
                 self.as_ref().to_glib_none().0,
             ))
-        }
-    }
-
-    fn pack_end(&self, priority: i32, child: &impl IsA<gtk::Widget>) {
-        unsafe {
-            ffi::panel_frame_header_pack_end(
-                self.as_ref().to_glib_none().0,
-                priority,
-                child.as_ref().to_glib_none().0,
-            );
-        }
-    }
-
-    fn pack_start(&self, priority: i32, child: &impl IsA<gtk::Widget>) {
-        unsafe {
-            ffi::panel_frame_header_pack_start(
-                self.as_ref().to_glib_none().0,
-                priority,
-                child.as_ref().to_glib_none().0,
-            );
         }
     }
 

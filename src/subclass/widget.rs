@@ -42,7 +42,7 @@ unsafe extern "C" fn widget_focus<T: PanelWidgetImpl>(
     ptr: *mut ffi::PanelWidget,
 ) -> *mut gtk::ffi::GtkWidget {
     let instance = &*(ptr as *mut T::Instance);
-    let imp = instance.impl_();
+    let imp = instance.imp();
     let wrap: Borrowed<Widget> = from_glib_borrow(ptr);
 
     PanelWidgetImpl::get_default_focus(imp, wrap.unsafe_cast_ref())

@@ -29,3 +29,5 @@ pub use auto::*;
 
 pub mod prelude;
 pub mod subclass;
+
+mod save_delegate;

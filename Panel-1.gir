@@ -107,8 +107,8 @@ of libpanel is greater than the required one.</doc>
       <method name="foreach_frame" c:identifier="panel_dock_foreach_frame">
         <doc xml:space="preserve"
              filename="../src/panel-dock.c"
-             line="1101">Invokes a callback for each frame in the dock.</doc>
-        <source-position filename="../src/panel-dock.h" line="101"/>
+             line="1171">Invokes a callback for each frame in the dock.</doc>
+        <source-position filename="../src/panel-dock.h" line="111"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -116,7 +116,7 @@ of libpanel is greater than the required one.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-dock.c"
-                 line="1103">a #PanelDock</doc>
+                 line="1173">a #PanelDock</doc>
             <type name="Dock" c:type="PanelDock*"/>
           </instance-parameter>
           <parameter name="callback"
@@ -125,7 +125,7 @@ of libpanel is greater than the required one.</doc>
                      closure="1">
             <doc xml:space="preserve"
                  filename="../src/panel-dock.c"
-                 line="1104">a function to be called on each frame</doc>
+                 line="1174">a function to be called on each frame</doc>
             <type name="FrameCallback" c:type="PanelFrameCallback"/>
           </parameter>
           <parameter name="user_data"
@@ -135,7 +135,7 @@ of libpanel is greater than the required one.</doc>
                      closure="0">
             <doc xml:space="preserve"
                  filename="../src/panel-dock.c"
-                 line="1105">data to pass to @callback</doc>
+                 line="1175">data to pass to @callback</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
         </parameters>
@@ -143,7 +143,7 @@ of libpanel is greater than the required one.</doc>
       <method name="get_can_reveal_bottom"
               c:identifier="panel_dock_get_can_reveal_bottom"
               glib:get-property="can-reveal-bottom">
-        <source-position filename="../src/panel-dock.h" line="81"/>
+        <source-position filename="../src/panel-dock.h" line="91"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -153,10 +153,25 @@ of libpanel is greater than the required one.</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="get_can_reveal_edge"
+              c:identifier="panel_dock_get_can_reveal_edge">
+        <source-position filename="../src/panel-dock.h" line="88"/>
+        <return-value transfer-ownership="none">
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Dock" c:type="PanelDock*"/>
+          </instance-parameter>
+          <parameter name="edge" transfer-ownership="none">
+            <type name="DockPosition" c:type="PanelDockPosition"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="get_can_reveal_end"
               c:identifier="panel_dock_get_can_reveal_end"
               glib:get-property="can-reveal-end">
-        <source-position filename="../src/panel-dock.h" line="87"/>
+        <source-position filename="../src/panel-dock.h" line="97"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -169,7 +184,7 @@ of libpanel is greater than the required one.</doc>
       <method name="get_can_reveal_start"
               c:identifier="panel_dock_get_can_reveal_start"
               glib:get-property="can-reveal-start">
-        <source-position filename="../src/panel-dock.h" line="85"/>
+        <source-position filename="../src/panel-dock.h" line="95"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -182,7 +197,7 @@ of libpanel is greater than the required one.</doc>
       <method name="get_can_reveal_top"
               c:identifier="panel_dock_get_can_reveal_top"
               glib:get-property="can-reveal-top">
-        <source-position filename="../src/panel-dock.h" line="83"/>
+        <source-position filename="../src/panel-dock.h" line="93"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -195,7 +210,7 @@ of libpanel is greater than the required one.</doc>
       <method name="get_reveal_bottom"
               c:identifier="panel_dock_get_reveal_bottom"
               glib:get-property="reveal-bottom">
-        <source-position filename="../src/panel-dock.h" line="67"/>
+        <source-position filename="../src/panel-dock.h" line="74"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -205,10 +220,24 @@ of libpanel is greater than the required one.</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="get_reveal_edge" c:identifier="panel_dock_get_reveal_edge">
+        <source-position filename="../src/panel-dock.h" line="61"/>
+        <return-value transfer-ownership="none">
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Dock" c:type="PanelDock*"/>
+          </instance-parameter>
+          <parameter name="edge" transfer-ownership="none">
+            <type name="DockPosition" c:type="PanelDockPosition"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="get_reveal_end"
               c:identifier="panel_dock_get_reveal_end"
               glib:get-property="reveal-end">
-        <source-position filename="../src/panel-dock.h" line="63"/>
+        <source-position filename="../src/panel-dock.h" line="70"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -221,7 +250,7 @@ of libpanel is greater than the required one.</doc>
       <method name="get_reveal_start"
               c:identifier="panel_dock_get_reveal_start"
               glib:get-property="reveal-start">
-        <source-position filename="../src/panel-dock.h" line="61"/>
+        <source-position filename="../src/panel-dock.h" line="68"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -234,7 +263,7 @@ of libpanel is greater than the required one.</doc>
       <method name="get_reveal_top"
               c:identifier="panel_dock_get_reveal_top"
               glib:get-property="reveal-top">
-        <source-position filename="../src/panel-dock.h" line="65"/>
+        <source-position filename="../src/panel-dock.h" line="72"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -247,7 +276,7 @@ of libpanel is greater than the required one.</doc>
       <method name="set_bottom_height"
               c:identifier="panel_dock_set_bottom_height"
               glib:set-property="bottom-height">
-        <source-position filename="../src/panel-dock.h" line="98"/>
+        <source-position filename="../src/panel-dock.h" line="108"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -263,7 +292,7 @@ of libpanel is greater than the required one.</doc>
       <method name="set_end_width"
               c:identifier="panel_dock_set_end_width"
               glib:set-property="end-width">
-        <source-position filename="../src/panel-dock.h" line="92"/>
+        <source-position filename="../src/panel-dock.h" line="102"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -279,7 +308,7 @@ of libpanel is greater than the required one.</doc>
       <method name="set_reveal_bottom"
               c:identifier="panel_dock_set_reveal_bottom"
               glib:set-property="reveal-bottom">
-        <source-position filename="../src/panel-dock.h" line="78"/>
+        <source-position filename="../src/panel-dock.h" line="85"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -292,10 +321,27 @@ of libpanel is greater than the required one.</doc>
           </parameter>
         </parameters>
       </method>
+      <method name="set_reveal_edge" c:identifier="panel_dock_set_reveal_edge">
+        <source-position filename="../src/panel-dock.h" line="64"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Dock" c:type="PanelDock*"/>
+          </instance-parameter>
+          <parameter name="position" transfer-ownership="none">
+            <type name="DockPosition" c:type="PanelDockPosition"/>
+          </parameter>
+          <parameter name="reveal" transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="set_reveal_end"
               c:identifier="panel_dock_set_reveal_end"
               glib:set-property="reveal-end">
-        <source-position filename="../src/panel-dock.h" line="72"/>
+        <source-position filename="../src/panel-dock.h" line="79"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -311,7 +357,7 @@ of libpanel is greater than the required one.</doc>
       <method name="set_reveal_start"
               c:identifier="panel_dock_set_reveal_start"
               glib:set-property="reveal-start">
-        <source-position filename="../src/panel-dock.h" line="69"/>
+        <source-position filename="../src/panel-dock.h" line="76"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -327,7 +373,7 @@ of libpanel is greater than the required one.</doc>
       <method name="set_reveal_top"
               c:identifier="panel_dock_set_reveal_top"
               glib:set-property="reveal-top">
-        <source-position filename="../src/panel-dock.h" line="75"/>
+        <source-position filename="../src/panel-dock.h" line="82"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -343,7 +389,7 @@ of libpanel is greater than the required one.</doc>
       <method name="set_start_width"
               c:identifier="panel_dock_set_start_width"
               glib:set-property="start-width">
-        <source-position filename="../src/panel-dock.h" line="89"/>
+        <source-position filename="../src/panel-dock.h" line="99"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -359,7 +405,7 @@ of libpanel is greater than the required one.</doc>
       <method name="set_top_height"
               c:identifier="panel_dock_set_top_height"
               glib:set-property="top-height">
-        <source-position filename="../src/panel-dock.h" line="95"/>
+        <source-position filename="../src/panel-dock.h" line="105"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -450,7 +496,7 @@ of libpanel is greater than the required one.</doc>
       <glib:signal name="panel-drag-begin" when="last">
         <doc xml:space="preserve"
              filename="../src/panel-dock.c"
-             line="438">This signal is emitted when dragging of a panel begins.</doc>
+             line="455">This signal is emitted when dragging of a panel begins.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -458,7 +504,7 @@ of libpanel is greater than the required one.</doc>
           <parameter name="panel" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-dock.c"
-                 line="441">a #PanelWidget</doc>
+                 line="458">a #PanelWidget</doc>
             <type name="Widget"/>
           </parameter>
         </parameters>
@@ -466,7 +512,7 @@ of libpanel is greater than the required one.</doc>
       <glib:signal name="panel-drag-end" when="last">
         <doc xml:space="preserve"
              filename="../src/panel-dock.c"
-             line="453">This signal is emitted when dragging of a panel either
+             line="470">This signal is emitted when dragging of a panel either
 completes or was cancelled.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -475,7 +521,7 @@ completes or was cancelled.</doc>
           <parameter name="panel" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-dock.c"
-                 line="456">a #PanelWidget</doc>
+                 line="473">a #PanelWidget</doc>
             <type name="Widget"/>
           </parameter>
         </parameters>
@@ -521,21 +567,39 @@ completes or was cancelled.</doc>
         </callback>
       </field>
     </record>
-    <enumeration name="DockPosition" c:type="PanelDockPosition">
-      <source-position filename="../src/panel-dock.h" line="40"/>
-      <member name="start" value="0" c:identifier="PANEL_DOCK_POSITION_START">
+    <enumeration name="DockPosition"
+                 glib:type-name="PanelDockPosition"
+                 glib:get-type="panel_dock_position_get_type"
+                 c:type="PanelDockPosition">
+      <member name="start"
+              value="0"
+              c:identifier="PANEL_DOCK_POSITION_START"
+              glib:nick="start"
+              glib:name="PANEL_DOCK_POSITION_START">
       </member>
-      <member name="end" value="1" c:identifier="PANEL_DOCK_POSITION_END">
+      <member name="end"
+              value="1"
+              c:identifier="PANEL_DOCK_POSITION_END"
+              glib:nick="end"
+              glib:name="PANEL_DOCK_POSITION_END">
       </member>
-      <member name="top" value="2" c:identifier="PANEL_DOCK_POSITION_TOP">
+      <member name="top"
+              value="2"
+              c:identifier="PANEL_DOCK_POSITION_TOP"
+              glib:nick="top"
+              glib:name="PANEL_DOCK_POSITION_TOP">
       </member>
       <member name="bottom"
               value="3"
-              c:identifier="PANEL_DOCK_POSITION_BOTTOM">
+              c:identifier="PANEL_DOCK_POSITION_BOTTOM"
+              glib:nick="bottom"
+              glib:name="PANEL_DOCK_POSITION_BOTTOM">
       </member>
       <member name="center"
               value="4"
-              c:identifier="PANEL_DOCK_POSITION_CENTER">
+              c:identifier="PANEL_DOCK_POSITION_CENTER"
+              glib:nick="center"
+              glib:name="PANEL_DOCK_POSITION_CENTER">
       </member>
     </enumeration>
     <class name="DockSwitcher"
@@ -554,51 +618,23 @@ completes or was cancelled.</doc>
         <return-value transfer-ownership="none">
           <type name="Gtk.Widget" c:type="GtkWidget*"/>
         </return-value>
-      </constructor>
-      <method name="get_dock"
-              c:identifier="panel_dock_switcher_get_dock"
-              glib:get-property="dock">
-        <doc xml:space="preserve"
-             filename="../src/panel-dock-switcher.c"
-             line="280">Gets #PanelDockSwitcher:dock property.</doc>
-        <source-position filename="../src/panel-dock-switcher.h" line="38"/>
-        <return-value transfer-ownership="none" nullable="1">
-          <doc xml:space="preserve"
-               filename="../src/panel-dock-switcher.c"
-               line="286">a #PanelDock or %NULL</doc>
-          <type name="Dock" c:type="PanelDock*"/>
-        </return-value>
         <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <doc xml:space="preserve"
-                 filename="../src/panel-dock-switcher.c"
-                 line="282">a #PanelDockSwitcher</doc>
-            <type name="DockSwitcher" c:type="PanelDockSwitcher*"/>
-          </instance-parameter>
-        </parameters>
-      </method>
-      <method name="set_dock"
-              c:identifier="panel_dock_switcher_set_dock"
-              glib:set-property="dock">
-        <source-position filename="../src/panel-dock-switcher.h" line="40"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <type name="DockSwitcher" c:type="PanelDockSwitcher*"/>
-          </instance-parameter>
           <parameter name="dock" transfer-ownership="none">
             <type name="Dock" c:type="PanelDock*"/>
           </parameter>
+          <parameter name="position" transfer-ownership="none">
+            <type name="DockPosition" c:type="PanelDockPosition"/>
+          </parameter>
         </parameters>
-      </method>
-      <property name="dock"
-                writable="1"
-                transfer-ownership="none"
-                setter="set_dock"
-                getter="get_dock">
+      </constructor>
+      <property name="dock" writable="1" transfer-ownership="none">
         <type name="Dock"/>
+      </property>
+      <property name="position"
+                writable="1"
+                construct-only="1"
+                transfer-ownership="none">
+        <type name="DockPosition"/>
       </property>
     </class>
     <record name="DockSwitcherClass"
@@ -962,21 +998,24 @@ to display in the frame.</doc>
                glib:type-struct="FrameHeaderInterface">
       <source-position filename="../src/panel-frame-header.h" line="51"/>
       <prerequisite name="Gtk.Widget"/>
-      <virtual-method name="can_drop" invoker="can_drop">
-        <source-position filename="../src/panel-frame-header.h" line="43"/>
+      <virtual-method name="add_prefix" invoker="add_prefix">
+        <source-position filename="../src/panel-frame-header.h" line="45"/>
         <return-value transfer-ownership="none">
-          <type name="gboolean" c:type="gboolean"/>
+          <type name="none" c:type="void"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <type name="FrameHeader" c:type="PanelFrameHeader*"/>
           </instance-parameter>
-          <parameter name="widget" transfer-ownership="none">
-            <type name="Widget" c:type="PanelWidget*"/>
+          <parameter name="priority" transfer-ownership="none">
+            <type name="gint" c:type="int"/>
+          </parameter>
+          <parameter name="child" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
           </parameter>
         </parameters>
       </virtual-method>
-      <virtual-method name="pack_end" invoker="pack_end">
+      <virtual-method name="add_suffix" invoker="add_suffix">
         <source-position filename="../src/panel-frame-header.h" line="48"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -993,20 +1032,17 @@ to display in the frame.</doc>
           </parameter>
         </parameters>
       </virtual-method>
-      <virtual-method name="pack_start" invoker="pack_start">
-        <source-position filename="../src/panel-frame-header.h" line="45"/>
+      <virtual-method name="can_drop" invoker="can_drop">
+        <source-position filename="../src/panel-frame-header.h" line="43"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <type name="FrameHeader" c:type="PanelFrameHeader*"/>
           </instance-parameter>
-          <parameter name="priority" transfer-ownership="none">
-            <type name="gint" c:type="int"/>
-          </parameter>
-          <parameter name="child" transfer-ownership="none">
-            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          <parameter name="widget" transfer-ownership="none">
+            <type name="Widget" c:type="PanelWidget*"/>
           </parameter>
         </parameters>
       </virtual-method>
@@ -1036,6 +1072,40 @@ to display in the frame.</doc>
           </parameter>
         </parameters>
       </virtual-method>
+      <method name="add_prefix" c:identifier="panel_frame_header_add_prefix">
+        <source-position filename="../src/panel-frame-header.h" line="65"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="FrameHeader" c:type="PanelFrameHeader*"/>
+          </instance-parameter>
+          <parameter name="priority" transfer-ownership="none">
+            <type name="gint" c:type="int"/>
+          </parameter>
+          <parameter name="child" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="add_suffix" c:identifier="panel_frame_header_add_suffix">
+        <source-position filename="../src/panel-frame-header.h" line="69"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="FrameHeader" c:type="PanelFrameHeader*"/>
+          </instance-parameter>
+          <parameter name="priority" transfer-ownership="none">
+            <type name="gint" c:type="int"/>
+          </parameter>
+          <parameter name="child" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="can_drop" c:identifier="panel_frame_header_can_drop">
         <source-position filename="../src/panel-frame-header.h" line="59"/>
         <return-value transfer-ownership="none">
@@ -1070,40 +1140,6 @@ to display in the frame.</doc>
                  line="65">a #PanelFrameHeader</doc>
             <type name="FrameHeader" c:type="PanelFrameHeader*"/>
           </instance-parameter>
-        </parameters>
-      </method>
-      <method name="pack_end" c:identifier="panel_frame_header_pack_end">
-        <source-position filename="../src/panel-frame-header.h" line="69"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <type name="FrameHeader" c:type="PanelFrameHeader*"/>
-          </instance-parameter>
-          <parameter name="priority" transfer-ownership="none">
-            <type name="gint" c:type="int"/>
-          </parameter>
-          <parameter name="child" transfer-ownership="none">
-            <type name="Gtk.Widget" c:type="GtkWidget*"/>
-          </parameter>
-        </parameters>
-      </method>
-      <method name="pack_start" c:identifier="panel_frame_header_pack_start">
-        <source-position filename="../src/panel-frame-header.h" line="65"/>
-        <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
-        </return-value>
-        <parameters>
-          <instance-parameter name="self" transfer-ownership="none">
-            <type name="FrameHeader" c:type="PanelFrameHeader*"/>
-          </instance-parameter>
-          <parameter name="priority" transfer-ownership="none">
-            <type name="gint" c:type="int"/>
-          </parameter>
-          <parameter name="child" transfer-ownership="none">
-            <type name="Gtk.Widget" c:type="GtkWidget*"/>
-          </parameter>
         </parameters>
       </method>
       <method name="page_changed"
@@ -1201,19 +1237,19 @@ to display in the frame.</doc>
               glib:get-property="background-rgba">
         <doc xml:space="preserve"
              filename="../src/panel-frame-header-bar.c"
-             line="747">Gets the background color of the header bar.</doc>
+             line="698">Gets the background color of the header bar.</doc>
         <source-position filename="../src/panel-frame-header-bar.h" line="44"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-frame-header-bar.c"
-               line="753">the background color</doc>
+               line="704">the background color</doc>
           <type name="Gdk.RGBA" c:type="const GdkRGBA*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame-header-bar.c"
-                 line="749">a #PanelFrameHeaderBar</doc>
+                 line="700">a #PanelFrameHeaderBar</doc>
             <type name="FrameHeaderBar" c:type="PanelFrameHeaderBar*"/>
           </instance-parameter>
         </parameters>
@@ -1223,19 +1259,19 @@ to display in the frame.</doc>
               glib:get-property="foreground-rgba">
         <doc xml:space="preserve"
              filename="../src/panel-frame-header-bar.c"
-             line="783">Gets the foreground color of the header bar.</doc>
+             line="734">Gets the foreground color of the header bar.</doc>
         <source-position filename="../src/panel-frame-header-bar.h" line="39"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-frame-header-bar.c"
-               line="789">the foreground color</doc>
+               line="740">the foreground color</doc>
           <type name="Gdk.RGBA" c:type="const GdkRGBA*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame-header-bar.c"
-                 line="785">a #PanelFrameHeaderBar</doc>
+                 line="736">a #PanelFrameHeaderBar</doc>
             <type name="FrameHeaderBar" c:type="PanelFrameHeaderBar*"/>
           </instance-parameter>
         </parameters>
@@ -1244,19 +1280,19 @@ to display in the frame.</doc>
               c:identifier="panel_frame_header_bar_get_menu_popover">
         <doc xml:space="preserve"
              filename="../src/panel-frame-header-bar.c"
-             line="731">Gets the menu popover attached to this menubar.</doc>
+             line="682">Gets the menu popover attached to this menubar.</doc>
         <source-position filename="../src/panel-frame-header-bar.h" line="37"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/panel-frame-header-bar.c"
-               line="737">a #GtkPopoverMenu</doc>
+               line="688">a #GtkPopoverMenu</doc>
           <type name="Gtk.PopoverMenu" c:type="GtkPopoverMenu*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame-header-bar.c"
-                 line="733">a #PanelFrameHeaderBar</doc>
+                 line="684">a #PanelFrameHeaderBar</doc>
             <type name="FrameHeaderBar" c:type="PanelFrameHeaderBar*"/>
           </instance-parameter>
         </parameters>
@@ -1279,7 +1315,7 @@ to display in the frame.</doc>
               glib:set-property="background-rgba">
         <doc xml:space="preserve"
              filename="../src/panel-frame-header-bar.c"
-             line="763">Sets the background color of the header bar.</doc>
+             line="714">Sets the background color of the header bar.</doc>
         <source-position filename="../src/panel-frame-header-bar.h" line="46"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1288,7 +1324,7 @@ to display in the frame.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame-header-bar.c"
-                 line="765">a #PanelFrameHeaderBar</doc>
+                 line="716">a #PanelFrameHeaderBar</doc>
             <type name="FrameHeaderBar" c:type="PanelFrameHeaderBar*"/>
           </instance-parameter>
           <parameter name="background_rgba"
@@ -1297,7 +1333,7 @@ to display in the frame.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/panel-frame-header-bar.c"
-                 line="766">the background color</doc>
+                 line="717">the background color</doc>
             <type name="Gdk.RGBA" c:type="const GdkRGBA*"/>
           </parameter>
         </parameters>
@@ -1307,7 +1343,7 @@ to display in the frame.</doc>
               glib:set-property="foreground-rgba">
         <doc xml:space="preserve"
              filename="../src/panel-frame-header-bar.c"
-             line="799">Sets the foreground color of the header bar.</doc>
+             line="750">Sets the foreground color of the header bar.</doc>
         <source-position filename="../src/panel-frame-header-bar.h" line="41"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1316,7 +1352,7 @@ to display in the frame.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame-header-bar.c"
-                 line="801">a #PanelFrameHeaderBar</doc>
+                 line="752">a #PanelFrameHeaderBar</doc>
             <type name="FrameHeaderBar" c:type="PanelFrameHeaderBar*"/>
           </instance-parameter>
           <parameter name="foreground_rgba"
@@ -1325,7 +1361,7 @@ to display in the frame.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/panel-frame-header-bar.c"
-                 line="802">the foreground color</doc>
+                 line="753">the foreground color</doc>
             <type name="Gdk.RGBA" c:type="const GdkRGBA*"/>
           </parameter>
         </parameters>
@@ -1353,7 +1389,7 @@ to display in the frame.</doc>
                 getter="get_background_rgba">
         <doc xml:space="preserve"
              filename="../src/panel-frame-header-bar.c"
-             line="504">The "background-rgba" property can be used to set the background
+             line="458">The "background-rgba" property can be used to set the background
 color of the header. This should be set to the
 #PanelWidget:background-rgba of the active view.
 
@@ -1367,7 +1403,7 @@ Set to %NULL to unset the background-rgba.</doc>
                 getter="get_foreground_rgba">
         <doc xml:space="preserve"
              filename="../src/panel-frame-header-bar.c"
-             line="520">Sets the foreground color to use when
+             line="474">Sets the foreground color to use when
 #PanelFrameHeaderBar:background-rgba is used for the background.</doc>
         <type name="Gdk.RGBA"/>
       </property>
@@ -1435,8 +1471,8 @@ Set to %NULL to unset the background-rgba.</doc>
           </parameters>
         </callback>
       </field>
-      <field name="pack_start">
-        <callback name="pack_start">
+      <field name="add_prefix">
+        <callback name="add_prefix">
           <source-position filename="../src/panel-frame-header.h" line="45"/>
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -1454,8 +1490,8 @@ Set to %NULL to unset the background-rgba.</doc>
           </parameters>
         </callback>
       </field>
-      <field name="pack_end">
-        <callback name="pack_end">
+      <field name="add_suffix">
+        <callback name="add_suffix">
           <source-position filename="../src/panel-frame-header.h" line="48"/>
           <return-value transfer-ownership="none">
             <type name="none" c:type="void"/>
@@ -2060,6 +2096,284 @@ Consumers of this signal are required to return an unrooted
       <source-position filename="../src/panel-version.h" line="48"/>
       <type name="gint" c:type="gint"/>
     </constant>
+    <class name="OmniBar"
+           c:symbol-prefix="omni_bar"
+           c:type="PanelOmniBar"
+           parent="Gtk.Widget"
+           glib:type-name="PanelOmniBar"
+           glib:get-type="panel_omni_bar_get_type"
+           glib:type-struct="OmniBarClass">
+      <source-position filename="../src/panel-omni-bar.h" line="37"/>
+      <implements name="Gtk.Accessible"/>
+      <implements name="Gtk.Actionable"/>
+      <implements name="Gtk.Buildable"/>
+      <implements name="Gtk.ConstraintTarget"/>
+      <constructor name="new" c:identifier="panel_omni_bar_new">
+        <doc xml:space="preserve"
+             filename="../src/panel-omni-bar.c"
+             line="98">Create a new #PanelOmniBar.</doc>
+        <source-position filename="../src/panel-omni-bar.h" line="40"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="../src/panel-omni-bar.c"
+               line="103">a newly created #PanelOmniBar</doc>
+          <type name="Gtk.Widget" c:type="GtkWidget*"/>
+        </return-value>
+      </constructor>
+      <method name="add_prefix" c:identifier="panel_omni_bar_add_prefix">
+        <source-position filename="../src/panel-omni-bar.h" line="47"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="OmniBar" c:type="PanelOmniBar*"/>
+          </instance-parameter>
+          <parameter name="priority" transfer-ownership="none">
+            <type name="gint" c:type="int"/>
+          </parameter>
+          <parameter name="widget" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="add_suffix" c:identifier="panel_omni_bar_add_suffix">
+        <source-position filename="../src/panel-omni-bar.h" line="51"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="OmniBar" c:type="PanelOmniBar*"/>
+          </instance-parameter>
+          <parameter name="priority" transfer-ownership="none">
+            <type name="gint" c:type="int"/>
+          </parameter>
+          <parameter name="widget" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_popover"
+              c:identifier="panel_omni_bar_get_popover"
+              glib:get-property="popover">
+        <source-position filename="../src/panel-omni-bar.h" line="42"/>
+        <return-value transfer-ownership="none" nullable="1">
+          <doc xml:space="preserve"
+               filename="../src/panel-omni-bar.c"
+               line="63">a #GtkPopover or %NULL</doc>
+          <type name="Gtk.Popover" c:type="GtkPopover*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/panel-omni-bar.c"
+                 line="61">a #PanelOmniBar</doc>
+            <type name="OmniBar" c:type="PanelOmniBar*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="remove" c:identifier="panel_omni_bar_remove">
+        <source-position filename="../src/panel-omni-bar.h" line="55"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="OmniBar" c:type="PanelOmniBar*"/>
+          </instance-parameter>
+          <parameter name="widget" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="set_popover"
+              c:identifier="panel_omni_bar_set_popover"
+              glib:set-property="popover">
+        <source-position filename="../src/panel-omni-bar.h" line="44"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="OmniBar" c:type="PanelOmniBar*"/>
+          </instance-parameter>
+          <parameter name="popover" transfer-ownership="none">
+            <type name="Gtk.Popover" c:type="GtkPopover*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <property name="icon-name" writable="1" transfer-ownership="none">
+        <type name="utf8" c:type="gchar*"/>
+      </property>
+      <property name="menu-model" writable="1" transfer-ownership="none">
+        <type name="Gio.MenuModel"/>
+      </property>
+      <property name="popover"
+                writable="1"
+                transfer-ownership="none"
+                setter="set_popover"
+                getter="get_popover">
+        <type name="Gtk.Popover"/>
+      </property>
+      <field name="parent_instance">
+        <type name="Gtk.Widget" c:type="GtkWidget"/>
+      </field>
+    </class>
+    <record name="OmniBarClass"
+            c:type="PanelOmniBarClass"
+            glib:is-gtype-struct-for="OmniBar">
+      <source-position filename="../src/panel-omni-bar.h" line="37"/>
+      <field name="parent_class">
+        <type name="Gtk.WidgetClass" c:type="GtkWidgetClass"/>
+      </field>
+    </record>
+    <class name="Paned"
+           c:symbol-prefix="paned"
+           c:type="PanelPaned"
+           parent="Gtk.Widget"
+           glib:type-name="PanelPaned"
+           glib:get-type="panel_paned_get_type"
+           glib:type-struct="PanedClass">
+      <source-position filename="../src/panel-paned.h" line="32"/>
+      <implements name="Gtk.Accessible"/>
+      <implements name="Gtk.Buildable"/>
+      <implements name="Gtk.ConstraintTarget"/>
+      <implements name="Gtk.Orientable"/>
+      <constructor name="new" c:identifier="panel_paned_new">
+        <doc xml:space="preserve"
+             filename="../src/panel-paned.c"
+             line="49">Create a new #PanelPaned.</doc>
+        <source-position filename="../src/panel-paned.h" line="35"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="../src/panel-paned.c"
+               line="54">a newly created #PanelPaned</doc>
+          <type name="Gtk.Widget" c:type="GtkWidget*"/>
+        </return-value>
+      </constructor>
+      <method name="append" c:identifier="panel_paned_append">
+        <source-position filename="../src/panel-paned.h" line="37"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Paned" c:type="PanelPaned*"/>
+          </instance-parameter>
+          <parameter name="child" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_n_children" c:identifier="panel_paned_get_n_children">
+        <source-position filename="../src/panel-paned.h" line="54"/>
+        <return-value transfer-ownership="none">
+          <type name="guint" c:type="guint"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Paned" c:type="PanelPaned*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_nth_child" c:identifier="panel_paned_get_nth_child">
+        <doc xml:space="preserve"
+             filename="../src/panel-paned.c"
+             line="548">Gets the child at position @nth.</doc>
+        <source-position filename="../src/panel-paned.h" line="56"/>
+        <return-value transfer-ownership="none" nullable="1">
+          <doc xml:space="preserve"
+               filename="../src/panel-paned.c"
+               line="555">a #GtkWidget or %NULL</doc>
+          <type name="Gtk.Widget" c:type="GtkWidget*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/panel-paned.c"
+                 line="550">a #PanelPaned</doc>
+            <type name="Paned" c:type="PanelPaned*"/>
+          </instance-parameter>
+          <parameter name="nth" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="../src/panel-paned.c"
+                 line="551">the child position</doc>
+            <type name="guint" c:type="guint"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="insert" c:identifier="panel_paned_insert">
+        <source-position filename="../src/panel-paned.h" line="43"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Paned" c:type="PanelPaned*"/>
+          </instance-parameter>
+          <parameter name="position" transfer-ownership="none">
+            <type name="gint" c:type="int"/>
+          </parameter>
+          <parameter name="child" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="insert_after" c:identifier="panel_paned_insert_after">
+        <source-position filename="../src/panel-paned.h" line="47"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Paned" c:type="PanelPaned*"/>
+          </instance-parameter>
+          <parameter name="child" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+          <parameter name="sibling" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="prepend" c:identifier="panel_paned_prepend">
+        <source-position filename="../src/panel-paned.h" line="40"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Paned" c:type="PanelPaned*"/>
+          </instance-parameter>
+          <parameter name="child" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="remove" c:identifier="panel_paned_remove">
+        <source-position filename="../src/panel-paned.h" line="51"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Paned" c:type="PanelPaned*"/>
+          </instance-parameter>
+          <parameter name="child" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
+    </class>
+    <record name="PanedClass"
+            c:type="PanelPanedClass"
+            glib:is-gtype-struct-for="Paned">
+      <source-position filename="../src/panel-paned.h" line="32"/>
+      <field name="parent_class">
+        <type name="Gtk.WidgetClass" c:type="GtkWidgetClass"/>
+      </field>
+    </record>
     <class name="SaveDelegate"
            c:symbol-prefix="save_delegate"
            c:type="PanelSaveDelegate"
@@ -2607,11 +2921,115 @@ save operation has completed.</doc>
           <type name="Gtk.Widget" c:type="GtkWidget*"/>
         </return-value>
       </constructor>
+      <method name="add_prefix" c:identifier="panel_statusbar_add_prefix">
+        <source-position filename="../src/panel-statusbar.h" line="37"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Statusbar" c:type="PanelStatusbar*"/>
+          </instance-parameter>
+          <parameter name="widget" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="add_suffix" c:identifier="panel_statusbar_add_suffix">
+        <source-position filename="../src/panel-statusbar.h" line="40"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Statusbar" c:type="PanelStatusbar*"/>
+          </instance-parameter>
+          <parameter name="widget" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="remove" c:identifier="panel_statusbar_remove">
+        <source-position filename="../src/panel-statusbar.h" line="43"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Statusbar" c:type="PanelStatusbar*"/>
+          </instance-parameter>
+          <parameter name="widget" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
     </class>
     <record name="StatusbarClass"
             c:type="PanelStatusbarClass"
             glib:is-gtype-struct-for="Statusbar">
       <source-position filename="../src/panel-statusbar.h" line="32"/>
+      <field name="parent_class">
+        <type name="Gtk.WidgetClass" c:type="GtkWidgetClass"/>
+      </field>
+    </record>
+    <class name="ThemeSelector"
+           c:symbol-prefix="theme_selector"
+           c:type="PanelThemeSelector"
+           parent="Gtk.Widget"
+           glib:type-name="PanelThemeSelector"
+           glib:get-type="panel_theme_selector_get_type"
+           glib:type-struct="ThemeSelectorClass">
+      <source-position filename="../src/panel-theme-selector.h" line="32"/>
+      <implements name="Gtk.Accessible"/>
+      <implements name="Gtk.Buildable"/>
+      <implements name="Gtk.ConstraintTarget"/>
+      <constructor name="new" c:identifier="panel_theme_selector_new">
+        <source-position filename="../src/panel-theme-selector.h" line="35"/>
+        <return-value transfer-ownership="none">
+          <type name="Gtk.Widget" c:type="GtkWidget*"/>
+        </return-value>
+      </constructor>
+      <method name="get_action_name"
+              c:identifier="panel_theme_selector_get_action_name"
+              glib:get-property="action-name">
+        <source-position filename="../src/panel-theme-selector.h" line="37"/>
+        <return-value transfer-ownership="none">
+          <type name="utf8" c:type="const char*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="ThemeSelector" c:type="PanelThemeSelector*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="set_action_name"
+              c:identifier="panel_theme_selector_set_action_name"
+              glib:set-property="action-name">
+        <source-position filename="../src/panel-theme-selector.h" line="39"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="ThemeSelector" c:type="PanelThemeSelector*"/>
+          </instance-parameter>
+          <parameter name="action_name" transfer-ownership="none">
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <property name="action-name"
+                writable="1"
+                transfer-ownership="none"
+                setter="set_action_name"
+                getter="get_action_name">
+        <type name="utf8" c:type="gchar*"/>
+      </property>
+    </class>
+    <record name="ThemeSelectorClass"
+            c:type="PanelThemeSelectorClass"
+            glib:is-gtype-struct-for="ThemeSelector">
+      <source-position filename="../src/panel-theme-selector.h" line="32"/>
       <field name="parent_class">
         <type name="Gtk.WidgetClass" c:type="GtkWidgetClass"/>
       </field>

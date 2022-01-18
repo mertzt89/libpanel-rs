@@ -5,50 +5,48 @@
 
 mod dock;
 pub use self::dock::Dock;
-pub use self::dock::DockBuilder;
 
 mod dock_switcher;
 pub use self::dock_switcher::DockSwitcher;
-pub use self::dock_switcher::DockSwitcherBuilder;
 
 mod frame;
 pub use self::frame::Frame;
-pub use self::frame::FrameBuilder;
 
 mod frame_header;
 pub use self::frame_header::FrameHeader;
 
 mod frame_header_bar;
 pub use self::frame_header_bar::FrameHeaderBar;
-pub use self::frame_header_bar::FrameHeaderBarBuilder;
 
 mod frame_switcher;
 pub use self::frame_switcher::FrameSwitcher;
-pub use self::frame_switcher::FrameSwitcherBuilder;
 
 mod frame_tab_bar;
 pub use self::frame_tab_bar::FrameTabBar;
-pub use self::frame_tab_bar::FrameTabBarBuilder;
 
 mod grid;
 pub use self::grid::Grid;
-pub use self::grid::GridBuilder;
 
 mod grid_column;
 pub use self::grid_column::GridColumn;
-pub use self::grid_column::GridColumnBuilder;
+
+mod omni_bar;
+pub use self::omni_bar::OmniBar;
+
+mod paned;
+pub use self::paned::Paned;
 
 mod save_delegate;
 pub use self::save_delegate::SaveDelegate;
-pub use self::save_delegate::SaveDelegateBuilder;
 
 mod statusbar;
 pub use self::statusbar::Statusbar;
-pub use self::statusbar::StatusbarBuilder;
+
+mod theme_selector;
+pub use self::theme_selector::ThemeSelector;
 
 mod widget;
 pub use self::widget::Widget;
-pub use self::widget::WidgetBuilder;
 
 mod enums;
 pub use self::enums::DockPosition;
@@ -67,6 +65,24 @@ pub mod traits {
     pub use super::dock::DockExt;
     pub use super::frame::FrameExt;
     pub use super::frame_header::FrameHeaderExt;
+    pub use super::omni_bar::OmniBarExt;
     pub use super::save_delegate::SaveDelegateExt;
     pub use super::widget::WidgetExt;
+}
+#[doc(hidden)]
+pub mod builders {
+    pub use super::dock::DockBuilder;
+    pub use super::dock_switcher::DockSwitcherBuilder;
+    pub use super::frame::FrameBuilder;
+    pub use super::frame_header_bar::FrameHeaderBarBuilder;
+    pub use super::frame_switcher::FrameSwitcherBuilder;
+    pub use super::frame_tab_bar::FrameTabBarBuilder;
+    pub use super::grid::GridBuilder;
+    pub use super::grid_column::GridColumnBuilder;
+    pub use super::omni_bar::OmniBarBuilder;
+    pub use super::paned::PanedBuilder;
+    pub use super::save_delegate::SaveDelegateBuilder;
+    pub use super::statusbar::StatusbarBuilder;
+    pub use super::theme_selector::ThemeSelectorBuilder;
+    pub use super::widget::WidgetBuilder;
 }

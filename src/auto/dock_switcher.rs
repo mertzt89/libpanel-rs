@@ -4,6 +4,7 @@
 // DO NOT EDIT
 
 use crate::Dock;
+use crate::DockPosition;
 use glib::object::Cast;
 use glib::object::IsA;
 use glib::object::ObjectType as ObjectType_;
@@ -27,33 +28,35 @@ glib::wrapper! {
 
 impl DockSwitcher {
     #[doc(alias = "panel_dock_switcher_new")]
-    pub fn new() -> DockSwitcher {
-        assert_initialized_main_thread!();
-        unsafe { gtk::Widget::from_glib_none(ffi::panel_dock_switcher_new()).unsafe_cast() }
+    pub fn new(dock: &impl IsA<Dock>, position: DockPosition) -> DockSwitcher {
+        skip_assert_initialized!();
+        unsafe {
+            gtk::Widget::from_glib_none(ffi::panel_dock_switcher_new(
+                dock.as_ref().to_glib_none().0,
+                position.into_glib(),
+            ))
+            .unsafe_cast()
+        }
     }
 
     // rustdoc-stripper-ignore-next
     /// Creates a new builder-pattern struct instance to construct [`DockSwitcher`] objects.
     ///
-    /// This method returns an instance of [`DockSwitcherBuilder`] which can be used to create [`DockSwitcher`] objects.
+    /// This method returns an instance of [`DockSwitcherBuilder`](crate::builders::DockSwitcherBuilder) which can be used to create [`DockSwitcher`] objects.
     pub fn builder() -> DockSwitcherBuilder {
         DockSwitcherBuilder::default()
     }
 
-    #[doc(alias = "panel_dock_switcher_get_dock")]
-    #[doc(alias = "get_dock")]
     pub fn dock(&self) -> Option<Dock> {
-        unsafe { from_glib_none(ffi::panel_dock_switcher_get_dock(self.to_glib_none().0)) }
+        glib::ObjectExt::property(self, "dock")
     }
 
-    #[doc(alias = "panel_dock_switcher_set_dock")]
-    pub fn set_dock(&self, dock: &impl IsA<Dock>) {
-        unsafe {
-            ffi::panel_dock_switcher_set_dock(
-                self.to_glib_none().0,
-                dock.as_ref().to_glib_none().0,
-            );
-        }
+    pub fn set_dock<P: IsA<Dock>>(&self, dock: Option<&P>) {
+        glib::ObjectExt::set_property(self, "dock", &dock)
+    }
+
+    pub fn position(&self) -> DockPosition {
+        glib::ObjectExt::property(self, "position")
     }
 
     #[doc(alias = "dock")]
@@ -82,7 +85,8 @@ impl DockSwitcher {
 
 impl Default for DockSwitcher {
     fn default() -> Self {
-        Self::new()
+        glib::object::Object::new::<Self>(&[])
+            .expect("Can't construct DockSwitcher object with default parameters")
     }
 }
 
@@ -91,8 +95,10 @@ impl Default for DockSwitcher {
 /// A [builder-pattern] type to construct [`DockSwitcher`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
+#[must_use = "The builder must be built to be used"]
 pub struct DockSwitcherBuilder {
     dock: Option<Dock>,
+    position: Option<DockPosition>,
     can_focus: Option<bool>,
     can_target: Option<bool>,
     css_classes: Option<Vec<String>>,
@@ -134,10 +140,14 @@ impl DockSwitcherBuilder {
 
     // rustdoc-stripper-ignore-next
     /// Build the [`DockSwitcher`].
+    #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> DockSwitcher {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
         if let Some(ref dock) = self.dock {
             properties.push(("dock", dock));
+        }
+        if let Some(ref position) = self.position {
+            properties.push(("position", position));
         }
         if let Some(ref can_focus) = self.can_focus {
             properties.push(("can-focus", can_focus));
@@ -217,6 +227,11 @@ impl DockSwitcherBuilder {
 
     pub fn dock(mut self, dock: &impl IsA<Dock>) -> Self {
         self.dock = Some(dock.clone().upcast());
+        self
+    }
+
+    pub fn position(mut self, position: DockPosition) -> Self {
+        self.position = Some(position);
         self
     }
 
