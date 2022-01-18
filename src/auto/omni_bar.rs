@@ -3,11 +3,8 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::Frame;
-use crate::FrameHeader;
 use glib::object::Cast;
 use glib::object::IsA;
-use glib::object::ObjectType as ObjectType_;
 use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
@@ -18,146 +15,33 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
-    #[doc(alias = "PanelFrameTabBar")]
-    pub struct FrameTabBar(Object<ffi::PanelFrameTabBar, ffi::PanelFrameTabBarClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, FrameHeader;
+    #[doc(alias = "PanelOmniBar")]
+    pub struct OmniBar(Object<ffi::PanelOmniBar, ffi::PanelOmniBarClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 
     match fn {
-        type_ => || ffi::panel_frame_tab_bar_get_type(),
+        type_ => || ffi::panel_omni_bar_get_type(),
     }
 }
 
-impl FrameTabBar {
-    #[doc(alias = "panel_frame_tab_bar_new")]
-    pub fn new() -> FrameTabBar {
+impl OmniBar {
+    pub const NONE: Option<&'static OmniBar> = None;
+
+    #[doc(alias = "panel_omni_bar_new")]
+    pub fn new() -> OmniBar {
         assert_initialized_main_thread!();
-        unsafe { gtk::Widget::from_glib_full(ffi::panel_frame_tab_bar_new()).unsafe_cast() }
+        unsafe { gtk::Widget::from_glib_full(ffi::panel_omni_bar_new()).unsafe_cast() }
     }
 
     // rustdoc-stripper-ignore-next
-    /// Creates a new builder-pattern struct instance to construct [`FrameTabBar`] objects.
+    /// Creates a new builder-pattern struct instance to construct [`OmniBar`] objects.
     ///
-    /// This method returns an instance of [`FrameTabBarBuilder`](crate::builders::FrameTabBarBuilder) which can be used to create [`FrameTabBar`] objects.
-    pub fn builder() -> FrameTabBarBuilder {
-        FrameTabBarBuilder::default()
-    }
-
-    #[doc(alias = "panel_frame_tab_bar_get_autohide")]
-    #[doc(alias = "get_autohide")]
-    pub fn is_autohide(&self) -> bool {
-        unsafe { from_glib(ffi::panel_frame_tab_bar_get_autohide(self.to_glib_none().0)) }
-    }
-
-    #[doc(alias = "panel_frame_tab_bar_get_expand_tabs")]
-    #[doc(alias = "get_expand_tabs")]
-    pub fn expands_tabs(&self) -> bool {
-        unsafe {
-            from_glib(ffi::panel_frame_tab_bar_get_expand_tabs(
-                self.to_glib_none().0,
-            ))
-        }
-    }
-
-    #[doc(alias = "panel_frame_tab_bar_get_inverted")]
-    #[doc(alias = "get_inverted")]
-    pub fn is_inverted(&self) -> bool {
-        unsafe { from_glib(ffi::panel_frame_tab_bar_get_inverted(self.to_glib_none().0)) }
-    }
-
-    #[doc(alias = "panel_frame_tab_bar_set_autohide")]
-    pub fn set_autohide(&self, autohide: bool) {
-        unsafe {
-            ffi::panel_frame_tab_bar_set_autohide(self.to_glib_none().0, autohide.into_glib());
-        }
-    }
-
-    #[doc(alias = "panel_frame_tab_bar_set_expand_tabs")]
-    pub fn set_expand_tabs(&self, expand_tabs: bool) {
-        unsafe {
-            ffi::panel_frame_tab_bar_set_expand_tabs(
-                self.to_glib_none().0,
-                expand_tabs.into_glib(),
-            );
-        }
-    }
-
-    #[doc(alias = "panel_frame_tab_bar_set_inverted")]
-    pub fn set_inverted(&self, inverted: bool) {
-        unsafe {
-            ffi::panel_frame_tab_bar_set_inverted(self.to_glib_none().0, inverted.into_glib());
-        }
-    }
-
-    #[doc(alias = "autohide")]
-    pub fn connect_autohide_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_autohide_trampoline<F: Fn(&FrameTabBar) + 'static>(
-            this: *mut ffi::PanelFrameTabBar,
-            _param_spec: glib::ffi::gpointer,
-            f: glib::ffi::gpointer,
-        ) {
-            let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this))
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::autohide\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_autohide_trampoline::<F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
-
-    #[doc(alias = "expand-tabs")]
-    pub fn connect_expand_tabs_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_expand_tabs_trampoline<F: Fn(&FrameTabBar) + 'static>(
-            this: *mut ffi::PanelFrameTabBar,
-            _param_spec: glib::ffi::gpointer,
-            f: glib::ffi::gpointer,
-        ) {
-            let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this))
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::expand-tabs\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_expand_tabs_trampoline::<F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
-
-    #[doc(alias = "inverted")]
-    pub fn connect_inverted_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_inverted_trampoline<F: Fn(&FrameTabBar) + 'static>(
-            this: *mut ffi::PanelFrameTabBar,
-            _param_spec: glib::ffi::gpointer,
-            f: glib::ffi::gpointer,
-        ) {
-            let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this))
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::inverted\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_inverted_trampoline::<F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
+    /// This method returns an instance of [`OmniBarBuilder`](crate::builders::OmniBarBuilder) which can be used to create [`OmniBar`] objects.
+    pub fn builder() -> OmniBarBuilder {
+        OmniBarBuilder::default()
     }
 }
 
-impl Default for FrameTabBar {
+impl Default for OmniBar {
     fn default() -> Self {
         Self::new()
     }
@@ -165,14 +49,14 @@ impl Default for FrameTabBar {
 
 #[derive(Clone, Default)]
 // rustdoc-stripper-ignore-next
-/// A [builder-pattern] type to construct [`FrameTabBar`] objects.
+/// A [builder-pattern] type to construct [`OmniBar`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
 #[must_use = "The builder must be built to be used"]
-pub struct FrameTabBarBuilder {
-    autohide: Option<bool>,
-    expand_tabs: Option<bool>,
-    inverted: Option<bool>,
+pub struct OmniBarBuilder {
+    icon_name: Option<String>,
+    menu_model: Option<gio::MenuModel>,
+    //popover: /*Unknown type*/,
     can_focus: Option<bool>,
     can_target: Option<bool>,
     css_classes: Option<Vec<String>>,
@@ -203,29 +87,25 @@ pub struct FrameTabBarBuilder {
     visible: Option<bool>,
     width_request: Option<i32>,
     //accessible-role: /*Unknown type*/,
-    frame: Option<Frame>,
 }
 
-impl FrameTabBarBuilder {
+impl OmniBarBuilder {
     // rustdoc-stripper-ignore-next
-    /// Create a new [`FrameTabBarBuilder`].
+    /// Create a new [`OmniBarBuilder`].
     pub fn new() -> Self {
         Self::default()
     }
 
     // rustdoc-stripper-ignore-next
-    /// Build the [`FrameTabBar`].
+    /// Build the [`OmniBar`].
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
-    pub fn build(self) -> FrameTabBar {
+    pub fn build(self) -> OmniBar {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
-        if let Some(ref autohide) = self.autohide {
-            properties.push(("autohide", autohide));
+        if let Some(ref icon_name) = self.icon_name {
+            properties.push(("icon-name", icon_name));
         }
-        if let Some(ref expand_tabs) = self.expand_tabs {
-            properties.push(("expand-tabs", expand_tabs));
-        }
-        if let Some(ref inverted) = self.inverted {
-            properties.push(("inverted", inverted));
+        if let Some(ref menu_model) = self.menu_model {
+            properties.push(("menu-model", menu_model));
         }
         if let Some(ref can_focus) = self.can_focus {
             properties.push(("can-focus", can_focus));
@@ -299,25 +179,16 @@ impl FrameTabBarBuilder {
         if let Some(ref width_request) = self.width_request {
             properties.push(("width-request", width_request));
         }
-        if let Some(ref frame) = self.frame {
-            properties.push(("frame", frame));
-        }
-        glib::Object::new::<FrameTabBar>(&properties)
-            .expect("Failed to create an instance of FrameTabBar")
+        glib::Object::new::<OmniBar>(&properties).expect("Failed to create an instance of OmniBar")
     }
 
-    pub fn autohide(mut self, autohide: bool) -> Self {
-        self.autohide = Some(autohide);
+    pub fn icon_name(mut self, icon_name: &str) -> Self {
+        self.icon_name = Some(icon_name.to_string());
         self
     }
 
-    pub fn expand_tabs(mut self, expand_tabs: bool) -> Self {
-        self.expand_tabs = Some(expand_tabs);
-        self
-    }
-
-    pub fn inverted(mut self, inverted: bool) -> Self {
-        self.inverted = Some(inverted);
+    pub fn menu_model(mut self, menu_model: &impl IsA<gio::MenuModel>) -> Self {
+        self.menu_model = Some(menu_model.clone().upcast());
         self
     }
 
@@ -440,15 +311,170 @@ impl FrameTabBarBuilder {
         self.width_request = Some(width_request);
         self
     }
+}
 
-    pub fn frame(mut self, frame: &impl IsA<Frame>) -> Self {
-        self.frame = Some(frame.clone().upcast());
-        self
+pub trait OmniBarExt: 'static {
+    #[doc(alias = "panel_omni_bar_add_prefix")]
+    fn add_prefix(&self, priority: i32, widget: &impl IsA<gtk::Widget>);
+
+    #[doc(alias = "panel_omni_bar_add_suffix")]
+    fn add_suffix(&self, priority: i32, widget: &impl IsA<gtk::Widget>);
+
+    //#[doc(alias = "panel_omni_bar_get_popover")]
+    //#[doc(alias = "get_popover")]
+    //fn popover(&self) -> /*Ignored*/Option<gtk::Popover>;
+
+    #[doc(alias = "panel_omni_bar_remove")]
+    fn remove(&self, widget: &impl IsA<gtk::Widget>);
+
+    //#[doc(alias = "panel_omni_bar_set_popover")]
+    //fn set_popover(&self, popover: /*Ignored*/&gtk::Popover);
+
+    #[doc(alias = "icon-name")]
+    fn icon_name(&self) -> Option<glib::GString>;
+
+    #[doc(alias = "icon-name")]
+    fn set_icon_name(&self, icon_name: Option<&str>);
+
+    #[doc(alias = "menu-model")]
+    fn menu_model(&self) -> Option<gio::MenuModel>;
+
+    #[doc(alias = "menu-model")]
+    fn set_menu_model<P: IsA<gio::MenuModel>>(&self, menu_model: Option<&P>);
+
+    #[doc(alias = "icon-name")]
+    fn connect_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    #[doc(alias = "menu-model")]
+    fn connect_menu_model_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    #[doc(alias = "popover")]
+    fn connect_popover_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+}
+
+impl<O: IsA<OmniBar>> OmniBarExt for O {
+    fn add_prefix(&self, priority: i32, widget: &impl IsA<gtk::Widget>) {
+        unsafe {
+            ffi::panel_omni_bar_add_prefix(
+                self.as_ref().to_glib_none().0,
+                priority,
+                widget.as_ref().to_glib_none().0,
+            );
+        }
+    }
+
+    fn add_suffix(&self, priority: i32, widget: &impl IsA<gtk::Widget>) {
+        unsafe {
+            ffi::panel_omni_bar_add_suffix(
+                self.as_ref().to_glib_none().0,
+                priority,
+                widget.as_ref().to_glib_none().0,
+            );
+        }
+    }
+
+    //fn popover(&self) -> /*Ignored*/Option<gtk::Popover> {
+    //    unsafe { TODO: call ffi:panel_omni_bar_get_popover() }
+    //}
+
+    fn remove(&self, widget: &impl IsA<gtk::Widget>) {
+        unsafe {
+            ffi::panel_omni_bar_remove(
+                self.as_ref().to_glib_none().0,
+                widget.as_ref().to_glib_none().0,
+            );
+        }
+    }
+
+    //fn set_popover(&self, popover: /*Ignored*/&gtk::Popover) {
+    //    unsafe { TODO: call ffi:panel_omni_bar_set_popover() }
+    //}
+
+    fn icon_name(&self) -> Option<glib::GString> {
+        glib::ObjectExt::property(self.as_ref(), "icon-name")
+    }
+
+    fn set_icon_name(&self, icon_name: Option<&str>) {
+        glib::ObjectExt::set_property(self.as_ref(), "icon-name", &icon_name)
+    }
+
+    fn menu_model(&self) -> Option<gio::MenuModel> {
+        glib::ObjectExt::property(self.as_ref(), "menu-model")
+    }
+
+    fn set_menu_model<P: IsA<gio::MenuModel>>(&self, menu_model: Option<&P>) {
+        glib::ObjectExt::set_property(self.as_ref(), "menu-model", &menu_model)
+    }
+
+    fn connect_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_icon_name_trampoline<P: IsA<OmniBar>, F: Fn(&P) + 'static>(
+            this: *mut ffi::PanelOmniBar,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(OmniBar::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::icon-name\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_icon_name_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    fn connect_menu_model_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_menu_model_trampoline<P: IsA<OmniBar>, F: Fn(&P) + 'static>(
+            this: *mut ffi::PanelOmniBar,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(OmniBar::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::menu-model\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_menu_model_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    fn connect_popover_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_popover_trampoline<P: IsA<OmniBar>, F: Fn(&P) + 'static>(
+            this: *mut ffi::PanelOmniBar,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(OmniBar::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::popover\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_popover_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
     }
 }
 
-impl fmt::Display for FrameTabBar {
+impl fmt::Display for OmniBar {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("FrameTabBar")
+        f.write_str("OmniBar")
     }
 }

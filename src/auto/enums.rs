@@ -4,6 +4,10 @@
 // DO NOT EDIT
 
 use glib::translate::*;
+use glib::value::FromValue;
+use glib::value::ToValue;
+use glib::StaticType;
+use glib::Type;
 use std::fmt;
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -69,5 +73,38 @@ impl FromGlib<ffi::PanelDockPosition> for DockPosition {
             ffi::PANEL_DOCK_POSITION_CENTER => Self::Center,
             value => Self::__Unknown(value),
         }
+    }
+}
+
+impl StaticType for DockPosition {
+    fn static_type() -> Type {
+        unsafe { from_glib(ffi::panel_dock_position_get_type()) }
+    }
+}
+
+impl glib::value::ValueType for DockPosition {
+    type Type = Self;
+}
+
+unsafe impl<'a> FromValue<'a> for DockPosition {
+    type Checker = glib::value::GenericValueTypeChecker<Self>;
+
+    unsafe fn from_value(value: &'a glib::Value) -> Self {
+        skip_assert_initialized!();
+        from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
+    }
+}
+
+impl ToValue for DockPosition {
+    fn to_value(&self) -> glib::Value {
+        let mut value = glib::Value::for_value_type::<Self>();
+        unsafe {
+            glib::gobject_ffi::g_value_set_enum(value.to_glib_none_mut().0, self.into_glib());
+        }
+        value
+    }
+
+    fn value_type(&self) -> glib::Type {
+        Self::static_type()
     }
 }

@@ -25,6 +25,8 @@ glib::wrapper! {
 }
 
 impl Widget {
+    pub const NONE: Option<&'static Widget> = None;
+
     #[doc(alias = "panel_widget_new")]
     pub fn new() -> Widget {
         assert_initialized_main_thread!();
@@ -34,7 +36,7 @@ impl Widget {
     // rustdoc-stripper-ignore-next
     /// Creates a new builder-pattern struct instance to construct [`Widget`] objects.
     ///
-    /// This method returns an instance of [`WidgetBuilder`] which can be used to create [`Widget`] objects.
+    /// This method returns an instance of [`WidgetBuilder`](crate::builders::WidgetBuilder) which can be used to create [`Widget`] objects.
     pub fn builder() -> WidgetBuilder {
         WidgetBuilder::default()
     }
@@ -51,6 +53,7 @@ impl Default for Widget {
 /// A [builder-pattern] type to construct [`Widget`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
+#[must_use = "The builder must be built to be used"]
 pub struct WidgetBuilder {
     background_rgba: Option<gdk::RGBA>,
     can_maximize: Option<bool>,
@@ -106,6 +109,7 @@ impl WidgetBuilder {
 
     // rustdoc-stripper-ignore-next
     /// Build the [`Widget`].
+    #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> Widget {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
         if let Some(ref background_rgba) = self.background_rgba {
@@ -406,10 +410,6 @@ impl WidgetBuilder {
         self.width_request = Some(width_request);
         self
     }
-}
-
-impl Widget {
-    pub const NONE: Option<&'static Widget> = None;
 }
 
 pub trait WidgetExt: 'static {

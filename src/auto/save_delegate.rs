@@ -26,6 +26,8 @@ glib::wrapper! {
 }
 
 impl SaveDelegate {
+    pub const NONE: Option<&'static SaveDelegate> = None;
+
     #[doc(alias = "panel_save_delegate_new")]
     pub fn new() -> SaveDelegate {
         assert_initialized_main_thread!();
@@ -35,7 +37,7 @@ impl SaveDelegate {
     // rustdoc-stripper-ignore-next
     /// Creates a new builder-pattern struct instance to construct [`SaveDelegate`] objects.
     ///
-    /// This method returns an instance of [`SaveDelegateBuilder`] which can be used to create [`SaveDelegate`] objects.
+    /// This method returns an instance of [`SaveDelegateBuilder`](crate::builders::SaveDelegateBuilder) which can be used to create [`SaveDelegate`] objects.
     pub fn builder() -> SaveDelegateBuilder {
         SaveDelegateBuilder::default()
     }
@@ -52,6 +54,7 @@ impl Default for SaveDelegate {
 /// A [builder-pattern] type to construct [`SaveDelegate`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
+#[must_use = "The builder must be built to be used"]
 pub struct SaveDelegateBuilder {
     icon: Option<gio::Icon>,
     icon_name: Option<String>,
@@ -69,6 +72,7 @@ impl SaveDelegateBuilder {
 
     // rustdoc-stripper-ignore-next
     /// Build the [`SaveDelegate`].
+    #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> SaveDelegate {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
         if let Some(ref icon) = self.icon {
@@ -116,10 +120,6 @@ impl SaveDelegateBuilder {
     }
 }
 
-impl SaveDelegate {
-    pub const NONE: Option<&'static SaveDelegate> = None;
-}
-
 pub trait SaveDelegateExt: 'static {
     #[doc(alias = "panel_save_delegate_get_icon")]
     #[doc(alias = "get_icon")]
@@ -148,7 +148,7 @@ pub trait SaveDelegateExt: 'static {
         callback: P,
     );
 
-    fn save_async_future(
+    fn save_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
 
@@ -166,9 +166,6 @@ pub trait SaveDelegateExt: 'static {
 
     #[doc(alias = "panel_save_delegate_set_title")]
     fn set_title(&self, title: Option<&str>);
-
-    #[doc(alias = "save")]
-    fn connect_save<F: Fn(&Self, &gio::Task) -> bool + 'static>(&self, f: F) -> SignalHandlerId;
 
     #[doc(alias = "icon")]
     fn connect_icon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -257,7 +254,7 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
-    fn save_async_future(
+    fn save_future(
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
         Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
@@ -306,35 +303,6 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
                 self.as_ref().to_glib_none().0,
                 title.to_glib_none().0,
             );
-        }
-    }
-
-    fn connect_save<F: Fn(&Self, &gio::Task) -> bool + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn save_trampoline<
-            P: IsA<SaveDelegate>,
-            F: Fn(&P, &gio::Task) -> bool + 'static,
-        >(
-            this: *mut ffi::PanelSaveDelegate,
-            task: *mut gio::ffi::GTask,
-            f: glib::ffi::gpointer,
-        ) -> glib::ffi::gboolean {
-            let f: &F = &*(f as *const F);
-            f(
-                SaveDelegate::from_glib_borrow(this).unsafe_cast_ref(),
-                &from_glib_borrow(task),
-            )
-            .into_glib()
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"save\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    save_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
         }
     }
 

@@ -36,7 +36,7 @@ impl FrameHeaderBar {
     // rustdoc-stripper-ignore-next
     /// Creates a new builder-pattern struct instance to construct [`FrameHeaderBar`] objects.
     ///
-    /// This method returns an instance of [`FrameHeaderBarBuilder`] which can be used to create [`FrameHeaderBar`] objects.
+    /// This method returns an instance of [`FrameHeaderBarBuilder`](crate::builders::FrameHeaderBarBuilder) which can be used to create [`FrameHeaderBar`] objects.
     pub fn builder() -> FrameHeaderBarBuilder {
         FrameHeaderBarBuilder::default()
     }
@@ -189,6 +189,7 @@ impl Default for FrameHeaderBar {
 /// A [builder-pattern] type to construct [`FrameHeaderBar`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
+#[must_use = "The builder must be built to be used"]
 pub struct FrameHeaderBarBuilder {
     background_rgba: Option<gdk::RGBA>,
     foreground_rgba: Option<gdk::RGBA>,
@@ -235,6 +236,7 @@ impl FrameHeaderBarBuilder {
 
     // rustdoc-stripper-ignore-next
     /// Build the [`FrameHeaderBar`].
+    #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> FrameHeaderBar {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
         if let Some(ref background_rgba) = self.background_rgba {

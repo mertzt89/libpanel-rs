@@ -58,12 +58,11 @@ impl ObjectSubclass for ExampleWindowPrivate {
         klass.install_action("document.new", None, |obj, _name, _args| {
             obj.add_document();
         });
-        use gdk::keys::constants as keys;
         use gdk::ModifierType as mods;
-        klass.add_binding_action(keys::n, mods::CONTROL_MASK, "document.new", None);
-        klass.add_binding_action(keys::F9, mods::empty(), "win.reveal-start", None);
-        klass.add_binding_action(keys::F9, mods::CONTROL_MASK, "win.reveal-bottom", None);
-        klass.add_binding_action(keys::F9, mods::SHIFT_MASK, "win.reveal-end", None);
+        klass.add_binding_action(gdk::Key::n, mods::CONTROL_MASK, "document.new", None);
+        klass.add_binding_action(gdk::Key::F9, mods::empty(), "win.reveal-start", None);
+        klass.add_binding_action(gdk::Key::F9, mods::CONTROL_MASK, "win.reveal-bottom", None);
+        klass.add_binding_action(gdk::Key::F9, mods::SHIFT_MASK, "win.reveal-end", None);
     }
 
     fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -106,14 +105,16 @@ impl ExampleWindow {
     pub fn new<P: glib::IsA<gtk::Application>>(app: &P) -> Self {
         glib::Object::new(&[("application", app)]).expect("Failed to create ExampleWindow")
     }
-    fn save(widget: &panel::Widget, delegate: &panel::SaveDelegate, task: &gio::Task) -> bool {
+    async fn save(
+        widget: panel::Widget,
+        delegate: panel::SaveDelegate,
+    ) -> Result<(), glib::Error> {
         println!("Actually save the file");
 
         widget.set_modified(false);
         delegate.set_progress(1.0);
-        task.return_value(&true.to_value());
 
-        true
+        Ok(())
     }
     fn apply_theme_color(widget: &panel::Widget) {
         static WHITE: SyncLazy<gdk::RGBA> = SyncLazy::new(|| gdk::RGBA::from_str("#fff").unwrap());
@@ -121,7 +122,7 @@ impl ExampleWindow {
             SyncLazy::new(|| gdk::RGBA::from_str("#1e1e1e").unwrap());
         static BLACK: SyncLazy<gdk::RGBA> = SyncLazy::new(|| gdk::RGBA::from_str("#000").unwrap());
 
-        if adw::StyleManager::default().unwrap().is_dark() {
+        if adw::StyleManager::default().is_dark() {
             widget.set_background_rgba(Some(&GREY));
             widget.set_foreground_rgba(Some(&WHITE));
         } else {
@@ -156,7 +157,7 @@ impl ExampleWindow {
             .child(&gtk::ScrolledWindow::builder().child(&text_view).build())
             .build();
 
-        adw::StyleManager::default().unwrap().connect_notify_local(
+        adw::StyleManager::default().connect_notify_local(
             None,
             glib::clone!(@weak widget => move |_, _| {
                 Self::apply_theme_color(&widget);
@@ -170,9 +171,9 @@ impl ExampleWindow {
             }),
         );
         save_delegate.connect_save(
-            glib::clone!(@weak widget => @default-return false, move |delegate, task| {
-                Self::save(&widget, delegate, task)
-            }),
+            glib::clone!(@weak widget => @default-panic, move |delegate| {
+                Self::save(widget, delegate.clone())
+            })
         );
 
         imp.grid.add(&widget);
@@ -220,7 +221,7 @@ impl ExampleWindow {
             .icon_name("go-previous-symbolic")
             .build();
         child.add_css_class("flat");
-        header.pack_start(-100, &child);
+        header.add_prefix(-100, &child);
 
         let child = gtk::Button::builder()
             .width_request(40)
@@ -228,7 +229,7 @@ impl ExampleWindow {
             .icon_name("go-next-symbolic")
             .build();
         child.add_css_class("flat");
-        header.pack_start(-50, &child);
+        header.add_prefix(-50, &child);
 
         frame
     }

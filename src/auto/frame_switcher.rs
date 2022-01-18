@@ -36,7 +36,7 @@ impl FrameSwitcher {
     // rustdoc-stripper-ignore-next
     /// Creates a new builder-pattern struct instance to construct [`FrameSwitcher`] objects.
     ///
-    /// This method returns an instance of [`FrameSwitcherBuilder`] which can be used to create [`FrameSwitcher`] objects.
+    /// This method returns an instance of [`FrameSwitcherBuilder`](crate::builders::FrameSwitcherBuilder) which can be used to create [`FrameSwitcher`] objects.
     pub fn builder() -> FrameSwitcherBuilder {
         FrameSwitcherBuilder::default()
     }
@@ -139,6 +139,7 @@ impl Default for FrameSwitcher {
 /// A [builder-pattern] type to construct [`FrameSwitcher`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
+#[must_use = "The builder must be built to be used"]
 pub struct FrameSwitcherBuilder {
     background_rgba: Option<gdk::RGBA>,
     foreground_rgba: Option<gdk::RGBA>,
@@ -185,6 +186,7 @@ impl FrameSwitcherBuilder {
 
     // rustdoc-stripper-ignore-next
     /// Build the [`FrameSwitcher`].
+    #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> FrameSwitcher {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
         if let Some(ref background_rgba) = self.background_rgba {

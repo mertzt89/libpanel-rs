@@ -29,9 +29,36 @@ impl Statusbar {
     // rustdoc-stripper-ignore-next
     /// Creates a new builder-pattern struct instance to construct [`Statusbar`] objects.
     ///
-    /// This method returns an instance of [`StatusbarBuilder`] which can be used to create [`Statusbar`] objects.
+    /// This method returns an instance of [`StatusbarBuilder`](crate::builders::StatusbarBuilder) which can be used to create [`Statusbar`] objects.
     pub fn builder() -> StatusbarBuilder {
         StatusbarBuilder::default()
+    }
+
+    #[doc(alias = "panel_statusbar_add_prefix")]
+    pub fn add_prefix(&self, widget: &impl IsA<gtk::Widget>) {
+        unsafe {
+            ffi::panel_statusbar_add_prefix(
+                self.to_glib_none().0,
+                widget.as_ref().to_glib_none().0,
+            );
+        }
+    }
+
+    #[doc(alias = "panel_statusbar_add_suffix")]
+    pub fn add_suffix(&self, widget: &impl IsA<gtk::Widget>) {
+        unsafe {
+            ffi::panel_statusbar_add_suffix(
+                self.to_glib_none().0,
+                widget.as_ref().to_glib_none().0,
+            );
+        }
+    }
+
+    #[doc(alias = "panel_statusbar_remove")]
+    pub fn remove(&self, widget: &impl IsA<gtk::Widget>) {
+        unsafe {
+            ffi::panel_statusbar_remove(self.to_glib_none().0, widget.as_ref().to_glib_none().0);
+        }
     }
 }
 
@@ -46,6 +73,7 @@ impl Default for Statusbar {
 /// A [builder-pattern] type to construct [`Statusbar`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
+#[must_use = "The builder must be built to be used"]
 pub struct StatusbarBuilder {
     can_focus: Option<bool>,
     can_target: Option<bool>,
@@ -88,6 +116,7 @@ impl StatusbarBuilder {
 
     // rustdoc-stripper-ignore-next
     /// Build the [`Statusbar`].
+    #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> Statusbar {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
         if let Some(ref can_focus) = self.can_focus {

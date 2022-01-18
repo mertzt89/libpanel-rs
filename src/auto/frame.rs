@@ -26,6 +26,8 @@ glib::wrapper! {
 }
 
 impl Frame {
+    pub const NONE: Option<&'static Frame> = None;
+
     #[doc(alias = "panel_frame_new")]
     pub fn new() -> Frame {
         assert_initialized_main_thread!();
@@ -35,7 +37,7 @@ impl Frame {
     // rustdoc-stripper-ignore-next
     /// Creates a new builder-pattern struct instance to construct [`Frame`] objects.
     ///
-    /// This method returns an instance of [`FrameBuilder`] which can be used to create [`Frame`] objects.
+    /// This method returns an instance of [`FrameBuilder`](crate::builders::FrameBuilder) which can be used to create [`Frame`] objects.
     pub fn builder() -> FrameBuilder {
         FrameBuilder::default()
     }
@@ -52,6 +54,7 @@ impl Default for Frame {
 /// A [builder-pattern] type to construct [`Frame`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
+#[must_use = "The builder must be built to be used"]
 pub struct FrameBuilder {
     placeholder: Option<Widget>,
     visible_child: Option<Widget>,
@@ -97,6 +100,7 @@ impl FrameBuilder {
 
     // rustdoc-stripper-ignore-next
     /// Build the [`Frame`].
+    #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> Frame {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
         if let Some(ref placeholder) = self.placeholder {
@@ -309,10 +313,6 @@ impl FrameBuilder {
         self.width_request = Some(width_request);
         self
     }
-}
-
-impl Frame {
-    pub const NONE: Option<&'static Frame> = None;
 }
 
 pub trait FrameExt: 'static {
