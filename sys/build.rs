@@ -1,5 +1,3 @@
-mod build_version;
-
 #[cfg(feature = "dox")]
 fn main() {} // prevent linking libraries to avoid documentation failure
 
