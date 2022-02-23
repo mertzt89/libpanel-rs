@@ -1,3 +1,11 @@
+variables:
+  # format is <branch>=<name>
+  # the name is used in the URL
+  # latest release must be at the top
+  # (only relevant on main branch)
+  RELEASES: |
+    v0.1=v0.1
+
 image: "ghcr.io/gtk-rs/gtk4-rs/gtk4:latest"
 
 before_script:
@@ -26,7 +34,7 @@ docs:
     - ./generator.py --embed-docs
     - rustup default nightly
     - eval $(./gir-rustdoc.py pre-docs)
-    - cargo doc --features dox --no-deps
+    - cargo doc --features dox --no-deps -p libpanel -p libpanel-sys
     - mv target/doc/ docs
   artifacts:
     paths:
