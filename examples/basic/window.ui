@@ -991,7 +991,7 @@
     </section>
     <section>
       <item>
-        <attribute name="label">Add Workspace</attribute>
+        <attribute name="label">Add Workspace…</attribute>
       </item>
     </section>
     <section>
@@ -1013,11 +1013,6 @@
       </item>
       <item>
         <attribute name="label">About Builder</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
-        <attribute name="label">Help</attribute>
       </item>
     </section>
   </menu>
@@ -1445,12 +1440,23 @@
     </section>
     <section>
       <item>
+        <attribute name="label">Stop Build</attribute>
+      </item>
+      <item>
+        <attribute name="label">Pause Builds</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
         <attribute name="label">Show Build Output</attribute>
       </item>
     </section>
     <section>
       <item>
         <attribute name="label">Update Dependencies…</attribute>
+      </item>
+      <item>
+        <attribute name="label">Manage SDKs…</attribute>
       </item>
     </section>
     <section>

@@ -319,6 +319,9 @@ pub trait FrameExt: 'static {
     #[doc(alias = "panel_frame_add")]
     fn add(&self, panel: &impl IsA<Widget>);
 
+    #[doc(alias = "panel_frame_add_before")]
+    fn add_before(&self, panel: &impl IsA<Widget>, sibling: &impl IsA<Widget>);
+
     #[doc(alias = "panel_frame_get_empty")]
     #[doc(alias = "get_empty")]
     fn is_empty(&self) -> bool;
@@ -375,6 +378,16 @@ impl<O: IsA<Frame>> FrameExt for O {
             ffi::panel_frame_add(
                 self.as_ref().to_glib_none().0,
                 panel.as_ref().to_glib_none().0,
+            );
+        }
+    }
+
+    fn add_before(&self, panel: &impl IsA<Widget>, sibling: &impl IsA<Widget>) {
+        unsafe {
+            ffi::panel_frame_add_before(
+                self.as_ref().to_glib_none().0,
+                panel.as_ref().to_glib_none().0,
+                sibling.as_ref().to_glib_none().0,
             );
         }
     }

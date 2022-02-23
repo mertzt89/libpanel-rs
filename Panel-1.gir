@@ -679,7 +679,7 @@ completes or was cancelled.</doc>
       <method name="add" c:identifier="panel_frame_add">
         <doc xml:space="preserve"
              filename="../src/panel-frame.c"
-             line="818">Adds a widget to the frame.</doc>
+             line="779">Adds a widget to the frame.</doc>
         <source-position filename="../src/panel-frame.h" line="54"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -688,13 +688,30 @@ completes or was cancelled.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="820">a #PanelFrame</doc>
+                 line="781">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="panel" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="821">a widget to add</doc>
+                 line="782">a widget to add</doc>
+            <type name="Widget" c:type="PanelWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="add_before" c:identifier="panel_frame_add_before">
+        <source-position filename="../src/panel-frame.h" line="57"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Frame" c:type="PanelFrame*"/>
+          </instance-parameter>
+          <parameter name="panel" transfer-ownership="none">
+            <type name="Widget" c:type="PanelWidget*"/>
+          </parameter>
+          <parameter name="sibling" transfer-ownership="none">
             <type name="Widget" c:type="PanelWidget*"/>
           </parameter>
         </parameters>
@@ -715,25 +732,25 @@ completes or was cancelled.</doc>
       <method name="get_header" c:identifier="panel_frame_get_header">
         <doc xml:space="preserve"
              filename="../src/panel-frame.c"
-             line="957">Gets the header for the frame.</doc>
+             line="894">Gets the header for the frame.</doc>
         <source-position filename="../src/panel-frame.h" line="47"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-frame.c"
-               line="963">a #PanelFrameHeader or %NULL</doc>
+               line="900">a #PanelFrameHeader or %NULL</doc>
           <type name="FrameHeader" c:type="PanelFrameHeader*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="959">a #PanelFrame</doc>
+                 line="896">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
         </parameters>
       </method>
       <method name="get_n_pages" c:identifier="panel_frame_get_n_pages">
-        <source-position filename="../src/panel-frame.h" line="70"/>
+        <source-position filename="../src/panel-frame.h" line="74"/>
         <return-value transfer-ownership="none">
           <type name="guint" c:type="guint"/>
         </return-value>
@@ -746,25 +763,25 @@ completes or was cancelled.</doc>
       <method name="get_page" c:identifier="panel_frame_get_page">
         <doc xml:space="preserve"
              filename="../src/panel-frame.c"
-             line="1091">Gets the page with the given index, if any.</doc>
-        <source-position filename="../src/panel-frame.h" line="65"/>
+             line="1028">Gets the page with the given index, if any.</doc>
+        <source-position filename="../src/panel-frame.h" line="69"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-frame.c"
-               line="1098">a #PanelWidget or %NULL</doc>
+               line="1035">a #PanelWidget or %NULL</doc>
           <type name="Widget" c:type="PanelWidget*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="1093">a #PanelFrame</doc>
+                 line="1030">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="n" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="1094">the index of the page</doc>
+                 line="1031">the index of the page</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
         </parameters>
@@ -772,19 +789,19 @@ completes or was cancelled.</doc>
       <method name="get_pages" c:identifier="panel_frame_get_pages">
         <doc xml:space="preserve"
              filename="../src/panel-frame.c"
-             line="1023">Get the pages for the frame.</doc>
-        <source-position filename="../src/panel-frame.h" line="68"/>
+             line="960">Get the pages for the frame.</doc>
+        <source-position filename="../src/panel-frame.h" line="72"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/panel-frame.c"
-               line="1029">a #GtkSelectionModel</doc>
+               line="966">a #GtkSelectionModel</doc>
           <type name="Gtk.SelectionModel" c:type="GtkSelectionModel*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="1025">a #PanelFrame</doc>
+                 line="962">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
         </parameters>
@@ -794,19 +811,19 @@ completes or was cancelled.</doc>
               glib:get-property="placeholder">
         <doc xml:space="preserve"
              filename="../src/panel-frame.c"
-             line="1116">Gets the placeholder widget, if any.</doc>
-        <source-position filename="../src/panel-frame.h" line="72"/>
+             line="1053">Gets the placeholder widget, if any.</doc>
+        <source-position filename="../src/panel-frame.h" line="76"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-frame.c"
-               line="1122">a #GtkWidget or %NULL</doc>
+               line="1059">a #GtkWidget or %NULL</doc>
           <type name="Gtk.Widget" c:type="GtkWidget*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="1118">a #PanelFrame</doc>
+                 line="1055">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
         </parameters>
@@ -816,19 +833,19 @@ completes or was cancelled.</doc>
               glib:get-property="visible-child">
         <doc xml:space="preserve"
              filename="../src/panel-frame.c"
-             line="905">Gets the widget of the currently visible child.</doc>
-        <source-position filename="../src/panel-frame.h" line="63"/>
+             line="842">Gets the widget of the currently visible child.</doc>
+        <source-position filename="../src/panel-frame.h" line="67"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-frame.c"
-               line="911">a #PanelWidget or %NULL</doc>
+               line="848">a #PanelWidget or %NULL</doc>
           <type name="Widget" c:type="PanelWidget*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="907">a #PanelFrame</doc>
+                 line="844">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
         </parameters>
@@ -836,8 +853,8 @@ completes or was cancelled.</doc>
       <method name="remove" c:identifier="panel_frame_remove">
         <doc xml:space="preserve"
              filename="../src/panel-frame.c"
-             line="856">Removes a widget from the frame.</doc>
-        <source-position filename="../src/panel-frame.h" line="57"/>
+             line="793">Removes a widget from the frame.</doc>
+        <source-position filename="../src/panel-frame.h" line="61"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -845,13 +862,13 @@ completes or was cancelled.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="858">a #PanelFrame</doc>
+                 line="795">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="panel" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="859">a widget to add</doc>
+                 line="796">a widget to add</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </parameter>
         </parameters>
@@ -859,7 +876,7 @@ completes or was cancelled.</doc>
       <method name="set_header" c:identifier="panel_frame_set_header">
         <doc xml:space="preserve"
              filename="../src/panel-frame.c"
-             line="976">Sets the header for the frame, such as a #PanelFrameSwitcher.</doc>
+             line="913">Sets the header for the frame, such as a #PanelFrameSwitcher.</doc>
         <source-position filename="../src/panel-frame.h" line="49"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -868,7 +885,7 @@ completes or was cancelled.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="978">a #PanelFrame</doc>
+                 line="915">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="header"
@@ -877,7 +894,7 @@ completes or was cancelled.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="979">a #PanelFrameHeader</doc>
+                 line="916">a #PanelFrameHeader</doc>
             <type name="FrameHeader" c:type="PanelFrameHeader*"/>
           </parameter>
         </parameters>
@@ -887,11 +904,11 @@ completes or was cancelled.</doc>
               glib:set-property="placeholder">
         <doc xml:space="preserve"
              filename="../src/panel-frame.c"
-             line="1134">Sets the placeholder widget for the frame.
+             line="1071">Sets the placeholder widget for the frame.
 
 The placeholder widget is displayed when there are no pages
 to display in the frame.</doc>
-        <source-position filename="../src/panel-frame.h" line="74"/>
+        <source-position filename="../src/panel-frame.h" line="78"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -899,7 +916,7 @@ to display in the frame.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="1136">a #PanelFrame</doc>
+                 line="1073">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="placeholder"
@@ -908,7 +925,7 @@ to display in the frame.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="1137">a #GtkWidget or %NULL</doc>
+                 line="1074">a #GtkWidget or %NULL</doc>
             <type name="Gtk.Widget" c:type="GtkWidget*"/>
           </parameter>
         </parameters>
@@ -918,8 +935,8 @@ to display in the frame.</doc>
               glib:set-property="visible-child">
         <doc xml:space="preserve"
              filename="../src/panel-frame.c"
-             line="926">Sets the current page to the child specified in @widget.</doc>
-        <source-position filename="../src/panel-frame.h" line="60"/>
+             line="863">Sets the current page to the child specified in @widget.</doc>
+        <source-position filename="../src/panel-frame.h" line="64"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -927,13 +944,13 @@ to display in the frame.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="928">a #PanelFrame</doc>
+                 line="865">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="widget" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame.c"
-                 line="929">a #PanelWidget</doc>
+                 line="866">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </parameter>
         </parameters>
@@ -1530,12 +1547,12 @@ pages.</doc>
       <constructor name="new" c:identifier="panel_frame_switcher_new">
         <doc xml:space="preserve"
              filename="../src/panel-frame-switcher.c"
-             line="769">Create a new `PanelFrameSwitcher`.</doc>
+             line="937">Create a new `PanelFrameSwitcher`.</doc>
         <source-position filename="../src/panel-frame-switcher.h" line="36"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/panel-frame-switcher.c"
-               line="774">a new `PanelFrameSwitcher`.</doc>
+               line="942">a new `PanelFrameSwitcher`.</doc>
           <type name="Gtk.Widget" c:type="GtkWidget*"/>
         </return-value>
       </constructor>
@@ -1544,19 +1561,19 @@ pages.</doc>
               glib:get-property="background-rgba">
         <doc xml:space="preserve"
              filename="../src/panel-frame-switcher.c"
-             line="878">Gets the background color of the switcher.</doc>
+             line="1046">Gets the background color of the switcher.</doc>
         <source-position filename="../src/panel-frame-switcher.h" line="38"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-frame-switcher.c"
-               line="884">the background color</doc>
+               line="1052">the background color</doc>
           <type name="Gdk.RGBA" c:type="const GdkRGBA*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame-switcher.c"
-                 line="880">a #PanelFrameSwitcher</doc>
+                 line="1048">a #PanelFrameSwitcher</doc>
             <type name="FrameSwitcher" c:type="PanelFrameSwitcher*"/>
           </instance-parameter>
         </parameters>
@@ -1566,19 +1583,19 @@ pages.</doc>
               glib:get-property="foreground-rgba">
         <doc xml:space="preserve"
              filename="../src/panel-frame-switcher.c"
-             line="914">Gets the foreground color of the switcher.</doc>
+             line="1082">Gets the foreground color of the switcher.</doc>
         <source-position filename="../src/panel-frame-switcher.h" line="40"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-frame-switcher.c"
-               line="920">the foreground color</doc>
+               line="1088">the foreground color</doc>
           <type name="Gdk.RGBA" c:type="const GdkRGBA*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame-switcher.c"
-                 line="916">a #PanelFrameSwitcher</doc>
+                 line="1084">a #PanelFrameSwitcher</doc>
             <type name="FrameSwitcher" c:type="PanelFrameSwitcher*"/>
           </instance-parameter>
         </parameters>
@@ -1588,7 +1605,7 @@ pages.</doc>
               glib:set-property="background-rgba">
         <doc xml:space="preserve"
              filename="../src/panel-frame-switcher.c"
-             line="894">Sets the background color of the switcher.</doc>
+             line="1062">Sets the background color of the switcher.</doc>
         <source-position filename="../src/panel-frame-switcher.h" line="42"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1597,7 +1614,7 @@ pages.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame-switcher.c"
-                 line="896">a #PanelFrameSwitcher</doc>
+                 line="1064">a #PanelFrameSwitcher</doc>
             <type name="FrameSwitcher" c:type="PanelFrameSwitcher*"/>
           </instance-parameter>
           <parameter name="background_rgba"
@@ -1606,7 +1623,7 @@ pages.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/panel-frame-switcher.c"
-                 line="897">the background color</doc>
+                 line="1065">the background color</doc>
             <type name="Gdk.RGBA" c:type="const GdkRGBA*"/>
           </parameter>
         </parameters>
@@ -1616,7 +1633,7 @@ pages.</doc>
               glib:set-property="foreground-rgba">
         <doc xml:space="preserve"
              filename="../src/panel-frame-switcher.c"
-             line="930">Sets the foreground color of the switcher.</doc>
+             line="1098">Sets the foreground color of the switcher.</doc>
         <source-position filename="../src/panel-frame-switcher.h" line="45"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1625,7 +1642,7 @@ pages.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-frame-switcher.c"
-                 line="932">a #PanelFrameSwitcher</doc>
+                 line="1100">a #PanelFrameSwitcher</doc>
             <type name="FrameSwitcher" c:type="PanelFrameSwitcher*"/>
           </instance-parameter>
           <parameter name="foreground_rgba"
@@ -1634,7 +1651,7 @@ pages.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/panel-frame-switcher.c"
-                 line="933">the foreground color</doc>
+                 line="1101">the foreground color</doc>
             <type name="Gdk.RGBA" c:type="const GdkRGBA*"/>
           </parameter>
         </parameters>
