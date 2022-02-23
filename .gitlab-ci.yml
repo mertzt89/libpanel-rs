@@ -34,7 +34,7 @@ docs:
     - ./generator.py --embed-docs
     - rustup default nightly
     - eval $(./gir-rustdoc.py pre-docs)
-    - cargo doc --features dox --no-deps
+    - cargo doc --features dox --no-deps -p libpanel -p libpanel-sys
     - mv target/doc/ docs
   artifacts:
     paths:
