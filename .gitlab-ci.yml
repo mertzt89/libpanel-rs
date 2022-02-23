@@ -1,3 +1,11 @@
+variables:
+  # format is <branch>=<name>
+  # the name is used in the URL
+  # latest release must be at the top
+  # (only relevant on main branch)
+  RELEASES: |
+    v0.1=v0.1
+
 image: "ghcr.io/gtk-rs/gtk4-rs/gtk4:latest"
 
 before_script:
