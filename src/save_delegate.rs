@@ -1,6 +1,6 @@
 use crate::SaveDelegate;
 use futures_core::future::Future;
-use glib::{signal::connect_raw, translate::*, IsA, SignalHandlerId, Cast};
+use glib::{signal::connect_raw, translate::*, Cast, IsA, SignalHandlerId};
 use std::mem::transmute;
 
 pub trait SaveDelegateExtManual {
@@ -14,12 +14,12 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExtManual for O {
     fn connect_save<F, R>(&self, f: F) -> SignalHandlerId
     where
         F: Fn(&Self) -> R + 'static,
-        R: Future<Output = Result<(), glib::Error>> + 'static
+        R: Future<Output = Result<(), glib::Error>> + 'static,
     {
         unsafe extern "C" fn save_trampoline<
             P: IsA<SaveDelegate>,
             F: Fn(&P) -> R + 'static,
-            R: Future<Output = Result<(), glib::Error>> + 'static
+            R: Future<Output = Result<(), glib::Error>> + 'static,
         >(
             this: *mut ffi::PanelSaveDelegate,
             task: *mut gio::ffi::GTask,

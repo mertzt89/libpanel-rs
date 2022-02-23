@@ -1,5 +1,7 @@
 pub use ffi;
 #[doc(hidden)]
+pub use gio;
+#[doc(hidden)]
 pub use gtk;
 
 /// Asserts that this is the main thread and `gtk::init` has been called.

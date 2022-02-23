@@ -91,19 +91,21 @@ impl ExampleWindow {
         let name = match style_manager.color_scheme() {
             adw::ColorScheme::PreferDark | adw::ColorScheme::ForceDark => "dark",
             adw::ColorScheme::PreferLight | adw::ColorScheme::ForceLight => "light",
-            _ => if style_manager.system_supports_color_schemes() {
-                "light"
-            } else {
-                "default"
+            _ => {
+                if style_manager.system_supports_color_schemes() {
+                    "light"
+                } else {
+                    "default"
+                }
             }
         };
-        self.lookup_action("theme").unwrap().downcast::<gio::SimpleAction>().unwrap()
+        self.lookup_action("theme")
+            .unwrap()
+            .downcast::<gio::SimpleAction>()
+            .unwrap()
             .set_state(&name.to_variant());
     }
-    async fn save(
-        page: ExamplePage,
-        delegate: panel::SaveDelegate,
-    ) -> Result<(), glib::Error> {
+    async fn save(page: ExamplePage, delegate: panel::SaveDelegate) -> Result<(), glib::Error> {
         println!("Actually save the file");
 
         page.set_modified(false);
@@ -133,7 +135,7 @@ impl ExampleWindow {
         save_delegate.connect_save(
             glib::clone!(@weak widget => @default-panic, move |delegate| {
                 Self::save(widget, delegate.clone())
-            })
+            }),
         );
 
         imp.grid.add(&widget);
@@ -202,7 +204,7 @@ impl ObjectImpl for ExampleWindowPrivate {
         let action = gio::SimpleAction::new_stateful(
             "theme",
             Some(&glib::VariantTy::STRING),
-            &"default".to_variant()
+            &"default".to_variant(),
         );
         action.connect_change_state(|_, param| {
             let manager = adw::StyleManager::default();
@@ -217,34 +219,29 @@ impl ObjectImpl for ExampleWindowPrivate {
         let action = gio::SimpleAction::new_stateful(
             "runner",
             Some(&glib::VariantTy::STRING),
-            &"".to_variant()
+            &"".to_variant(),
         );
         action.connect_change_state(|action, param| {
             action.set_state(param.unwrap());
         });
         obj.add_action(&action);
-        let action = gio::SimpleAction::new_stateful(
-            "high-contrast",
-            None,
-            &false.to_variant()
-        );
+        let action = gio::SimpleAction::new_stateful("high-contrast", None, &false.to_variant());
         action.connect_change_state(|a, _| {
             a.set_state(&(!a.state().and_then(|v| v.get::<bool>()).unwrap_or(false)).to_variant());
         });
         obj.add_action(&action);
-        let action = gio::SimpleAction::new_stateful(
-            "right-to-left",
-            None,
-            &false.to_variant()
-        );
+        let action = gio::SimpleAction::new_stateful("right-to-left", None, &false.to_variant());
         action.connect_change_state(|a, _| {
             a.set_state(&(!a.state().and_then(|v| v.get::<bool>()).unwrap_or(false)).to_variant());
         });
         obj.add_action(&action);
         let style_manager = adw::StyleManager::default();
-        style_manager.connect_notify_local(None, glib::clone!(@weak obj => move |m, _| {
-            obj.notify_theme_cb(m);
-        }));
+        style_manager.connect_notify_local(
+            None,
+            glib::clone!(@weak obj => move |m, _| {
+                obj.notify_theme_cb(m);
+            }),
+        );
         obj.notify_theme_cb(&style_manager);
         obj.add_action(&gio::PropertyAction::new(
             "reveal-start",
@@ -268,7 +265,9 @@ impl ObjectImpl for ExampleWindowPrivate {
             }
             child = c.next_sibling();
         }
-        self.primary_button.popover().unwrap()
+        self.primary_button
+            .popover()
+            .unwrap()
             .downcast::<gtk::PopoverMenu>()
             .unwrap()
             .add_child(&*self.theme_selector, "theme");

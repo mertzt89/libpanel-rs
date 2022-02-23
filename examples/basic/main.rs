@@ -40,4 +40,3 @@ fn main() {
     app.connect_activate(activate);
     std::process::exit(app.run());
 }
-

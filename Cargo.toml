@@ -1,7 +1,15 @@
 [package]
 name = "libpanel"
-version = "0.1.0"
+version = "0.1.0-alpha-0"
+authors = ["Jason Francis <jafrancis999@gmail.com>"]
 edition = "2021"
+homepage = "https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/"
+description = "Rust bindings for GNOME libpanel"
+license = "MIT"
+repository = "https://gitlab.gnome.org/World/Rust/libpanel-rs"
+documentation = "https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/stable/latest/docs/libpanel"
+categories = ["api-bindings", "gui"]
+keywords = ["gtk4-rs", "gnome", "adwaita", "panel", "GUI"]
 
 [lib]
 name = "libpanel"

@@ -7,9 +7,42 @@ before_script:
   - meson _build --prefix=/usr -Dlibadwaita:tests=false -Dlibadwaita:introspection=disabled -Dlibadwaita:examples=false -Dlibadwaita:vapi=false -Dlibpanel:introspection=disabled -Dlibpanel:install-examples=false -Dlibpanel:vapi=false
   - ninja -C _build install
   - git submodule update --init
+  - curl --proto '=https' --tlsv1.2 -sSf -o gir-rustdoc.py
+    https://gitlab.gnome.org/World/Rust/gir-rustdoc/-/raw/main/gir-rustdoc.py
+  - chmod +x gir-rustdoc.py
 
 build:
   script:
     - cargo build --all-features --examples
     - xvfb-run -a -s "-screen 0 1024x768x24" cargo test
 
+docs:
+  stage: test
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+  script:
+    # generate the docs
+    - cargo install rustdoc-stripper
+    - ./generator.py --embed-docs
+    - rustup default nightly
+    - eval $(./gir-rustdoc.py pre-docs)
+    - cargo doc --features dox --no-deps
+    - mv target/doc/ docs
+  artifacts:
+    paths:
+      - docs
+
+pages:
+  stage: deploy
+  script:
+    - ./gir-rustdoc.py html-index
+    # main docs
+    - mkdir public/git
+    - mv docs public/git/docs
+    # stable docs
+    - ./gir-rustdoc.py docs-from-artifacts
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_DEFAULT_BRANCH == $CI_COMMIT_BRANCH
