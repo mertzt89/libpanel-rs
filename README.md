@@ -6,6 +6,6 @@ Website: <https://gitlab.gnome.org/World/Rust/libpanel-rs>
 
 ## Documentation
 
-- libadwaita: <https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/stable/latest/docs/libpanel>
-- libadwaita-sys: <https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/stable/latest/docs/libpanel_sys>
+- libpanel: <https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/stable/latest/docs/libpanel>
+- libpanel-sys: <https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/stable/latest/docs/libpanel_sys>
 
