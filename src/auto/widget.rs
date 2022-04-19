@@ -413,6 +413,9 @@ impl WidgetBuilder {
 }
 
 pub trait WidgetExt: 'static {
+    #[doc(alias = "panel_widget_close")]
+    fn close(&self);
+
     #[doc(alias = "panel_widget_focus_default")]
     fn focus_default(&self) -> bool;
 
@@ -536,6 +539,9 @@ pub trait WidgetExt: 'static {
         f: F,
     ) -> SignalHandlerId;
 
+    #[doc(alias = "presented")]
+    fn connect_presented<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
     #[doc(alias = "background-rgba")]
     fn connect_background_rgba_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -580,6 +586,12 @@ pub trait WidgetExt: 'static {
 }
 
 impl<O: IsA<Widget>> WidgetExt for O {
+    fn close(&self) {
+        unsafe {
+            ffi::panel_widget_close(self.as_ref().to_glib_none().0);
+        }
+    }
+
     fn focus_default(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_widget_focus_default(
@@ -849,6 +861,27 @@ impl<O: IsA<Widget>> WidgetExt for O {
                 b"get-default-focus\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     get_default_focus_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    fn connect_presented<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn presented_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
+            this: *mut ffi::PanelWidget,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(Widget::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"presented\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    presented_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

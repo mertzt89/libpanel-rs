@@ -56,7 +56,7 @@ impl Default for Frame {
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
 #[must_use = "The builder must be built to be used"]
 pub struct FrameBuilder {
-    placeholder: Option<Widget>,
+    placeholder: Option<gtk::Widget>,
     visible_child: Option<Widget>,
     can_focus: Option<bool>,
     can_target: Option<bool>,
@@ -184,7 +184,7 @@ impl FrameBuilder {
         glib::Object::new::<Frame>(&properties).expect("Failed to create an instance of Frame")
     }
 
-    pub fn placeholder(mut self, placeholder: &impl IsA<Widget>) -> Self {
+    pub fn placeholder(mut self, placeholder: &impl IsA<gtk::Widget>) -> Self {
         self.placeholder = Some(placeholder.clone().upcast());
         self
     }

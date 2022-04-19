@@ -53,6 +53,7 @@ manual = [
   "Gtk.Buildable",
   "Gtk.ConstraintTarget",
   "Gtk.Orientable",
+  "Gtk.Popover",
   "Gtk.PopoverMenu",
   "Gtk.SelectionModel",
   "Gtk.Widget",

@@ -273,6 +273,20 @@ of libpanel is greater than the required one.</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <method name="remove" c:identifier="panel_dock_remove">
+        <source-position filename="../src/panel-dock.h" line="115"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Dock" c:type="PanelDock*"/>
+          </instance-parameter>
+          <parameter name="child" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="set_bottom_height"
               c:identifier="panel_dock_set_bottom_height"
               glib:set-property="bottom-height">
@@ -963,7 +977,7 @@ to display in the frame.</doc>
                 transfer-ownership="none"
                 setter="set_placeholder"
                 getter="get_placeholder">
-        <type name="Widget"/>
+        <type name="Gtk.Widget"/>
       </property>
       <property name="visible-child"
                 writable="1"
@@ -1827,24 +1841,35 @@ pages.</doc>
            glib:type-name="PanelGrid"
            glib:get-type="panel_grid_get_type"
            glib:type-struct="GridClass">
-      <source-position filename="../src/panel-grid.h" line="33"/>
+      <source-position filename="../src/panel-grid.h" line="44"/>
       <implements name="Gtk.Accessible"/>
       <implements name="Gtk.Buildable"/>
       <implements name="Gtk.ConstraintTarget"/>
       <constructor name="new" c:identifier="panel_grid_new">
         <doc xml:space="preserve"
              filename="../src/panel-grid.c"
-             line="51">Create a new #PanelGrid.</doc>
-        <source-position filename="../src/panel-grid.h" line="36"/>
+             line="50">Create a new #PanelGrid.</doc>
+        <source-position filename="../src/panel-grid.h" line="47"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/panel-grid.c"
-               line="56">a newly created #PanelGrid</doc>
+               line="55">a newly created #PanelGrid</doc>
           <type name="Gtk.Widget" c:type="GtkWidget*"/>
         </return-value>
       </constructor>
+      <virtual-method name="create_frame" introspectable="0">
+        <source-position filename="../src/panel-grid.h" line="40"/>
+        <return-value>
+          <type name="Frame" c:type="PanelFrame*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Grid" c:type="PanelGrid*"/>
+          </instance-parameter>
+        </parameters>
+      </virtual-method>
       <method name="add" c:identifier="panel_grid_add">
-        <source-position filename="../src/panel-grid.h" line="42"/>
+        <source-position filename="../src/panel-grid.h" line="53"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -1857,28 +1882,76 @@ pages.</doc>
           </parameter>
         </parameters>
       </method>
+      <method name="agree_to_close_async"
+              c:identifier="panel_grid_agree_to_close_async">
+        <source-position filename="../src/panel-grid.h" line="61"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Grid" c:type="PanelGrid*"/>
+          </instance-parameter>
+          <parameter name="cancellable"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <type name="Gio.Cancellable" c:type="GCancellable*"/>
+          </parameter>
+          <parameter name="callback"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1"
+                     scope="async"
+                     closure="2">
+            <type name="Gio.AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
+          </parameter>
+          <parameter name="user_data"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="agree_to_close_finish"
+              c:identifier="panel_grid_agree_to_close_finish"
+              throws="1">
+        <source-position filename="../src/panel-grid.h" line="66"/>
+        <return-value transfer-ownership="none">
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Grid" c:type="PanelGrid*"/>
+          </instance-parameter>
+          <parameter name="result" transfer-ownership="none">
+            <type name="Gio.AsyncResult" c:type="GAsyncResult*"/>
+          </parameter>
+        </parameters>
+      </method>
       <method name="get_column" c:identifier="panel_grid_get_column">
         <doc xml:space="preserve"
              filename="../src/panel-grid.c"
-             line="423">Gets the #PanelGridColumn for a column index.</doc>
-        <source-position filename="../src/panel-grid.h" line="47"/>
+             line="436">Gets the #PanelGridColumn for a column index.</doc>
+        <source-position filename="../src/panel-grid.h" line="58"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/panel-grid.c"
-               line="430">a #PanelGridColumn</doc>
+               line="443">a #PanelGridColumn</doc>
           <type name="GridColumn" c:type="PanelGridColumn*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-grid.c"
-                 line="425">a #PanelGrid</doc>
+                 line="438">a #PanelGrid</doc>
             <type name="Grid" c:type="PanelGrid*"/>
           </instance-parameter>
           <parameter name="column" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-grid.c"
-                 line="426">a column index</doc>
+                 line="439">a column index</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
         </parameters>
@@ -1887,19 +1960,19 @@ pages.</doc>
               c:identifier="panel_grid_get_most_recent_column">
         <doc xml:space="preserve"
              filename="../src/panel-grid.c"
-             line="233">Gets the most recently acive column on a grid.</doc>
-        <source-position filename="../src/panel-grid.h" line="38"/>
+             line="242">Gets the most recently acive column on a grid.</doc>
+        <source-position filename="../src/panel-grid.h" line="49"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/panel-grid.c"
-               line="239">a #PanelGridColumn</doc>
+               line="248">a #PanelGridColumn</doc>
           <type name="GridColumn" c:type="PanelGridColumn*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-grid.c"
-                 line="235">a #PanelGrid</doc>
+                 line="244">a #PanelGrid</doc>
             <type name="Grid" c:type="PanelGrid*"/>
           </instance-parameter>
         </parameters>
@@ -1908,25 +1981,25 @@ pages.</doc>
               c:identifier="panel_grid_get_most_recent_frame">
         <doc xml:space="preserve"
              filename="../src/panel-grid.c"
-             line="267">Gets the most recently acive frame on a grid.</doc>
-        <source-position filename="../src/panel-grid.h" line="40"/>
+             line="277">Gets the most recently acive frame on a grid.</doc>
+        <source-position filename="../src/panel-grid.h" line="51"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="../src/panel-grid.c"
-               line="273">a #PanelGridFrame</doc>
+               line="283">a #PanelGridFrame</doc>
           <type name="Frame" c:type="PanelFrame*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-grid.c"
-                 line="269">a #PanelGrid</doc>
+                 line="279">a #PanelGrid</doc>
             <type name="Grid" c:type="PanelGrid*"/>
           </instance-parameter>
         </parameters>
       </method>
       <method name="get_n_columns" c:identifier="panel_grid_get_n_columns">
-        <source-position filename="../src/panel-grid.h" line="45"/>
+        <source-position filename="../src/panel-grid.h" line="56"/>
         <return-value transfer-ownership="none">
           <type name="guint" c:type="guint"/>
         </return-value>
@@ -1936,10 +2009,13 @@ pages.</doc>
           </instance-parameter>
         </parameters>
       </method>
+      <field name="parent_instance">
+        <type name="Gtk.Widget" c:type="GtkWidget"/>
+      </field>
       <glib:signal name="create-frame" when="last">
         <doc xml:space="preserve"
              filename="../src/panel-grid.c"
-             line="198">The "create-frame" signal is used to create a new frame within
+             line="205">The "create-frame" signal is used to create a new frame within
 the grid.
 
 Consumers of this signal are required to return an unrooted
@@ -1947,7 +2023,7 @@ Consumers of this signal are required to return an unrooted
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/panel-grid.c"
-               line="208">an unrooted #PanelFrame</doc>
+               line="215">an unrooted #PanelFrame</doc>
           <type name="Frame"/>
         </return-value>
       </glib:signal>
@@ -1955,9 +2031,27 @@ Consumers of this signal are required to return an unrooted
     <record name="GridClass"
             c:type="PanelGridClass"
             glib:is-gtype-struct-for="Grid">
-      <source-position filename="../src/panel-grid.h" line="33"/>
+      <source-position filename="../src/panel-grid.h" line="44"/>
       <field name="parent_class">
         <type name="Gtk.WidgetClass" c:type="GtkWidgetClass"/>
+      </field>
+      <field name="create_frame" introspectable="0">
+        <callback name="create_frame" introspectable="0">
+          <source-position filename="../src/panel-grid.h" line="40"/>
+          <return-value>
+            <type name="Frame" c:type="PanelFrame*"/>
+          </return-value>
+          <parameters>
+            <parameter name="self" transfer-ownership="none">
+              <type name="Grid" c:type="PanelGrid*"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="_reserved" readable="0" private="1">
+        <array zero-terminated="0" fixed-size="12">
+          <type name="gpointer" c:type="gpointer"/>
+        </array>
       </field>
     </record>
     <class name="GridColumn"
@@ -2120,7 +2214,7 @@ Consumers of this signal are required to return an unrooted
            glib:type-name="PanelOmniBar"
            glib:get-type="panel_omni_bar_get_type"
            glib:type-struct="OmniBarClass">
-      <source-position filename="../src/panel-omni-bar.h" line="37"/>
+      <source-position filename="../src/panel-omni-bar.h" line="40"/>
       <implements name="Gtk.Accessible"/>
       <implements name="Gtk.Actionable"/>
       <implements name="Gtk.Buildable"/>
@@ -2128,17 +2222,17 @@ Consumers of this signal are required to return an unrooted
       <constructor name="new" c:identifier="panel_omni_bar_new">
         <doc xml:space="preserve"
              filename="../src/panel-omni-bar.c"
-             line="98">Create a new #PanelOmniBar.</doc>
-        <source-position filename="../src/panel-omni-bar.h" line="40"/>
+             line="101">Create a new #PanelOmniBar.</doc>
+        <source-position filename="../src/panel-omni-bar.h" line="43"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/panel-omni-bar.c"
-               line="103">a newly created #PanelOmniBar</doc>
+               line="106">a newly created #PanelOmniBar</doc>
           <type name="Gtk.Widget" c:type="GtkWidget*"/>
         </return-value>
       </constructor>
       <method name="add_prefix" c:identifier="panel_omni_bar_add_prefix">
-        <source-position filename="../src/panel-omni-bar.h" line="47"/>
+        <source-position filename="../src/panel-omni-bar.h" line="50"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2155,7 +2249,7 @@ Consumers of this signal are required to return an unrooted
         </parameters>
       </method>
       <method name="add_suffix" c:identifier="panel_omni_bar_add_suffix">
-        <source-position filename="../src/panel-omni-bar.h" line="51"/>
+        <source-position filename="../src/panel-omni-bar.h" line="54"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2174,24 +2268,37 @@ Consumers of this signal are required to return an unrooted
       <method name="get_popover"
               c:identifier="panel_omni_bar_get_popover"
               glib:get-property="popover">
-        <source-position filename="../src/panel-omni-bar.h" line="42"/>
+        <source-position filename="../src/panel-omni-bar.h" line="45"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-omni-bar.c"
-               line="63">a #GtkPopover or %NULL</doc>
+               line="66">a #GtkPopover or %NULL</doc>
           <type name="Gtk.Popover" c:type="GtkPopover*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-omni-bar.c"
-                 line="61">a #PanelOmniBar</doc>
+                 line="64">a #PanelOmniBar</doc>
+            <type name="OmniBar" c:type="PanelOmniBar*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_progress"
+              c:identifier="panel_omni_bar_get_progress"
+              glib:get-property="progress">
+        <source-position filename="../src/panel-omni-bar.h" line="65"/>
+        <return-value transfer-ownership="none">
+          <type name="gdouble" c:type="double"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
             <type name="OmniBar" c:type="PanelOmniBar*"/>
           </instance-parameter>
         </parameters>
       </method>
       <method name="remove" c:identifier="panel_omni_bar_remove">
-        <source-position filename="../src/panel-omni-bar.h" line="55"/>
+        <source-position filename="../src/panel-omni-bar.h" line="58"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2207,7 +2314,7 @@ Consumers of this signal are required to return an unrooted
       <method name="set_popover"
               c:identifier="panel_omni_bar_set_popover"
               glib:set-property="popover">
-        <source-position filename="../src/panel-omni-bar.h" line="44"/>
+        <source-position filename="../src/panel-omni-bar.h" line="47"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2218,6 +2325,44 @@ Consumers of this signal are required to return an unrooted
           <parameter name="popover" transfer-ownership="none">
             <type name="Gtk.Popover" c:type="GtkPopover*"/>
           </parameter>
+        </parameters>
+      </method>
+      <method name="set_progress"
+              c:identifier="panel_omni_bar_set_progress"
+              glib:set-property="progress">
+        <source-position filename="../src/panel-omni-bar.h" line="67"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="OmniBar" c:type="PanelOmniBar*"/>
+          </instance-parameter>
+          <parameter name="progress" transfer-ownership="none">
+            <type name="gdouble" c:type="double"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="start_pulsing" c:identifier="panel_omni_bar_start_pulsing">
+        <source-position filename="../src/panel-omni-bar.h" line="61"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="OmniBar" c:type="PanelOmniBar*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="stop_pulsing" c:identifier="panel_omni_bar_stop_pulsing">
+        <source-position filename="../src/panel-omni-bar.h" line="63"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="OmniBar" c:type="PanelOmniBar*"/>
+          </instance-parameter>
         </parameters>
       </method>
       <property name="icon-name" writable="1" transfer-ownership="none">
@@ -2233,6 +2378,13 @@ Consumers of this signal are required to return an unrooted
                 getter="get_popover">
         <type name="Gtk.Popover"/>
       </property>
+      <property name="progress"
+                writable="1"
+                transfer-ownership="none"
+                setter="set_progress"
+                getter="get_progress">
+        <type name="gdouble" c:type="gdouble"/>
+      </property>
       <field name="parent_instance">
         <type name="Gtk.Widget" c:type="GtkWidget"/>
       </field>
@@ -2240,9 +2392,14 @@ Consumers of this signal are required to return an unrooted
     <record name="OmniBarClass"
             c:type="PanelOmniBarClass"
             glib:is-gtype-struct-for="OmniBar">
-      <source-position filename="../src/panel-omni-bar.h" line="37"/>
+      <source-position filename="../src/panel-omni-bar.h" line="40"/>
       <field name="parent_class">
         <type name="Gtk.WidgetClass" c:type="GtkWidgetClass"/>
+      </field>
+      <field name="_reserved" readable="0" private="1">
+        <array zero-terminated="0" fixed-size="8">
+          <type name="gpointer" c:type="gpointer"/>
+        </array>
       </field>
     </record>
     <class name="Paned"
@@ -2947,13 +3104,16 @@ save operation has completed.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <type name="Statusbar" c:type="PanelStatusbar*"/>
           </instance-parameter>
+          <parameter name="priority" transfer-ownership="none">
+            <type name="gint" c:type="int"/>
+          </parameter>
           <parameter name="widget" transfer-ownership="none">
             <type name="Gtk.Widget" c:type="GtkWidget*"/>
           </parameter>
         </parameters>
       </method>
       <method name="add_suffix" c:identifier="panel_statusbar_add_suffix">
-        <source-position filename="../src/panel-statusbar.h" line="40"/>
+        <source-position filename="../src/panel-statusbar.h" line="41"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2961,13 +3121,16 @@ save operation has completed.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <type name="Statusbar" c:type="PanelStatusbar*"/>
           </instance-parameter>
+          <parameter name="priority" transfer-ownership="none">
+            <type name="gint" c:type="int"/>
+          </parameter>
           <parameter name="widget" transfer-ownership="none">
             <type name="Gtk.Widget" c:type="GtkWidget*"/>
           </parameter>
         </parameters>
       </method>
       <method name="remove" c:identifier="panel_statusbar_remove">
-        <source-position filename="../src/panel-statusbar.h" line="43"/>
+        <source-position filename="../src/panel-statusbar.h" line="45"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3071,25 +3234,25 @@ concatenation.</doc>
       <type name="utf8" c:type="gchar*"/>
     </constant>
     <constant name="WIDGET_KIND_ANY" value="*" c:type="PANEL_WIDGET_KIND_ANY">
-      <source-position filename="../src/panel-widget.h" line="45"/>
+      <source-position filename="../src/panel-widget.h" line="46"/>
       <type name="utf8" c:type="gchar*"/>
     </constant>
     <constant name="WIDGET_KIND_DOCUMENT"
               value="document"
               c:type="PANEL_WIDGET_KIND_DOCUMENT">
-      <source-position filename="../src/panel-widget.h" line="47"/>
+      <source-position filename="../src/panel-widget.h" line="48"/>
       <type name="utf8" c:type="gchar*"/>
     </constant>
     <constant name="WIDGET_KIND_UNKNOWN"
               value="unknown"
               c:type="PANEL_WIDGET_KIND_UNKNOWN">
-      <source-position filename="../src/panel-widget.h" line="46"/>
+      <source-position filename="../src/panel-widget.h" line="47"/>
       <type name="utf8" c:type="gchar*"/>
     </constant>
     <constant name="WIDGET_KIND_UTILITY"
               value="utility"
               c:type="PANEL_WIDGET_KIND_UTILITY">
-      <source-position filename="../src/panel-widget.h" line="48"/>
+      <source-position filename="../src/panel-widget.h" line="49"/>
       <type name="utf8" c:type="gchar*"/>
     </constant>
     <class name="Widget"
@@ -3099,26 +3262,26 @@ concatenation.</doc>
            glib:type-name="PanelWidget"
            glib:get-type="panel_widget_get_type"
            glib:type-struct="WidgetClass">
-      <source-position filename="../src/panel-widget.h" line="43"/>
+      <source-position filename="../src/panel-widget.h" line="44"/>
       <implements name="Gtk.Accessible"/>
       <implements name="Gtk.Buildable"/>
       <implements name="Gtk.ConstraintTarget"/>
       <constructor name="new" c:identifier="panel_widget_new">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="109">Create a new #PanelWidget.</doc>
-        <source-position filename="../src/panel-widget.h" line="51"/>
+             line="111">Create a new #PanelWidget.</doc>
+        <source-position filename="../src/panel-widget.h" line="52"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="../src/panel-widget.c"
-               line="114">a newly created #PanelWidget</doc>
+               line="116">a newly created #PanelWidget</doc>
           <type name="Gtk.Widget" c:type="GtkWidget*"/>
         </return-value>
       </constructor>
       <virtual-method name="get_default_focus" invoker="get_default_focus">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="1095">Discovers the widget that should be focused as the default widget
+             line="1112">Discovers the widget that should be focused as the default widget
 for the #PanelWidget.
 
 For example, if you want to focus a text editor by default, you might
@@ -3127,7 +3290,7 @@ return the #GtkTextView inside your widgetry.</doc>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-widget.c"
-               line="1105">the default widget to focus within
+               line="1122">the default widget to focus within
   the #PanelWidget.</doc>
           <type name="Gtk.Widget" c:type="GtkWidget*"/>
         </return-value>
@@ -3135,13 +3298,35 @@ return the #GtkTextView inside your widgetry.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="1097">a #PanelWidget</doc>
+                 line="1114">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
         </parameters>
       </virtual-method>
+      <virtual-method name="presented">
+        <source-position filename="../src/panel-widget.h" line="40"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Widget" c:type="PanelWidget*"/>
+          </instance-parameter>
+        </parameters>
+      </virtual-method>
+      <method name="close" c:identifier="panel_widget_close">
+        <source-position filename="../src/panel-widget.h" line="135"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Widget" c:type="PanelWidget*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
       <method name="focus_default" c:identifier="panel_widget_focus_default">
-        <source-position filename="../src/panel-widget.h" line="127"/>
+        <source-position filename="../src/panel-widget.h" line="128"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -3156,19 +3341,19 @@ return the #GtkTextView inside your widgetry.</doc>
               glib:get-property="background-rgba">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="918">Gets the background color of the widget.</doc>
-        <source-position filename="../src/panel-widget.h" line="113"/>
+             line="935">Gets the background color of the widget.</doc>
+        <source-position filename="../src/panel-widget.h" line="114"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-widget.c"
-               line="924">the background color</doc>
+               line="941">the background color</doc>
           <type name="Gdk.RGBA" c:type="const GdkRGBA*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="920">a #PanelWidget</doc>
+                 line="937">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
         </parameters>
@@ -3176,7 +3361,7 @@ return the #GtkTextView inside your widgetry.</doc>
       <method name="get_busy"
               c:identifier="panel_widget_get_busy"
               glib:get-property="busy">
-        <source-position filename="../src/panel-widget.h" line="102"/>
+        <source-position filename="../src/panel-widget.h" line="103"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -3189,7 +3374,7 @@ return the #GtkTextView inside your widgetry.</doc>
       <method name="get_can_maximize"
               c:identifier="panel_widget_get_can_maximize"
               glib:get-property="can-maximize">
-        <source-position filename="../src/panel-widget.h" line="78"/>
+        <source-position filename="../src/panel-widget.h" line="79"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -3204,19 +3389,19 @@ return the #GtkTextView inside your widgetry.</doc>
               glib:get-property="child">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="648">Gets the child widget of the panel.</doc>
-        <source-position filename="../src/panel-widget.h" line="53"/>
+             line="665">Gets the child widget of the panel.</doc>
+        <source-position filename="../src/panel-widget.h" line="54"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-widget.c"
-               line="654">a #GtkWidget or %NULL</doc>
+               line="671">a #GtkWidget or %NULL</doc>
           <type name="Gtk.Widget" c:type="GtkWidget*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="650">a #PanelWidget</doc>
+                 line="667">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
         </parameters>
@@ -3225,16 +3410,16 @@ return the #GtkTextView inside your widgetry.</doc>
               c:identifier="panel_widget_get_default_focus">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="1095">Discovers the widget that should be focused as the default widget
+             line="1112">Discovers the widget that should be focused as the default widget
 for the #PanelWidget.
 
 For example, if you want to focus a text editor by default, you might
 return the #GtkTextView inside your widgetry.</doc>
-        <source-position filename="../src/panel-widget.h" line="125"/>
+        <source-position filename="../src/panel-widget.h" line="126"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-widget.c"
-               line="1105">the default widget to focus within
+               line="1122">the default widget to focus within
   the #PanelWidget.</doc>
           <type name="Gtk.Widget" c:type="GtkWidget*"/>
         </return-value>
@@ -3242,7 +3427,7 @@ return the #GtkTextView inside your widgetry.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="1097">a #PanelWidget</doc>
+                 line="1114">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
         </parameters>
@@ -3252,19 +3437,19 @@ return the #GtkTextView inside your widgetry.</doc>
               glib:get-property="foreground-rgba">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="963">Gets the foreground color of the widget.</doc>
-        <source-position filename="../src/panel-widget.h" line="108"/>
+             line="980">Gets the foreground color of the widget.</doc>
+        <source-position filename="../src/panel-widget.h" line="109"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-widget.c"
-               line="969">the foreground color</doc>
+               line="986">the foreground color</doc>
           <type name="Gdk.RGBA" c:type="const GdkRGBA*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="965">a #PanelWidget</doc>
+                 line="982">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
         </parameters>
@@ -3274,19 +3459,19 @@ return the #GtkTextView inside your widgetry.</doc>
               glib:get-property="icon">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="531">Gets a #GIcon for the widget.</doc>
-        <source-position filename="../src/panel-widget.h" line="63"/>
+             line="548">Gets a #GIcon for the widget.</doc>
+        <source-position filename="../src/panel-widget.h" line="64"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-widget.c"
-               line="537">a #GIcon or %NULL</doc>
+               line="554">a #GIcon or %NULL</doc>
           <type name="Gio.Icon" c:type="GIcon*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="533">a #PanelWidget</doc>
+                 line="550">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
         </parameters>
@@ -3296,19 +3481,19 @@ return the #GtkTextView inside your widgetry.</doc>
               glib:get-property="icon-name">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="480">Gets the icon name for the widget.</doc>
-        <source-position filename="../src/panel-widget.h" line="68"/>
+             line="497">Gets the icon name for the widget.</doc>
+        <source-position filename="../src/panel-widget.h" line="69"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-widget.c"
-               line="486">the icon name or %NULL</doc>
+               line="503">the icon name or %NULL</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="482">a #PanelWidget</doc>
+                 line="499">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
         </parameters>
@@ -3316,7 +3501,7 @@ return the #GtkTextView inside your widgetry.</doc>
       <method name="get_kind"
               c:identifier="panel_widget_get_kind"
               glib:get-property="kind">
-        <source-position filename="../src/panel-widget.h" line="97"/>
+        <source-position filename="../src/panel-widget.h" line="98"/>
         <return-value transfer-ownership="none">
           <type name="utf8" c:type="const char*"/>
         </return-value>
@@ -3331,22 +3516,22 @@ return the #GtkTextView inside your widgetry.</doc>
               glib:get-property="menu-model">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="1008">Gets the #GMenuModel for the widget.
+             line="1025">Gets the #GMenuModel for the widget.
 
 #PanelFrameHeader may use this model to display additional options
 for the page to the user via menus.</doc>
-        <source-position filename="../src/panel-widget.h" line="118"/>
+        <source-position filename="../src/panel-widget.h" line="119"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-widget.c"
-               line="1017">a #GMenuModel</doc>
+               line="1034">a #GMenuModel</doc>
           <type name="Gio.MenuModel" c:type="GMenuModel*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="1010">a #PanelWidget</doc>
+                 line="1027">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
         </parameters>
@@ -3354,7 +3539,7 @@ for the page to the user via menus.</doc>
       <method name="get_modified"
               c:identifier="panel_widget_get_modified"
               glib:get-property="modified">
-        <source-position filename="../src/panel-widget.h" line="83"/>
+        <source-position filename="../src/panel-widget.h" line="84"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -3367,7 +3552,7 @@ for the page to the user via menus.</doc>
       <method name="get_needs_attention"
               c:identifier="panel_widget_get_needs_attention"
               glib:get-property="needs-attention">
-        <source-position filename="../src/panel-widget.h" line="88"/>
+        <source-position filename="../src/panel-widget.h" line="89"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -3380,7 +3565,7 @@ for the page to the user via menus.</doc>
       <method name="get_reorderable"
               c:identifier="panel_widget_get_reorderable"
               glib:get-property="reorderable">
-        <source-position filename="../src/panel-widget.h" line="73"/>
+        <source-position filename="../src/panel-widget.h" line="74"/>
         <return-value transfer-ownership="none">
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
@@ -3395,24 +3580,24 @@ for the page to the user via menus.</doc>
               glib:get-property="save-delegate">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="1158">Gets the #PanelWidget:save-delegate property.
+             line="1175">Gets the #PanelWidget:save-delegate property.
 
 The save delegate may be used to perform save operations on the
 content within the widget.
 
 Document editors might use this to save the file to disk.</doc>
-        <source-position filename="../src/panel-widget.h" line="129"/>
+        <source-position filename="../src/panel-widget.h" line="130"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-widget.c"
-               line="1169">a #PanelSaveDelegate or %NULL</doc>
+               line="1186">a #PanelSaveDelegate or %NULL</doc>
           <type name="SaveDelegate" c:type="PanelSaveDelegate*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="1160">a #PanelWidget</doc>
+                 line="1177">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
         </parameters>
@@ -3422,25 +3607,25 @@ Document editors might use this to save the file to disk.</doc>
               glib:get-property="title">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="607">Gets the title for the widget.</doc>
-        <source-position filename="../src/panel-widget.h" line="58"/>
+             line="624">Gets the title for the widget.</doc>
+        <source-position filename="../src/panel-widget.h" line="59"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-widget.c"
-               line="613">the title or %NULL</doc>
+               line="630">the title or %NULL</doc>
           <type name="utf8" c:type="const char*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="609">a #PanelWidget</doc>
+                 line="626">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
         </parameters>
       </method>
       <method name="mark_busy" c:identifier="panel_widget_mark_busy">
-        <source-position filename="../src/panel-widget.h" line="104"/>
+        <source-position filename="../src/panel-widget.h" line="105"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3451,7 +3636,7 @@ Document editors might use this to save the file to disk.</doc>
         </parameters>
       </method>
       <method name="maximize" c:identifier="panel_widget_maximize">
-        <source-position filename="../src/panel-widget.h" line="93"/>
+        <source-position filename="../src/panel-widget.h" line="94"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3462,7 +3647,7 @@ Document editors might use this to save the file to disk.</doc>
         </parameters>
       </method>
       <method name="raise" c:identifier="panel_widget_raise">
-        <source-position filename="../src/panel-widget.h" line="123"/>
+        <source-position filename="../src/panel-widget.h" line="124"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3477,8 +3662,8 @@ Document editors might use this to save the file to disk.</doc>
               glib:set-property="background-rgba">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="936">Sets the background color of the widget.</doc>
-        <source-position filename="../src/panel-widget.h" line="115"/>
+             line="953">Sets the background color of the widget.</doc>
+        <source-position filename="../src/panel-widget.h" line="116"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3486,7 +3671,7 @@ Document editors might use this to save the file to disk.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="938">a #PanelWidget</doc>
+                 line="955">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
           <parameter name="background_rgba"
@@ -3495,7 +3680,7 @@ Document editors might use this to save the file to disk.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="939">the background color</doc>
+                 line="956">the background color</doc>
             <type name="Gdk.RGBA" c:type="const GdkRGBA*"/>
           </parameter>
         </parameters>
@@ -3503,7 +3688,7 @@ Document editors might use this to save the file to disk.</doc>
       <method name="set_can_maximize"
               c:identifier="panel_widget_set_can_maximize"
               glib:set-property="can-maximize">
-        <source-position filename="../src/panel-widget.h" line="80"/>
+        <source-position filename="../src/panel-widget.h" line="81"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3521,8 +3706,8 @@ Document editors might use this to save the file to disk.</doc>
               glib:set-property="child">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="666">Sets the child widget of the panel.</doc>
-        <source-position filename="../src/panel-widget.h" line="55"/>
+             line="683">Sets the child widget of the panel.</doc>
+        <source-position filename="../src/panel-widget.h" line="56"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3530,7 +3715,7 @@ Document editors might use this to save the file to disk.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="668">a #PanelWidget</doc>
+                 line="685">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
           <parameter name="child"
@@ -3539,7 +3724,7 @@ Document editors might use this to save the file to disk.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="669">a #GtkWidget or %NULL</doc>
+                 line="686">a #GtkWidget or %NULL</doc>
             <type name="Gtk.Widget" c:type="GtkWidget*"/>
           </parameter>
         </parameters>
@@ -3549,8 +3734,8 @@ Document editors might use this to save the file to disk.</doc>
               glib:set-property="foreground-rgba">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="981">Sets the foreground color of the widget.</doc>
-        <source-position filename="../src/panel-widget.h" line="110"/>
+             line="998">Sets the foreground color of the widget.</doc>
+        <source-position filename="../src/panel-widget.h" line="111"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3558,7 +3743,7 @@ Document editors might use this to save the file to disk.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="983">a #PanelWidget</doc>
+                 line="1000">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
           <parameter name="foreground_rgba"
@@ -3567,7 +3752,7 @@ Document editors might use this to save the file to disk.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="984">the foreground color</doc>
+                 line="1001">the foreground color</doc>
             <type name="Gdk.RGBA" c:type="const GdkRGBA*"/>
           </parameter>
         </parameters>
@@ -3577,8 +3762,8 @@ Document editors might use this to save the file to disk.</doc>
               glib:set-property="icon">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="552">Sets a #GIcon for the widget.</doc>
-        <source-position filename="../src/panel-widget.h" line="65"/>
+             line="569">Sets a #GIcon for the widget.</doc>
+        <source-position filename="../src/panel-widget.h" line="66"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3586,7 +3771,7 @@ Document editors might use this to save the file to disk.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="554">a #PanelWidget</doc>
+                 line="571">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
           <parameter name="icon"
@@ -3595,7 +3780,7 @@ Document editors might use this to save the file to disk.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="555">a #GIcon or %NULL</doc>
+                 line="572">a #GIcon or %NULL</doc>
             <type name="Gio.Icon" c:type="GIcon*"/>
           </parameter>
         </parameters>
@@ -3605,8 +3790,8 @@ Document editors might use this to save the file to disk.</doc>
               glib:set-property="icon-name">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="506">Sets the icon name for the widget.</doc>
-        <source-position filename="../src/panel-widget.h" line="70"/>
+             line="523">Sets the icon name for the widget.</doc>
+        <source-position filename="../src/panel-widget.h" line="71"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3614,7 +3799,7 @@ Document editors might use this to save the file to disk.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="508">a #PanelWidget</doc>
+                 line="525">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
           <parameter name="icon_name"
@@ -3623,7 +3808,7 @@ Document editors might use this to save the file to disk.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="509">the icon name or %NULL</doc>
+                 line="526">the icon name or %NULL</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -3633,8 +3818,8 @@ Document editors might use this to save the file to disk.</doc>
               glib:set-property="kind">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="828">Sets the kind of the widget.</doc>
-        <source-position filename="../src/panel-widget.h" line="99"/>
+             line="845">Sets the kind of the widget.</doc>
+        <source-position filename="../src/panel-widget.h" line="100"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3642,7 +3827,7 @@ Document editors might use this to save the file to disk.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="830">a #PanelWidget</doc>
+                 line="847">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
           <parameter name="kind"
@@ -3651,7 +3836,7 @@ Document editors might use this to save the file to disk.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="831">the kind of this widget</doc>
+                 line="848">the kind of this widget</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -3661,11 +3846,11 @@ Document editors might use this to save the file to disk.</doc>
               glib:set-property="menu-model">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="1029">Sets the #GMenuModel for the widget.
+             line="1046">Sets the #GMenuModel for the widget.
 
 #PanelFrameHeader may use this model to display additional options
 for the page to the user via menus.</doc>
-        <source-position filename="../src/panel-widget.h" line="120"/>
+        <source-position filename="../src/panel-widget.h" line="121"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3673,7 +3858,7 @@ for the page to the user via menus.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="1031">a #PanelWidget</doc>
+                 line="1048">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
           <parameter name="menu_model"
@@ -3682,7 +3867,7 @@ for the page to the user via menus.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="1032">a #GMenuModel</doc>
+                 line="1049">a #GMenuModel</doc>
             <type name="Gio.MenuModel" c:type="GMenuModel*"/>
           </parameter>
         </parameters>
@@ -3690,7 +3875,7 @@ for the page to the user via menus.</doc>
       <method name="set_modified"
               c:identifier="panel_widget_set_modified"
               glib:set-property="modified">
-        <source-position filename="../src/panel-widget.h" line="85"/>
+        <source-position filename="../src/panel-widget.h" line="86"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3706,7 +3891,7 @@ for the page to the user via menus.</doc>
       <method name="set_needs_attention"
               c:identifier="panel_widget_set_needs_attention"
               glib:set-property="needs-attention">
-        <source-position filename="../src/panel-widget.h" line="90"/>
+        <source-position filename="../src/panel-widget.h" line="91"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3722,7 +3907,7 @@ for the page to the user via menus.</doc>
       <method name="set_reorderable"
               c:identifier="panel_widget_set_reorderable"
               glib:set-property="reorderable">
-        <source-position filename="../src/panel-widget.h" line="75"/>
+        <source-position filename="../src/panel-widget.h" line="76"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3740,13 +3925,13 @@ for the page to the user via menus.</doc>
               glib:set-property="save-delegate">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="1181">Sets the #PanelWidget:save-delegate property.
+             line="1198">Sets the #PanelWidget:save-delegate property.
 
 The save delegate may be used to perform save operations on the
 content within the widget.
 
 Document editors might use this to save the file to disk.</doc>
-        <source-position filename="../src/panel-widget.h" line="131"/>
+        <source-position filename="../src/panel-widget.h" line="132"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3754,7 +3939,7 @@ Document editors might use this to save the file to disk.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="1183">a #PanelWidget</doc>
+                 line="1200">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
           <parameter name="save_delegate"
@@ -3763,7 +3948,7 @@ Document editors might use this to save the file to disk.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="1184">a #PanelSaveDelegate or %NULL</doc>
+                 line="1201">a #PanelSaveDelegate or %NULL</doc>
             <type name="SaveDelegate" c:type="PanelSaveDelegate*"/>
           </parameter>
         </parameters>
@@ -3773,8 +3958,8 @@ Document editors might use this to save the file to disk.</doc>
               glib:set-property="title">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="625">Sets the title for the widget.</doc>
-        <source-position filename="../src/panel-widget.h" line="60"/>
+             line="642">Sets the title for the widget.</doc>
+        <source-position filename="../src/panel-widget.h" line="61"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3782,7 +3967,7 @@ Document editors might use this to save the file to disk.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="627">a #PanelWidget</doc>
+                 line="644">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
           <parameter name="title"
@@ -3791,13 +3976,13 @@ Document editors might use this to save the file to disk.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="628">the title or %NULL</doc>
+                 line="645">the title or %NULL</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
       </method>
       <method name="unmark_busy" c:identifier="panel_widget_unmark_busy">
-        <source-position filename="../src/panel-widget.h" line="106"/>
+        <source-position filename="../src/panel-widget.h" line="107"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3808,7 +3993,7 @@ Document editors might use this to save the file to disk.</doc>
         </parameters>
       </method>
       <method name="unmaximize" c:identifier="panel_widget_unmaximize">
-        <source-position filename="../src/panel-widget.h" line="95"/>
+        <source-position filename="../src/panel-widget.h" line="96"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -3825,7 +4010,7 @@ Document editors might use this to save the file to disk.</doc>
                 getter="get_background_rgba">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="286">The "background-rgba" property denotes a background rgba color that is
+             line="288">The "background-rgba" property denotes a background rgba color that is
 similar to the widget's contents.
 
 This can be used by #PanelFrameHeader implementations to more closely
@@ -3850,7 +4035,7 @@ to match the background of the bar with the content.</doc>
                 getter="get_child">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="397">The child inside this widget.</doc>
+             line="399">The child inside this widget.</doc>
         <type name="Gtk.Widget"/>
       </property>
       <property name="foreground-rgba"
@@ -3860,7 +4045,7 @@ to match the background of the bar with the content.</doc>
                 getter="get_foreground_rgba">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="303">The "foreground-rgba" property denotes a foreground rgba color that is
+             line="305">The "foreground-rgba" property denotes a foreground rgba color that is
 similar to the widget's contents.
 
 This can be used by #PanelFrameHeader implementations to more closely
@@ -3875,7 +4060,7 @@ to match the foreground of the bar with the content.</doc>
                 getter="get_icon">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="334">The icon for this widget.</doc>
+             line="336">The icon for this widget.</doc>
         <type name="Gio.Icon"/>
       </property>
       <property name="icon-name"
@@ -3885,7 +4070,7 @@ to match the foreground of the bar with the content.</doc>
                 getter="get_icon_name">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="346">The icon name for this widget.</doc>
+             line="348">The icon name for this widget.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <property name="kind"
@@ -3902,7 +4087,7 @@ to match the foreground of the bar with the content.</doc>
                 getter="get_menu_model">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="365">A menu model to display additional options for the page to the user via
+             line="367">A menu model to display additional options for the page to the user via
 menus.</doc>
         <type name="Gio.MenuModel"/>
       </property>
@@ -3934,7 +4119,7 @@ menus.</doc>
                 getter="get_save_delegate">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="423">The save delegate attached to this widget.</doc>
+             line="425">The save delegate attached to this widget.</doc>
         <type name="SaveDelegate"/>
       </property>
       <property name="title"
@@ -3944,7 +4129,7 @@ menus.</doc>
                 getter="get_title">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="385">The title for this widget.</doc>
+             line="387">The title for this widget.</doc>
         <type name="utf8" c:type="gchar*"/>
       </property>
       <field name="parent_instance">
@@ -3953,22 +4138,31 @@ menus.</doc>
       <glib:signal name="get-default-focus" when="last">
         <doc xml:space="preserve"
              filename="../src/panel-widget.c"
-             line="437">Gets the default widget to focus within the #PanelWidget. The first
+             line="439">Gets the default widget to focus within the #PanelWidget. The first
 handler for this signal is expected to return a widget, or %NULL if
 there is nothing to focus.</doc>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="../src/panel-widget.c"
-               line="445">a #GtkWidget within #PanelWidget
+               line="447">a #GtkWidget within #PanelWidget
   or %NULL.</doc>
           <type name="Gtk.Widget"/>
+        </return-value>
+      </glib:signal>
+      <glib:signal name="presented" when="last">
+        <doc xml:space="preserve"
+             filename="../src/panel-widget.c"
+             line="459">The "presented" signal is emitted when the widget is brought
+to the front of a frame.</doc>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
         </return-value>
       </glib:signal>
     </class>
     <record name="WidgetClass"
             c:type="PanelWidgetClass"
             glib:is-gtype-struct-for="Widget">
-      <source-position filename="../src/panel-widget.h" line="43"/>
+      <source-position filename="../src/panel-widget.h" line="44"/>
       <field name="parent_instance">
         <type name="Gtk.WidgetClass" c:type="GtkWidgetClass"/>
       </field>
@@ -3978,7 +4172,7 @@ there is nothing to focus.</doc>
           <return-value transfer-ownership="none" nullable="1">
             <doc xml:space="preserve"
                  filename="../src/panel-widget.c"
-                 line="1105">the default widget to focus within
+                 line="1122">the default widget to focus within
   the #PanelWidget.</doc>
             <type name="Gtk.Widget" c:type="GtkWidget*"/>
           </return-value>
@@ -3986,14 +4180,27 @@ there is nothing to focus.</doc>
             <parameter name="self" transfer-ownership="none">
               <doc xml:space="preserve"
                    filename="../src/panel-widget.c"
-                   line="1097">a #PanelWidget</doc>
+                   line="1114">a #PanelWidget</doc>
+              <type name="Widget" c:type="PanelWidget*"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="presented">
+        <callback name="presented">
+          <source-position filename="../src/panel-widget.h" line="40"/>
+          <return-value transfer-ownership="none">
+            <type name="none" c:type="void"/>
+          </return-value>
+          <parameters>
+            <parameter name="self" transfer-ownership="none">
               <type name="Widget" c:type="PanelWidget*"/>
             </parameter>
           </parameters>
         </callback>
       </field>
       <field name="_reserved" readable="0" private="1">
-        <array zero-terminated="0" fixed-size="16">
+        <array zero-terminated="0" fixed-size="8">
           <type name="gpointer" c:type="gpointer"/>
         </array>
       </field>
