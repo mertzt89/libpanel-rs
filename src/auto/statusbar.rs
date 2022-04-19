@@ -35,20 +35,22 @@ impl Statusbar {
     }
 
     #[doc(alias = "panel_statusbar_add_prefix")]
-    pub fn add_prefix(&self, widget: &impl IsA<gtk::Widget>) {
+    pub fn add_prefix(&self, priority: i32, widget: &impl IsA<gtk::Widget>) {
         unsafe {
             ffi::panel_statusbar_add_prefix(
                 self.to_glib_none().0,
+                priority,
                 widget.as_ref().to_glib_none().0,
             );
         }
     }
 
     #[doc(alias = "panel_statusbar_add_suffix")]
-    pub fn add_suffix(&self, widget: &impl IsA<gtk::Widget>) {
+    pub fn add_suffix(&self, priority: i32, widget: &impl IsA<gtk::Widget>) {
         unsafe {
             ffi::panel_statusbar_add_suffix(
                 self.to_glib_none().0,
+                priority,
                 widget.as_ref().to_glib_none().0,
             );
         }

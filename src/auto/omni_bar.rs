@@ -56,7 +56,8 @@ impl Default for OmniBar {
 pub struct OmniBarBuilder {
     icon_name: Option<String>,
     menu_model: Option<gio::MenuModel>,
-    //popover: /*Unknown type*/,
+    popover: Option<gtk::Popover>,
+    progress: Option<f64>,
     can_focus: Option<bool>,
     can_target: Option<bool>,
     css_classes: Option<Vec<String>>,
@@ -106,6 +107,12 @@ impl OmniBarBuilder {
         }
         if let Some(ref menu_model) = self.menu_model {
             properties.push(("menu-model", menu_model));
+        }
+        if let Some(ref popover) = self.popover {
+            properties.push(("popover", popover));
+        }
+        if let Some(ref progress) = self.progress {
+            properties.push(("progress", progress));
         }
         if let Some(ref can_focus) = self.can_focus {
             properties.push(("can-focus", can_focus));
@@ -189,6 +196,16 @@ impl OmniBarBuilder {
 
     pub fn menu_model(mut self, menu_model: &impl IsA<gio::MenuModel>) -> Self {
         self.menu_model = Some(menu_model.clone().upcast());
+        self
+    }
+
+    pub fn popover(mut self, popover: &impl IsA<gtk::Popover>) -> Self {
+        self.popover = Some(popover.clone().upcast());
+        self
+    }
+
+    pub fn progress(mut self, progress: f64) -> Self {
+        self.progress = Some(progress);
         self
     }
 
@@ -320,15 +337,28 @@ pub trait OmniBarExt: 'static {
     #[doc(alias = "panel_omni_bar_add_suffix")]
     fn add_suffix(&self, priority: i32, widget: &impl IsA<gtk::Widget>);
 
-    //#[doc(alias = "panel_omni_bar_get_popover")]
-    //#[doc(alias = "get_popover")]
-    //fn popover(&self) -> /*Ignored*/Option<gtk::Popover>;
+    #[doc(alias = "panel_omni_bar_get_popover")]
+    #[doc(alias = "get_popover")]
+    fn popover(&self) -> Option<gtk::Popover>;
+
+    #[doc(alias = "panel_omni_bar_get_progress")]
+    #[doc(alias = "get_progress")]
+    fn progress(&self) -> f64;
 
     #[doc(alias = "panel_omni_bar_remove")]
     fn remove(&self, widget: &impl IsA<gtk::Widget>);
 
-    //#[doc(alias = "panel_omni_bar_set_popover")]
-    //fn set_popover(&self, popover: /*Ignored*/&gtk::Popover);
+    #[doc(alias = "panel_omni_bar_set_popover")]
+    fn set_popover(&self, popover: &impl IsA<gtk::Popover>);
+
+    #[doc(alias = "panel_omni_bar_set_progress")]
+    fn set_progress(&self, progress: f64);
+
+    #[doc(alias = "panel_omni_bar_start_pulsing")]
+    fn start_pulsing(&self);
+
+    #[doc(alias = "panel_omni_bar_stop_pulsing")]
+    fn stop_pulsing(&self);
 
     #[doc(alias = "icon-name")]
     fn icon_name(&self) -> Option<glib::GString>;
@@ -350,6 +380,9 @@ pub trait OmniBarExt: 'static {
 
     #[doc(alias = "popover")]
     fn connect_popover_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    #[doc(alias = "progress")]
+    fn connect_progress_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
 impl<O: IsA<OmniBar>> OmniBarExt for O {
@@ -373,9 +406,17 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
         }
     }
 
-    //fn popover(&self) -> /*Ignored*/Option<gtk::Popover> {
-    //    unsafe { TODO: call ffi:panel_omni_bar_get_popover() }
-    //}
+    fn popover(&self) -> Option<gtk::Popover> {
+        unsafe {
+            from_glib_none(ffi::panel_omni_bar_get_popover(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
+
+    fn progress(&self) -> f64 {
+        unsafe { ffi::panel_omni_bar_get_progress(self.as_ref().to_glib_none().0) }
+    }
 
     fn remove(&self, widget: &impl IsA<gtk::Widget>) {
         unsafe {
@@ -386,9 +427,32 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
         }
     }
 
-    //fn set_popover(&self, popover: /*Ignored*/&gtk::Popover) {
-    //    unsafe { TODO: call ffi:panel_omni_bar_set_popover() }
-    //}
+    fn set_popover(&self, popover: &impl IsA<gtk::Popover>) {
+        unsafe {
+            ffi::panel_omni_bar_set_popover(
+                self.as_ref().to_glib_none().0,
+                popover.as_ref().to_glib_none().0,
+            );
+        }
+    }
+
+    fn set_progress(&self, progress: f64) {
+        unsafe {
+            ffi::panel_omni_bar_set_progress(self.as_ref().to_glib_none().0, progress);
+        }
+    }
+
+    fn start_pulsing(&self) {
+        unsafe {
+            ffi::panel_omni_bar_start_pulsing(self.as_ref().to_glib_none().0);
+        }
+    }
+
+    fn stop_pulsing(&self) {
+        unsafe {
+            ffi::panel_omni_bar_stop_pulsing(self.as_ref().to_glib_none().0);
+        }
+    }
 
     fn icon_name(&self) -> Option<glib::GString> {
         glib::ObjectExt::property(self.as_ref(), "icon-name")
@@ -466,6 +530,28 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
                 b"notify::popover\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_popover_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    fn connect_progress_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_progress_trampoline<P: IsA<OmniBar>, F: Fn(&P) + 'static>(
+            this: *mut ffi::PanelOmniBar,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(OmniBar::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::progress\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_progress_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )

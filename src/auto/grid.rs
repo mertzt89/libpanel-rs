@@ -8,7 +8,6 @@ use crate::GridColumn;
 use crate::Widget;
 use glib::object::Cast;
 use glib::object::IsA;
-use glib::object::ObjectType as ObjectType_;
 use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
@@ -17,6 +16,8 @@ use glib::ToValue;
 use std::boxed::Box as Box_;
 use std::fmt;
 use std::mem::transmute;
+use std::pin::Pin;
+use std::ptr;
 
 glib::wrapper! {
     #[doc(alias = "PanelGrid")]
@@ -28,6 +29,8 @@ glib::wrapper! {
 }
 
 impl Grid {
+    pub const NONE: Option<&'static Grid> = None;
+
     #[doc(alias = "panel_grid_new")]
     pub fn new() -> Grid {
         assert_initialized_main_thread!();
@@ -40,63 +43,6 @@ impl Grid {
     /// This method returns an instance of [`GridBuilder`](crate::builders::GridBuilder) which can be used to create [`Grid`] objects.
     pub fn builder() -> GridBuilder {
         GridBuilder::default()
-    }
-
-    #[doc(alias = "panel_grid_add")]
-    pub fn add(&self, widget: &impl IsA<Widget>) {
-        unsafe {
-            ffi::panel_grid_add(self.to_glib_none().0, widget.as_ref().to_glib_none().0);
-        }
-    }
-
-    #[doc(alias = "panel_grid_get_column")]
-    #[doc(alias = "get_column")]
-    pub fn column(&self, column: u32) -> GridColumn {
-        unsafe { from_glib_none(ffi::panel_grid_get_column(self.to_glib_none().0, column)) }
-    }
-
-    #[doc(alias = "panel_grid_get_most_recent_column")]
-    #[doc(alias = "get_most_recent_column")]
-    pub fn most_recent_column(&self) -> GridColumn {
-        unsafe {
-            from_glib_none(ffi::panel_grid_get_most_recent_column(
-                self.to_glib_none().0,
-            ))
-        }
-    }
-
-    #[doc(alias = "panel_grid_get_most_recent_frame")]
-    #[doc(alias = "get_most_recent_frame")]
-    pub fn most_recent_frame(&self) -> Frame {
-        unsafe { from_glib_none(ffi::panel_grid_get_most_recent_frame(self.to_glib_none().0)) }
-    }
-
-    #[doc(alias = "panel_grid_get_n_columns")]
-    #[doc(alias = "get_n_columns")]
-    pub fn n_columns(&self) -> u32 {
-        unsafe { ffi::panel_grid_get_n_columns(self.to_glib_none().0) }
-    }
-
-    #[doc(alias = "create-frame")]
-    pub fn connect_create_frame<F: Fn(&Self) -> Frame + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn create_frame_trampoline<F: Fn(&Grid) -> Frame + 'static>(
-            this: *mut ffi::PanelGrid,
-            f: glib::ffi::gpointer,
-        ) -> *mut ffi::PanelFrame {
-            let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this)).to_glib_full()
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"create-frame\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    create_frame_trampoline::<F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
     }
 }
 
@@ -350,6 +296,160 @@ impl GridBuilder {
     pub fn width_request(mut self, width_request: i32) -> Self {
         self.width_request = Some(width_request);
         self
+    }
+}
+
+pub trait GridExt: 'static {
+    #[doc(alias = "panel_grid_add")]
+    fn add(&self, widget: &impl IsA<Widget>);
+
+    #[doc(alias = "panel_grid_agree_to_close_async")]
+    fn agree_to_close_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
+        &self,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
+    );
+
+    fn agree_to_close_future(
+        &self,
+    ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
+
+    #[doc(alias = "panel_grid_get_column")]
+    #[doc(alias = "get_column")]
+    fn column(&self, column: u32) -> GridColumn;
+
+    #[doc(alias = "panel_grid_get_most_recent_column")]
+    #[doc(alias = "get_most_recent_column")]
+    fn most_recent_column(&self) -> GridColumn;
+
+    #[doc(alias = "panel_grid_get_most_recent_frame")]
+    #[doc(alias = "get_most_recent_frame")]
+    fn most_recent_frame(&self) -> Frame;
+
+    #[doc(alias = "panel_grid_get_n_columns")]
+    #[doc(alias = "get_n_columns")]
+    fn n_columns(&self) -> u32;
+
+    #[doc(alias = "create-frame")]
+    fn connect_create_frame<F: Fn(&Self) -> Frame + 'static>(&self, f: F) -> SignalHandlerId;
+}
+
+impl<O: IsA<Grid>> GridExt for O {
+    fn add(&self, widget: &impl IsA<Widget>) {
+        unsafe {
+            ffi::panel_grid_add(
+                self.as_ref().to_glib_none().0,
+                widget.as_ref().to_glib_none().0,
+            );
+        }
+    }
+
+    fn agree_to_close_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
+        &self,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
+    ) {
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
+        unsafe extern "C" fn agree_to_close_async_trampoline<
+            P: FnOnce(Result<(), glib::Error>) + 'static,
+        >(
+            _source_object: *mut glib::gobject_ffi::GObject,
+            res: *mut gio::ffi::GAsyncResult,
+            user_data: glib::ffi::gpointer,
+        ) {
+            let mut error = ptr::null_mut();
+            let _ =
+                ffi::panel_grid_agree_to_close_finish(_source_object as *mut _, res, &mut error);
+            let result = if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            };
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
+            callback(result);
+        }
+        let callback = agree_to_close_async_trampoline::<P>;
+        unsafe {
+            ffi::panel_grid_agree_to_close_async(
+                self.as_ref().to_glib_none().0,
+                cancellable.map(|p| p.as_ref()).to_glib_none().0,
+                Some(callback),
+                Box_::into_raw(user_data) as *mut _,
+            );
+        }
+    }
+
+    fn agree_to_close_future(
+        &self,
+    ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.agree_to_close_async(Some(cancellable), move |res| {
+                send.resolve(res);
+            });
+        }))
+    }
+
+    fn column(&self, column: u32) -> GridColumn {
+        unsafe {
+            from_glib_none(ffi::panel_grid_get_column(
+                self.as_ref().to_glib_none().0,
+                column,
+            ))
+        }
+    }
+
+    fn most_recent_column(&self) -> GridColumn {
+        unsafe {
+            from_glib_none(ffi::panel_grid_get_most_recent_column(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
+
+    fn most_recent_frame(&self) -> Frame {
+        unsafe {
+            from_glib_none(ffi::panel_grid_get_most_recent_frame(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
+
+    fn n_columns(&self) -> u32 {
+        unsafe { ffi::panel_grid_get_n_columns(self.as_ref().to_glib_none().0) }
+    }
+
+    fn connect_create_frame<F: Fn(&Self) -> Frame + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn create_frame_trampoline<P: IsA<Grid>, F: Fn(&P) -> Frame + 'static>(
+            this: *mut ffi::PanelGrid,
+            f: glib::ffi::gpointer,
+        ) -> *mut ffi::PanelFrame {
+            let f: &F = &*(f as *const F);
+            f(Grid::from_glib_borrow(this).unsafe_cast_ref()).to_glib_full()
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"create-frame\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    create_frame_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
     }
 }
 

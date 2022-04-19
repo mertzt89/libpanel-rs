@@ -65,6 +65,7 @@ pub mod traits {
     pub use super::dock::DockExt;
     pub use super::frame::FrameExt;
     pub use super::frame_header::FrameHeaderExt;
+    pub use super::grid::GridExt;
     pub use super::omni_bar::OmniBarExt;
     pub use super::save_delegate::SaveDelegateExt;
     pub use super::widget::WidgetExt;
