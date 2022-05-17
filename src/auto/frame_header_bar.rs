@@ -328,12 +328,12 @@ impl FrameHeaderBarBuilder {
     }
 
     pub fn background_rgba(mut self, background_rgba: &gdk::RGBA) -> Self {
-        self.background_rgba = Some(background_rgba.clone());
+        self.background_rgba = Some(*background_rgba);
         self
     }
 
     pub fn foreground_rgba(mut self, foreground_rgba: &gdk::RGBA) -> Self {
-        self.foreground_rgba = Some(foreground_rgba.clone());
+        self.foreground_rgba = Some(*foreground_rgba);
         self
     }
 

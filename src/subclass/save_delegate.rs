@@ -138,7 +138,7 @@ unsafe extern "C" fn save_delegate_save_finish<T: SaveDelegateImpl>(
         }
         Err(e) => {
             if !error.is_null() {
-                *error = e.into_raw();
+                *error = e.into_glib_ptr();
             }
             false.into_glib()
         }
