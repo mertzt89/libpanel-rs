@@ -330,6 +330,9 @@ pub trait GridExt: 'static {
     #[doc(alias = "get_n_columns")]
     fn n_columns(&self) -> u32;
 
+    #[doc(alias = "panel_grid_insert_column")]
+    fn insert_column(&self, position: u32);
+
     #[doc(alias = "create-frame")]
     fn connect_create_frame<F: Fn(&Self) -> Frame + 'static>(&self, f: F) -> SignalHandlerId;
 }
@@ -429,6 +432,12 @@ impl<O: IsA<Grid>> GridExt for O {
 
     fn n_columns(&self) -> u32 {
         unsafe { ffi::panel_grid_get_n_columns(self.as_ref().to_glib_none().0) }
+    }
+
+    fn insert_column(&self, position: u32) {
+        unsafe {
+            ffi::panel_grid_insert_column(self.as_ref().to_glib_none().0, position);
+        }
     }
 
     fn connect_create_frame<F: Fn(&Self) -> Frame + 'static>(&self, f: F) -> SignalHandlerId {
