@@ -203,7 +203,7 @@ impl ObjectImpl for ExampleWindowPrivate {
         self.parent_constructed(obj);
         let action = gio::SimpleAction::new_stateful(
             "theme",
-            Some(&glib::VariantTy::STRING),
+            Some(glib::VariantTy::STRING),
             &"default".to_variant(),
         );
         action.connect_change_state(|_, param| {
@@ -218,7 +218,7 @@ impl ObjectImpl for ExampleWindowPrivate {
         obj.add_action(&action);
         let action = gio::SimpleAction::new_stateful(
             "runner",
-            Some(&glib::VariantTy::STRING),
+            Some(glib::VariantTy::STRING),
             &"".to_variant(),
         );
         action.connect_change_state(|action, param| {
