@@ -655,6 +655,7 @@ extern "C" {
     pub fn panel_grid_get_most_recent_column(self_: *mut PanelGrid) -> *mut PanelGridColumn;
     pub fn panel_grid_get_most_recent_frame(self_: *mut PanelGrid) -> *mut PanelFrame;
     pub fn panel_grid_get_n_columns(self_: *mut PanelGrid) -> c_uint;
+    pub fn panel_grid_insert_column(self_: *mut PanelGrid, position: c_uint);
 
     //=========================================================================
     // PanelGridColumn
