@@ -29,6 +29,7 @@ mod auto;
 pub use auto::functions::*;
 pub use auto::*;
 
+pub use auto::builders;
 pub mod prelude;
 pub mod subclass;
 
