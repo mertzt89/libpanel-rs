@@ -435,7 +435,7 @@ checksum = "349d5a591cd28b49e1d1037471617a32ddcda5731b99419008085f72d5a53836"
 
 [[package]]
 name = "libpanel"
-version = "0.1.0-alpha-1"
+version = "0.1.0-alpha-2"
 dependencies = [
  "futures-core",
  "gdk4",
@@ -449,7 +449,7 @@ dependencies = [
 
 [[package]]
 name = "libpanel-sys"
-version = "0.1.0-alpha-1"
+version = "0.1.0-alpha-2"
 dependencies = [
  "gdk4-sys",
  "gio-sys",
