@@ -29,7 +29,9 @@ mod auto;
 pub use auto::functions::*;
 pub use auto::*;
 
-pub use auto::builders;
+pub mod builders {
+    pub use crate::auto::builders::*;
+}
 pub mod prelude;
 pub mod subclass;
 
