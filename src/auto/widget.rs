@@ -227,7 +227,7 @@ impl WidgetBuilder {
     }
 
     pub fn background_rgba(mut self, background_rgba: &gdk::RGBA) -> Self {
-        self.background_rgba = Some(*background_rgba);
+        self.background_rgba = Some(background_rgba.clone());
         self
     }
 
@@ -242,7 +242,7 @@ impl WidgetBuilder {
     }
 
     pub fn foreground_rgba(mut self, foreground_rgba: &gdk::RGBA) -> Self {
-        self.foreground_rgba = Some(*foreground_rgba);
+        self.foreground_rgba = Some(foreground_rgba.clone());
         self
     }
 
