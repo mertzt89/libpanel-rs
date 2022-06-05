@@ -322,6 +322,10 @@ pub trait FrameExt: 'static {
     #[doc(alias = "panel_frame_add_before")]
     fn add_before(&self, panel: &impl IsA<Widget>, sibling: &impl IsA<Widget>);
 
+    #[doc(alias = "panel_frame_get_closeable")]
+    #[doc(alias = "get_closeable")]
+    fn is_closeable(&self) -> bool;
+
     #[doc(alias = "panel_frame_get_empty")]
     #[doc(alias = "get_empty")]
     fn is_empty(&self) -> bool;
@@ -362,6 +366,9 @@ pub trait FrameExt: 'static {
     #[doc(alias = "panel_frame_set_visible_child")]
     fn set_visible_child(&self, widget: &impl IsA<Widget>);
 
+    #[doc(alias = "closeable")]
+    fn connect_closeable_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
     #[doc(alias = "empty")]
     fn connect_empty_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -389,6 +396,14 @@ impl<O: IsA<Frame>> FrameExt for O {
                 panel.as_ref().to_glib_none().0,
                 sibling.as_ref().to_glib_none().0,
             );
+        }
+    }
+
+    fn is_closeable(&self) -> bool {
+        unsafe {
+            from_glib(ffi::panel_frame_get_closeable(
+                self.as_ref().to_glib_none().0,
+            ))
         }
     }
 
@@ -461,6 +476,28 @@ impl<O: IsA<Frame>> FrameExt for O {
                 self.as_ref().to_glib_none().0,
                 widget.as_ref().to_glib_none().0,
             );
+        }
+    }
+
+    fn connect_closeable_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_closeable_trampoline<P: IsA<Frame>, F: Fn(&P) + 'static>(
+            this: *mut ffi::PanelFrame,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(Frame::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::closeable\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_closeable_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
         }
     }
 
