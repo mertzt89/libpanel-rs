@@ -16,7 +16,7 @@ documentation = "https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/stable/la
 features = ["dox"]
 [package.metadata.system-deps.libpanel_1]
 name = "libpanel-1"
-version = "1.0.0-alpha0"
+version = "1.0.alpha"
 
 [lib]
 name = "libpanel_sys"
