@@ -1,6 +1,6 @@
 [package]
 name = "libpanel"
-version = "0.1.0-alpha-3"
+version = "0.1.0-alpha-4"
 authors = ["Jason Francis <jafrancis999@gmail.com>"]
 edition = "2021"
 homepage = "https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/"
@@ -25,7 +25,7 @@ features = ["dox"]
 
 [dependencies]
 futures-core = { version = "0.3", default-features = false }
-ffi = { package = "libpanel-sys", path = "./sys", version = "0.1.0-alpha-3" }
+ffi = { package = "libpanel-sys", path = "./sys", version = "0.1.0-alpha-4" }
 glib = { git = "https://github.com/gtk-rs/gtk-rs-core" }
 gio = { git = "https://github.com/gtk-rs/gtk-rs-core" }
 gdk = { git = "https://github.com/gtk-rs/gtk4-rs", package = "gdk4" }
