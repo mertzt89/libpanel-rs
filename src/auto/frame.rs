@@ -4,6 +4,7 @@
 // DO NOT EDIT
 
 use crate::FrameHeader;
+use crate::Position;
 use crate::Widget;
 use glib::object::Cast;
 use glib::object::IsA;
@@ -350,6 +351,10 @@ pub trait FrameExt: 'static {
     #[doc(alias = "get_placeholder")]
     fn placeholder(&self) -> Option<gtk::Widget>;
 
+    #[doc(alias = "panel_frame_get_position")]
+    #[doc(alias = "get_position")]
+    fn position(&self) -> Position;
+
     #[doc(alias = "panel_frame_get_visible_child")]
     #[doc(alias = "get_visible_child")]
     fn visible_child(&self) -> Option<Widget>;
@@ -430,6 +435,14 @@ impl<O: IsA<Frame>> FrameExt for O {
     fn placeholder(&self) -> Option<gtk::Widget> {
         unsafe {
             from_glib_none(ffi::panel_frame_get_placeholder(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
+
+    fn position(&self) -> Position {
+        unsafe {
+            from_glib_full(ffi::panel_frame_get_position(
                 self.as_ref().to_glib_none().0,
             ))
         }

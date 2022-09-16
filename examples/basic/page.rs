@@ -18,9 +18,10 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-use gtk::glib;
+use gtk::{glib, prelude::*};
 use libpanel::{self as panel, prelude::*, subclass::prelude::*};
-use std::cell::RefCell;
+use once_cell::sync::Lazy;
+use std::{cell::RefCell, time::Duration};
 
 glib::wrapper! {
     pub struct ExamplePage(ObjectSubclass<ExamplePagePrivate>)
@@ -31,6 +32,7 @@ glib::wrapper! {
 #[derive(Debug, Default)]
 pub struct ExamplePagePrivate {
     text_view: RefCell<Option<gtk::TextView>>,
+    _im_context: RefCell<Option<gtk::IMContext>>,
 }
 
 #[glib::object_subclass]
@@ -40,18 +42,72 @@ impl ObjectSubclass for ExamplePagePrivate {
     type ParentType = panel::Widget;
 }
 
+fn tick(delegate: &panel::SaveDelegate, task: &gio::Task<bool>) -> Result<bool, glib::Error> {
+    if let Some(cancellable) = task.cancellable() {
+        cancellable.set_error_if_cancelled()?;
+    }
+    if task.had_error() {
+        return Ok(true);
+    }
+    let progress = (delegate.progress() + 0.005).clamp(0.0, 1.0);
+    delegate.set_progress(progress);
+    Ok(progress >= 1.0)
+}
+
 impl ObjectImpl for ExamplePagePrivate {
+    fn properties() -> &'static [glib::ParamSpec] {
+        static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+            vec![
+                glib::ParamSpecString::builder("command-text").read_only().build(),
+                glib::ParamSpecString::builder("command-bar-text").read_only().build(),
+            ]
+        });
+        PROPERTIES.as_ref()
+    }
+    fn property(&self, _obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+        match pspec.name() {
+            "command-text" => "".to_value(),
+            "command-bar-text" => "".to_value(),
+            _ => unimplemented!(),
+        }
+    }
     fn constructed(&self, obj: &Self::Type) {
         self.parent_constructed(obj);
         let scroller = gtk::ScrolledWindow::new();
         obj.set_child(Some(&scroller));
-        let text_view = gtk::TextView::builder()
-            .monospace(true)
-            .left_margin(6)
-            .top_margin(6)
+
+        self.text_view.replace(Some(gtk::TextView::new()));
+
+        let text_view = self.text_view.borrow();
+        let text_view = text_view.as_ref().unwrap();
+        text_view.set_monospace(true);
+        text_view.set_left_margin(6);
+        text_view.set_top_margin(6);
+        scroller.set_child(Some(text_view));
+
+        let save_delegate = panel::SaveDelegate::builder()
+            .subtitle("~/Documents")
             .build();
-        scroller.set_child(Some(&text_view));
-        self.text_view.replace(Some(text_view));
+        save_delegate.connect_save(|delegate, task| {
+            glib::clone!(@strong delegate, @strong task => async move {
+                loop {
+                    glib::timeout_future(Duration::from_millis(30)).await;
+                    if tick(&delegate, &task)? {
+                        break;
+                    }
+                }
+                Ok(())
+            })
+        });
+        save_delegate.connect_discard(glib::clone!(@weak obj => move |_| obj.force_close()));
+        save_delegate.connect_close(glib::clone!(@weak obj => move |_| obj.force_close()));
+        obj.bind_property("title", &save_delegate, "title")
+            .flags(glib::BindingFlags::SYNC_CREATE)
+            .build();
+        obj.bind_property("icon", &save_delegate, "icon")
+            .flags(glib::BindingFlags::SYNC_CREATE)
+            .build();
+        obj.set_save_delegate(Some(&save_delegate));
     }
 }
 impl WidgetImpl for ExamplePagePrivate {}

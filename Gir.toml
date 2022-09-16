@@ -19,9 +19,8 @@ external_libraries = [
 
 generate = [
   "Panel.*",
+  "Panel.Area",
   "Panel.Dock",
-  "Panel.DockPosition",
-  "Panel.DockSwitcher",
   "Panel.Frame",
   "Panel.FrameCallback",
   "Panel.FrameHeader",
@@ -32,8 +31,11 @@ generate = [
   "Panel.GridColumn",
   "Panel.OmniBar",
   "Panel.Paned",
+  "Panel.Position",
+  "Panel.SaveDialog",
   "Panel.Statusbar",
   "Panel.ThemeSelector",
+  "Panel.ToggleButton",
   "Panel.Widget",
 ]
 

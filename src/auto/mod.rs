@@ -6,9 +6,6 @@
 mod dock;
 pub use self::dock::Dock;
 
-mod dock_switcher;
-pub use self::dock_switcher::DockSwitcher;
-
 mod frame;
 pub use self::frame::Frame;
 
@@ -36,8 +33,14 @@ pub use self::omni_bar::OmniBar;
 mod paned;
 pub use self::paned::Paned;
 
+mod position;
+pub use self::position::Position;
+
 mod save_delegate;
 pub use self::save_delegate::SaveDelegate;
+
+mod save_dialog;
+pub use self::save_dialog::SaveDialog;
 
 mod statusbar;
 pub use self::statusbar::Statusbar;
@@ -45,11 +48,14 @@ pub use self::statusbar::Statusbar;
 mod theme_selector;
 pub use self::theme_selector::ThemeSelector;
 
+mod toggle_button;
+pub use self::toggle_button::ToggleButton;
+
 mod widget;
 pub use self::widget::Widget;
 
 mod enums;
-pub use self::enums::DockPosition;
+pub use self::enums::Area;
 
 pub mod functions;
 
@@ -73,7 +79,6 @@ pub mod traits {
 #[doc(hidden)]
 pub mod builders {
     pub use super::dock::DockBuilder;
-    pub use super::dock_switcher::DockSwitcherBuilder;
     pub use super::frame::FrameBuilder;
     pub use super::frame_header_bar::FrameHeaderBarBuilder;
     pub use super::frame_switcher::FrameSwitcherBuilder;
@@ -82,8 +87,11 @@ pub mod builders {
     pub use super::grid_column::GridColumnBuilder;
     pub use super::omni_bar::OmniBarBuilder;
     pub use super::paned::PanedBuilder;
+    pub use super::position::PositionBuilder;
     pub use super::save_delegate::SaveDelegateBuilder;
+    pub use super::save_dialog::SaveDialogBuilder;
     pub use super::statusbar::StatusbarBuilder;
     pub use super::theme_selector::ThemeSelectorBuilder;
+    pub use super::toggle_button::ToggleButtonBuilder;
     pub use super::widget::WidgetBuilder;
 }

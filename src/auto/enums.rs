@@ -12,27 +12,27 @@ use std::fmt;
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
-#[doc(alias = "PanelDockPosition")]
-pub enum DockPosition {
-    #[doc(alias = "PANEL_DOCK_POSITION_START")]
+#[doc(alias = "PanelArea")]
+pub enum Area {
+    #[doc(alias = "PANEL_AREA_START")]
     Start,
-    #[doc(alias = "PANEL_DOCK_POSITION_END")]
+    #[doc(alias = "PANEL_AREA_END")]
     End,
-    #[doc(alias = "PANEL_DOCK_POSITION_TOP")]
+    #[doc(alias = "PANEL_AREA_TOP")]
     Top,
-    #[doc(alias = "PANEL_DOCK_POSITION_BOTTOM")]
+    #[doc(alias = "PANEL_AREA_BOTTOM")]
     Bottom,
-    #[doc(alias = "PANEL_DOCK_POSITION_CENTER")]
+    #[doc(alias = "PANEL_AREA_CENTER")]
     Center,
     #[doc(hidden)]
     __Unknown(i32),
 }
 
-impl fmt::Display for DockPosition {
+impl fmt::Display for Area {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "DockPosition::{}",
+            "Area::{}",
             match *self {
                 Self::Start => "Start",
                 Self::End => "End",
@@ -46,47 +46,47 @@ impl fmt::Display for DockPosition {
 }
 
 #[doc(hidden)]
-impl IntoGlib for DockPosition {
-    type GlibType = ffi::PanelDockPosition;
+impl IntoGlib for Area {
+    type GlibType = ffi::PanelArea;
 
-    fn into_glib(self) -> ffi::PanelDockPosition {
+    fn into_glib(self) -> ffi::PanelArea {
         match self {
-            Self::Start => ffi::PANEL_DOCK_POSITION_START,
-            Self::End => ffi::PANEL_DOCK_POSITION_END,
-            Self::Top => ffi::PANEL_DOCK_POSITION_TOP,
-            Self::Bottom => ffi::PANEL_DOCK_POSITION_BOTTOM,
-            Self::Center => ffi::PANEL_DOCK_POSITION_CENTER,
+            Self::Start => ffi::PANEL_AREA_START,
+            Self::End => ffi::PANEL_AREA_END,
+            Self::Top => ffi::PANEL_AREA_TOP,
+            Self::Bottom => ffi::PANEL_AREA_BOTTOM,
+            Self::Center => ffi::PANEL_AREA_CENTER,
             Self::__Unknown(value) => value,
         }
     }
 }
 
 #[doc(hidden)]
-impl FromGlib<ffi::PanelDockPosition> for DockPosition {
-    unsafe fn from_glib(value: ffi::PanelDockPosition) -> Self {
+impl FromGlib<ffi::PanelArea> for Area {
+    unsafe fn from_glib(value: ffi::PanelArea) -> Self {
         skip_assert_initialized!();
         match value {
-            ffi::PANEL_DOCK_POSITION_START => Self::Start,
-            ffi::PANEL_DOCK_POSITION_END => Self::End,
-            ffi::PANEL_DOCK_POSITION_TOP => Self::Top,
-            ffi::PANEL_DOCK_POSITION_BOTTOM => Self::Bottom,
-            ffi::PANEL_DOCK_POSITION_CENTER => Self::Center,
+            ffi::PANEL_AREA_START => Self::Start,
+            ffi::PANEL_AREA_END => Self::End,
+            ffi::PANEL_AREA_TOP => Self::Top,
+            ffi::PANEL_AREA_BOTTOM => Self::Bottom,
+            ffi::PANEL_AREA_CENTER => Self::Center,
             value => Self::__Unknown(value),
         }
     }
 }
 
-impl StaticType for DockPosition {
+impl StaticType for Area {
     fn static_type() -> Type {
-        unsafe { from_glib(ffi::panel_dock_position_get_type()) }
+        unsafe { from_glib(ffi::panel_area_get_type()) }
     }
 }
 
-impl glib::value::ValueType for DockPosition {
+impl glib::value::ValueType for Area {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for DockPosition {
+unsafe impl<'a> FromValue<'a> for Area {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
     unsafe fn from_value(value: &'a glib::Value) -> Self {
@@ -95,7 +95,7 @@ unsafe impl<'a> FromValue<'a> for DockPosition {
     }
 }
 
-impl ToValue for DockPosition {
+impl ToValue for Area {
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {

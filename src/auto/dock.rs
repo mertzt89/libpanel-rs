@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::DockPosition;
+use crate::Area;
 use crate::Frame;
 use crate::Widget;
 use glib::object::Cast;
@@ -373,13 +373,13 @@ pub trait DockExt: 'static {
     #[doc(alias = "panel_dock_foreach_frame")]
     fn foreach_frame<P: FnMut(&Frame)>(&self, callback: P);
 
+    #[doc(alias = "panel_dock_get_can_reveal_area")]
+    #[doc(alias = "get_can_reveal_area")]
+    fn can_reveal_area(&self, area: Area) -> bool;
+
     #[doc(alias = "panel_dock_get_can_reveal_bottom")]
     #[doc(alias = "get_can_reveal_bottom")]
     fn can_reveal_bottom(&self) -> bool;
-
-    #[doc(alias = "panel_dock_get_can_reveal_edge")]
-    #[doc(alias = "get_can_reveal_edge")]
-    fn can_reveal_edge(&self, edge: DockPosition) -> bool;
 
     #[doc(alias = "panel_dock_get_can_reveal_end")]
     #[doc(alias = "get_can_reveal_end")]
@@ -393,13 +393,13 @@ pub trait DockExt: 'static {
     #[doc(alias = "get_can_reveal_top")]
     fn can_reveal_top(&self) -> bool;
 
+    #[doc(alias = "panel_dock_get_reveal_area")]
+    #[doc(alias = "get_reveal_area")]
+    fn reveals_area(&self, area: Area) -> bool;
+
     #[doc(alias = "panel_dock_get_reveal_bottom")]
     #[doc(alias = "get_reveal_bottom")]
     fn reveals_bottom(&self) -> bool;
-
-    #[doc(alias = "panel_dock_get_reveal_edge")]
-    #[doc(alias = "get_reveal_edge")]
-    fn reveals_edge(&self, edge: DockPosition) -> bool;
 
     #[doc(alias = "panel_dock_get_reveal_end")]
     #[doc(alias = "get_reveal_end")]
@@ -422,11 +422,11 @@ pub trait DockExt: 'static {
     #[doc(alias = "panel_dock_set_end_width")]
     fn set_end_width(&self, width: i32);
 
+    #[doc(alias = "panel_dock_set_reveal_area")]
+    fn set_reveal_area(&self, area: Area, reveal: bool);
+
     #[doc(alias = "panel_dock_set_reveal_bottom")]
     fn set_reveal_bottom(&self, reveal_bottom: bool);
-
-    #[doc(alias = "panel_dock_set_reveal_edge")]
-    fn set_reveal_edge(&self, position: DockPosition, reveal: bool);
 
     #[doc(alias = "panel_dock_set_reveal_end")]
     fn set_reveal_end(&self, reveal_end: bool);
@@ -520,19 +520,19 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
-    fn can_reveal_bottom(&self) -> bool {
+    fn can_reveal_area(&self, area: Area) -> bool {
         unsafe {
-            from_glib(ffi::panel_dock_get_can_reveal_bottom(
+            from_glib(ffi::panel_dock_get_can_reveal_area(
                 self.as_ref().to_glib_none().0,
+                area.into_glib(),
             ))
         }
     }
 
-    fn can_reveal_edge(&self, edge: DockPosition) -> bool {
+    fn can_reveal_bottom(&self) -> bool {
         unsafe {
-            from_glib(ffi::panel_dock_get_can_reveal_edge(
+            from_glib(ffi::panel_dock_get_can_reveal_bottom(
                 self.as_ref().to_glib_none().0,
-                edge.into_glib(),
             ))
         }
     }
@@ -561,19 +561,19 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
-    fn reveals_bottom(&self) -> bool {
+    fn reveals_area(&self, area: Area) -> bool {
         unsafe {
-            from_glib(ffi::panel_dock_get_reveal_bottom(
+            from_glib(ffi::panel_dock_get_reveal_area(
                 self.as_ref().to_glib_none().0,
+                area.into_glib(),
             ))
         }
     }
 
-    fn reveals_edge(&self, edge: DockPosition) -> bool {
+    fn reveals_bottom(&self) -> bool {
         unsafe {
-            from_glib(ffi::panel_dock_get_reveal_edge(
+            from_glib(ffi::panel_dock_get_reveal_bottom(
                 self.as_ref().to_glib_none().0,
-                edge.into_glib(),
             ))
         }
     }
@@ -623,21 +623,21 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    fn set_reveal_area(&self, area: Area, reveal: bool) {
+        unsafe {
+            ffi::panel_dock_set_reveal_area(
+                self.as_ref().to_glib_none().0,
+                area.into_glib(),
+                reveal.into_glib(),
+            );
+        }
+    }
+
     fn set_reveal_bottom(&self, reveal_bottom: bool) {
         unsafe {
             ffi::panel_dock_set_reveal_bottom(
                 self.as_ref().to_glib_none().0,
                 reveal_bottom.into_glib(),
-            );
-        }
-    }
-
-    fn set_reveal_edge(&self, position: DockPosition, reveal: bool) {
-        unsafe {
-            ffi::panel_dock_set_reveal_edge(
-                self.as_ref().to_glib_none().0,
-                position.into_glib(),
-                reveal.into_glib(),
             );
         }
     }

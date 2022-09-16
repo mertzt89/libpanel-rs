@@ -203,6 +203,13 @@ fn get_c_output(name: &str) -> Result<String, Box<dyn Error>> {
 
 const RUST_LAYOUTS: &[(&str, Layout)] = &[
     (
+        "PanelArea",
+        Layout {
+            size: size_of::<PanelArea>(),
+            alignment: align_of::<PanelArea>(),
+        },
+    ),
+    (
         "PanelDock",
         Layout {
             size: size_of::<PanelDock>(),
@@ -214,20 +221,6 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
         Layout {
             size: size_of::<PanelDockClass>(),
             alignment: align_of::<PanelDockClass>(),
-        },
-    ),
-    (
-        "PanelDockPosition",
-        Layout {
-            size: size_of::<PanelDockPosition>(),
-            alignment: align_of::<PanelDockPosition>(),
-        },
-    ),
-    (
-        "PanelDockSwitcherClass",
-        Layout {
-            size: size_of::<PanelDockSwitcherClass>(),
-            alignment: align_of::<PanelDockSwitcherClass>(),
         },
     ),
     (
@@ -315,6 +308,13 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
         },
     ),
     (
+        "PanelPositionClass",
+        Layout {
+            size: size_of::<PanelPositionClass>(),
+            alignment: align_of::<PanelPositionClass>(),
+        },
+    ),
+    (
         "PanelSaveDelegate",
         Layout {
             size: size_of::<PanelSaveDelegate>(),
@@ -329,6 +329,13 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
         },
     ),
     (
+        "PanelSaveDialogClass",
+        Layout {
+            size: size_of::<PanelSaveDialogClass>(),
+            alignment: align_of::<PanelSaveDialogClass>(),
+        },
+    ),
+    (
         "PanelStatusbarClass",
         Layout {
             size: size_of::<PanelStatusbarClass>(),
@@ -340,6 +347,13 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
         Layout {
             size: size_of::<PanelThemeSelectorClass>(),
             alignment: align_of::<PanelThemeSelectorClass>(),
+        },
+    ),
+    (
+        "PanelToggleButtonClass",
+        Layout {
+            size: size_of::<PanelToggleButtonClass>(),
+            alignment: align_of::<PanelToggleButtonClass>(),
         },
     ),
     (
@@ -359,15 +373,15 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
 ];
 
 const RUST_CONSTANTS: &[(&str, &str)] = &[
-    ("(gint) PANEL_DOCK_POSITION_BOTTOM", "3"),
-    ("(gint) PANEL_DOCK_POSITION_CENTER", "4"),
-    ("(gint) PANEL_DOCK_POSITION_END", "1"),
-    ("(gint) PANEL_DOCK_POSITION_START", "0"),
-    ("(gint) PANEL_DOCK_POSITION_TOP", "2"),
+    ("(gint) PANEL_AREA_BOTTOM", "3"),
+    ("(gint) PANEL_AREA_CENTER", "4"),
+    ("(gint) PANEL_AREA_END", "1"),
+    ("(gint) PANEL_AREA_START", "0"),
+    ("(gint) PANEL_AREA_TOP", "2"),
     ("PANEL_MAJOR_VERSION", "1"),
     ("PANEL_MICRO_VERSION", "0"),
     ("PANEL_MINOR_VERSION", "0"),
-    ("PANEL_VERSION_S", "1.0.alpha1"),
+    ("PANEL_VERSION_S", "1.0.alpha2"),
     ("PANEL_WIDGET_KIND_ANY", "*"),
     ("PANEL_WIDGET_KIND_DOCUMENT", "document"),
     ("PANEL_WIDGET_KIND_UNKNOWN", "unknown"),

@@ -22,18 +22,18 @@ use libc::{
 use glib::{gboolean, gconstpointer, gpointer, GType};
 
 // Enums
-pub type PanelDockPosition = c_int;
-pub const PANEL_DOCK_POSITION_START: PanelDockPosition = 0;
-pub const PANEL_DOCK_POSITION_END: PanelDockPosition = 1;
-pub const PANEL_DOCK_POSITION_TOP: PanelDockPosition = 2;
-pub const PANEL_DOCK_POSITION_BOTTOM: PanelDockPosition = 3;
-pub const PANEL_DOCK_POSITION_CENTER: PanelDockPosition = 4;
+pub type PanelArea = c_int;
+pub const PANEL_AREA_START: PanelArea = 0;
+pub const PANEL_AREA_END: PanelArea = 1;
+pub const PANEL_AREA_TOP: PanelArea = 2;
+pub const PANEL_AREA_BOTTOM: PanelArea = 3;
+pub const PANEL_AREA_CENTER: PanelArea = 4;
 
 // Constants
 pub const PANEL_MAJOR_VERSION: c_int = 1;
 pub const PANEL_MICRO_VERSION: c_int = 0;
 pub const PANEL_MINOR_VERSION: c_int = 0;
-pub const PANEL_VERSION_S: *const c_char = b"1.0.alpha1\0" as *const u8 as *const c_char;
+pub const PANEL_VERSION_S: *const c_char = b"1.0.alpha2\0" as *const u8 as *const c_char;
 pub const PANEL_WIDGET_KIND_ANY: *const c_char = b"*\0" as *const u8 as *const c_char;
 pub const PANEL_WIDGET_KIND_DOCUMENT: *const c_char = b"document\0" as *const u8 as *const c_char;
 pub const PANEL_WIDGET_KIND_UNKNOWN: *const c_char = b"unknown\0" as *const u8 as *const c_char;
@@ -57,20 +57,6 @@ impl ::std::fmt::Debug for PanelDockClass {
             .field("parent_class", &self.parent_class)
             .field("panel_drag_begin", &self.panel_drag_begin)
             .field("panel_drag_end", &self.panel_drag_end)
-            .finish()
-    }
-}
-
-#[derive(Copy, Clone)]
-#[repr(C)]
-pub struct PanelDockSwitcherClass {
-    pub parent_class: gtk::GtkWidgetClass,
-}
-
-impl ::std::fmt::Debug for PanelDockSwitcherClass {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("PanelDockSwitcherClass @ {:p}", self))
-            .field("parent_class", &self.parent_class)
             .finish()
     }
 }
@@ -216,6 +202,20 @@ impl ::std::fmt::Debug for PanelPanedClass {
 
 #[derive(Copy, Clone)]
 #[repr(C)]
+pub struct PanelPositionClass {
+    pub parent_class: gobject::GObjectClass,
+}
+
+impl ::std::fmt::Debug for PanelPositionClass {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("PanelPositionClass @ {:p}", self))
+            .field("parent_class", &self.parent_class)
+            .finish()
+    }
+}
+
+#[derive(Copy, Clone)]
+#[repr(C)]
 pub struct PanelSaveDelegateClass {
     pub parent_class: gobject::GObjectClass,
     pub save_async: Option<
@@ -234,6 +234,8 @@ pub struct PanelSaveDelegateClass {
         ) -> gboolean,
     >,
     pub save: Option<unsafe extern "C" fn(*mut PanelSaveDelegate, *mut gio::GTask) -> gboolean>,
+    pub discard: Option<unsafe extern "C" fn(*mut PanelSaveDelegate)>,
+    pub close: Option<unsafe extern "C" fn(*mut PanelSaveDelegate)>,
     pub _reserved: [gpointer; 8],
 }
 
@@ -244,6 +246,22 @@ impl ::std::fmt::Debug for PanelSaveDelegateClass {
             .field("save_async", &self.save_async)
             .field("save_finish", &self.save_finish)
             .field("save", &self.save)
+            .field("discard", &self.discard)
+            .field("close", &self.close)
+            .finish()
+    }
+}
+
+#[derive(Copy, Clone)]
+#[repr(C)]
+pub struct PanelSaveDialogClass {
+    pub parent_class: adw::AdwMessageDialogClass,
+}
+
+impl ::std::fmt::Debug for PanelSaveDialogClass {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("PanelSaveDialogClass @ {:p}", self))
+            .field("parent_class", &self.parent_class)
             .finish()
     }
 }
@@ -271,6 +289,20 @@ pub struct PanelThemeSelectorClass {
 impl ::std::fmt::Debug for PanelThemeSelectorClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("PanelThemeSelectorClass @ {:p}", self))
+            .field("parent_class", &self.parent_class)
+            .finish()
+    }
+}
+
+#[derive(Copy, Clone)]
+#[repr(C)]
+pub struct PanelToggleButtonClass {
+    pub parent_class: gtk::GtkWidgetClass,
+}
+
+impl ::std::fmt::Debug for PanelToggleButtonClass {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("PanelToggleButtonClass @ {:p}", self))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -306,19 +338,6 @@ impl ::std::fmt::Debug for PanelDock {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("PanelDock @ {:p}", self))
             .field("parent_instance", &self.parent_instance)
-            .finish()
-    }
-}
-
-#[repr(C)]
-pub struct PanelDockSwitcher {
-    _data: [u8; 0],
-    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
-}
-
-impl ::std::fmt::Debug for PanelDockSwitcher {
-    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        f.debug_struct(&format!("PanelDockSwitcher @ {:p}", self))
             .finish()
     }
 }
@@ -429,6 +448,19 @@ impl ::std::fmt::Debug for PanelPaned {
     }
 }
 
+#[repr(C)]
+pub struct PanelPosition {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
+
+impl ::std::fmt::Debug for PanelPosition {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("PanelPosition @ {:p}", self))
+            .finish()
+    }
+}
+
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub struct PanelSaveDelegate {
@@ -439,6 +471,19 @@ impl ::std::fmt::Debug for PanelSaveDelegate {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("PanelSaveDelegate @ {:p}", self))
             .field("parent_instance", &self.parent_instance)
+            .finish()
+    }
+}
+
+#[repr(C)]
+pub struct PanelSaveDialog {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
+
+impl ::std::fmt::Debug for PanelSaveDialog {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("PanelSaveDialog @ {:p}", self))
             .finish()
     }
 }
@@ -465,6 +510,19 @@ pub struct PanelThemeSelector {
 impl ::std::fmt::Debug for PanelThemeSelector {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("PanelThemeSelector @ {:p}", self))
+            .finish()
+    }
+}
+
+#[repr(C)]
+pub struct PanelToggleButton {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
+
+impl ::std::fmt::Debug for PanelToggleButton {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("PanelToggleButton @ {:p}", self))
             .finish()
     }
 }
@@ -500,9 +558,9 @@ impl ::std::fmt::Debug for PanelFrameHeader {
 extern "C" {
 
     //=========================================================================
-    // PanelDockPosition
+    // PanelArea
     //=========================================================================
-    pub fn panel_dock_position_get_type() -> GType;
+    pub fn panel_area_get_type() -> GType;
 
     //=========================================================================
     // PanelWidgetClass
@@ -529,42 +587,26 @@ extern "C" {
         callback: PanelFrameCallback,
         user_data: gpointer,
     );
+    pub fn panel_dock_get_can_reveal_area(self_: *mut PanelDock, area: PanelArea) -> gboolean;
     pub fn panel_dock_get_can_reveal_bottom(self_: *mut PanelDock) -> gboolean;
-    pub fn panel_dock_get_can_reveal_edge(
-        self_: *mut PanelDock,
-        edge: PanelDockPosition,
-    ) -> gboolean;
     pub fn panel_dock_get_can_reveal_end(self_: *mut PanelDock) -> gboolean;
     pub fn panel_dock_get_can_reveal_start(self_: *mut PanelDock) -> gboolean;
     pub fn panel_dock_get_can_reveal_top(self_: *mut PanelDock) -> gboolean;
+    pub fn panel_dock_get_reveal_area(self_: *mut PanelDock, area: PanelArea) -> gboolean;
     pub fn panel_dock_get_reveal_bottom(self_: *mut PanelDock) -> gboolean;
-    pub fn panel_dock_get_reveal_edge(self_: *mut PanelDock, edge: PanelDockPosition) -> gboolean;
     pub fn panel_dock_get_reveal_end(self_: *mut PanelDock) -> gboolean;
     pub fn panel_dock_get_reveal_start(self_: *mut PanelDock) -> gboolean;
     pub fn panel_dock_get_reveal_top(self_: *mut PanelDock) -> gboolean;
     pub fn panel_dock_remove(self_: *mut PanelDock, child: *mut gtk::GtkWidget);
     pub fn panel_dock_set_bottom_height(self_: *mut PanelDock, height: c_int);
     pub fn panel_dock_set_end_width(self_: *mut PanelDock, width: c_int);
+    pub fn panel_dock_set_reveal_area(self_: *mut PanelDock, area: PanelArea, reveal: gboolean);
     pub fn panel_dock_set_reveal_bottom(self_: *mut PanelDock, reveal_bottom: gboolean);
-    pub fn panel_dock_set_reveal_edge(
-        self_: *mut PanelDock,
-        position: PanelDockPosition,
-        reveal: gboolean,
-    );
     pub fn panel_dock_set_reveal_end(self_: *mut PanelDock, reveal_end: gboolean);
     pub fn panel_dock_set_reveal_start(self_: *mut PanelDock, reveal_start: gboolean);
     pub fn panel_dock_set_reveal_top(self_: *mut PanelDock, reveal_top: gboolean);
     pub fn panel_dock_set_start_width(self_: *mut PanelDock, width: c_int);
     pub fn panel_dock_set_top_height(self_: *mut PanelDock, height: c_int);
-
-    //=========================================================================
-    // PanelDockSwitcher
-    //=========================================================================
-    pub fn panel_dock_switcher_get_type() -> GType;
-    pub fn panel_dock_switcher_new(
-        dock: *mut PanelDock,
-        position: PanelDockPosition,
-    ) -> *mut gtk::GtkWidget;
 
     //=========================================================================
     // PanelFrame
@@ -584,6 +626,7 @@ extern "C" {
     pub fn panel_frame_get_page(self_: *mut PanelFrame, n: c_uint) -> *mut PanelWidget;
     pub fn panel_frame_get_pages(self_: *mut PanelFrame) -> *mut gtk::GtkSelectionModel;
     pub fn panel_frame_get_placeholder(self_: *mut PanelFrame) -> *mut gtk::GtkWidget;
+    pub fn panel_frame_get_position(self_: *mut PanelFrame) -> *mut PanelPosition;
     pub fn panel_frame_get_visible_child(self_: *mut PanelFrame) -> *mut PanelWidget;
     pub fn panel_frame_remove(self_: *mut PanelFrame, panel: *mut PanelWidget);
     pub fn panel_frame_set_header(self_: *mut PanelFrame, header: *mut PanelFrameHeader);
@@ -639,6 +682,11 @@ extern "C" {
         result: *mut gio::GAsyncResult,
         error: *mut *mut glib::GError,
     ) -> gboolean;
+    pub fn panel_grid_foreach_frame(
+        self_: *mut PanelGrid,
+        callback: PanelFrameCallback,
+        user_data: gpointer,
+    );
     pub fn panel_grid_get_column(self_: *mut PanelGrid, column: c_uint) -> *mut PanelGridColumn;
     pub fn panel_grid_get_most_recent_column(self_: *mut PanelGrid) -> *mut PanelGridColumn;
     pub fn panel_grid_get_most_recent_frame(self_: *mut PanelGrid) -> *mut PanelFrame;
@@ -701,12 +749,40 @@ extern "C" {
     pub fn panel_paned_remove(self_: *mut PanelPaned, child: *mut gtk::GtkWidget);
 
     //=========================================================================
+    // PanelPosition
+    //=========================================================================
+    pub fn panel_position_get_type() -> GType;
+    pub fn panel_position_new() -> *mut PanelPosition;
+    pub fn panel_position_new_from_variant(variant: *mut glib::GVariant) -> *mut PanelPosition;
+    pub fn panel_position_get_area(self_: *mut PanelPosition) -> PanelArea;
+    pub fn panel_position_get_area_set(self_: *mut PanelPosition) -> gboolean;
+    pub fn panel_position_get_column(self_: *mut PanelPosition) -> c_uint;
+    pub fn panel_position_get_column_set(self_: *mut PanelPosition) -> gboolean;
+    pub fn panel_position_get_depth(self_: *mut PanelPosition) -> c_uint;
+    pub fn panel_position_get_depth_set(self_: *mut PanelPosition) -> gboolean;
+    pub fn panel_position_get_row(self_: *mut PanelPosition) -> c_uint;
+    pub fn panel_position_get_row_set(self_: *mut PanelPosition) -> gboolean;
+    pub fn panel_position_is_indeterminate(self_: *mut PanelPosition) -> gboolean;
+    pub fn panel_position_set_area(self_: *mut PanelPosition, area: PanelArea);
+    pub fn panel_position_set_area_set(self_: *mut PanelPosition, area_set: gboolean);
+    pub fn panel_position_set_column(self_: *mut PanelPosition, column: c_uint);
+    pub fn panel_position_set_column_set(self_: *mut PanelPosition, column_set: gboolean);
+    pub fn panel_position_set_depth(self_: *mut PanelPosition, depth: c_uint);
+    pub fn panel_position_set_depth_set(self_: *mut PanelPosition, depth_set: gboolean);
+    pub fn panel_position_set_row(self_: *mut PanelPosition, row: c_uint);
+    pub fn panel_position_set_row_set(self_: *mut PanelPosition, row_set: gboolean);
+    pub fn panel_position_to_variant(self_: *mut PanelPosition) -> *mut glib::GVariant;
+
+    //=========================================================================
     // PanelSaveDelegate
     //=========================================================================
     pub fn panel_save_delegate_get_type() -> GType;
     pub fn panel_save_delegate_new() -> *mut PanelSaveDelegate;
+    pub fn panel_save_delegate_close(self_: *mut PanelSaveDelegate);
+    pub fn panel_save_delegate_discard(self_: *mut PanelSaveDelegate);
     pub fn panel_save_delegate_get_icon(self_: *mut PanelSaveDelegate) -> *mut gio::GIcon;
     pub fn panel_save_delegate_get_icon_name(self_: *mut PanelSaveDelegate) -> *const c_char;
+    pub fn panel_save_delegate_get_is_draft(self_: *mut PanelSaveDelegate) -> gboolean;
     pub fn panel_save_delegate_get_progress(self_: *mut PanelSaveDelegate) -> c_double;
     pub fn panel_save_delegate_get_subtitle(self_: *mut PanelSaveDelegate) -> *const c_char;
     pub fn panel_save_delegate_get_title(self_: *mut PanelSaveDelegate) -> *const c_char;
@@ -723,9 +799,36 @@ extern "C" {
     ) -> gboolean;
     pub fn panel_save_delegate_set_icon(self_: *mut PanelSaveDelegate, icon: *mut gio::GIcon);
     pub fn panel_save_delegate_set_icon_name(self_: *mut PanelSaveDelegate, icon: *const c_char);
+    pub fn panel_save_delegate_set_is_draft(self_: *mut PanelSaveDelegate, is_draft: gboolean);
     pub fn panel_save_delegate_set_progress(self_: *mut PanelSaveDelegate, progress: c_double);
     pub fn panel_save_delegate_set_subtitle(self_: *mut PanelSaveDelegate, subtitle: *const c_char);
     pub fn panel_save_delegate_set_title(self_: *mut PanelSaveDelegate, title: *const c_char);
+
+    //=========================================================================
+    // PanelSaveDialog
+    //=========================================================================
+    pub fn panel_save_dialog_get_type() -> GType;
+    pub fn panel_save_dialog_new() -> *mut gtk::GtkWidget;
+    pub fn panel_save_dialog_add_delegate(
+        self_: *mut PanelSaveDialog,
+        delegate: *mut PanelSaveDelegate,
+    );
+    pub fn panel_save_dialog_get_close_after_save(self_: *mut PanelSaveDialog) -> gboolean;
+    pub fn panel_save_dialog_run_async(
+        self_: *mut PanelSaveDialog,
+        cancellable: *mut gio::GCancellable,
+        callback: gio::GAsyncReadyCallback,
+        user_data: gpointer,
+    );
+    pub fn panel_save_dialog_run_finish(
+        self_: *mut PanelSaveDialog,
+        result: *mut gio::GAsyncResult,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    pub fn panel_save_dialog_set_close_after_save(
+        self_: *mut PanelSaveDialog,
+        close_after_save: gboolean,
+    );
 
     //=========================================================================
     // PanelStatusbar
@@ -756,6 +859,12 @@ extern "C" {
     );
 
     //=========================================================================
+    // PanelToggleButton
+    //=========================================================================
+    pub fn panel_toggle_button_get_type() -> GType;
+    pub fn panel_toggle_button_new(dock: *mut PanelDock, area: PanelArea) -> *mut gtk::GtkWidget;
+
+    //=========================================================================
     // PanelWidget
     //=========================================================================
     pub fn panel_widget_get_type() -> GType;
@@ -767,6 +876,7 @@ extern "C" {
     );
     pub fn panel_widget_close(self_: *mut PanelWidget);
     pub fn panel_widget_focus_default(self_: *mut PanelWidget) -> gboolean;
+    pub fn panel_widget_force_close(self_: *mut PanelWidget);
     pub fn panel_widget_get_busy(self_: *mut PanelWidget) -> gboolean;
     pub fn panel_widget_get_can_maximize(self_: *mut PanelWidget) -> gboolean;
     pub fn panel_widget_get_child(self_: *mut PanelWidget) -> *mut gtk::GtkWidget;
@@ -777,6 +887,7 @@ extern "C" {
     pub fn panel_widget_get_menu_model(self_: *mut PanelWidget) -> *mut gio::GMenuModel;
     pub fn panel_widget_get_modified(self_: *mut PanelWidget) -> gboolean;
     pub fn panel_widget_get_needs_attention(self_: *mut PanelWidget) -> gboolean;
+    pub fn panel_widget_get_position(self_: *mut PanelWidget) -> *mut PanelPosition;
     pub fn panel_widget_get_reorderable(self_: *mut PanelWidget) -> gboolean;
     pub fn panel_widget_get_save_delegate(self_: *mut PanelWidget) -> *mut PanelSaveDelegate;
     pub fn panel_widget_get_title(self_: *mut PanelWidget) -> *const c_char;

@@ -3,6 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
+use crate::Position;
 use crate::SaveDelegate;
 use glib::object::Cast;
 use glib::object::IsA;
@@ -404,6 +405,9 @@ pub trait WidgetExt: 'static {
     #[doc(alias = "panel_widget_focus_default")]
     fn focus_default(&self) -> bool;
 
+    #[doc(alias = "panel_widget_force_close")]
+    fn force_close(&self);
+
     #[doc(alias = "panel_widget_get_busy")]
     #[doc(alias = "get_busy")]
     fn is_busy(&self) -> bool;
@@ -443,6 +447,10 @@ pub trait WidgetExt: 'static {
     #[doc(alias = "panel_widget_get_needs_attention")]
     #[doc(alias = "get_needs_attention")]
     fn needs_attention(&self) -> bool;
+
+    #[doc(alias = "panel_widget_get_position")]
+    #[doc(alias = "get_position")]
+    fn position(&self) -> Option<Position>;
 
     #[doc(alias = "panel_widget_get_reorderable")]
     #[doc(alias = "get_reorderable")]
@@ -578,6 +586,12 @@ impl<O: IsA<Widget>> WidgetExt for O {
         }
     }
 
+    fn force_close(&self) {
+        unsafe {
+            ffi::panel_widget_force_close(self.as_ref().to_glib_none().0);
+        }
+    }
+
     fn is_busy(&self) -> bool {
         unsafe { from_glib(ffi::panel_widget_get_busy(self.as_ref().to_glib_none().0)) }
     }
@@ -637,6 +651,14 @@ impl<O: IsA<Widget>> WidgetExt for O {
     fn needs_attention(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_widget_get_needs_attention(
+                self.as_ref().to_glib_none().0,
+            ))
+        }
+    }
+
+    fn position(&self) -> Option<Position> {
+        unsafe {
+            from_glib_full(ffi::panel_widget_get_position(
                 self.as_ref().to_glib_none().0,
             ))
         }

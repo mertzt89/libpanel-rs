@@ -3,11 +3,10 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::Frame;
-use crate::GridColumn;
-use crate::Widget;
+use crate::SaveDelegate;
 use glib::object::Cast;
 use glib::object::IsA;
+use glib::object::ObjectType as ObjectType_;
 use glib::signal::connect_raw;
 use glib::signal::SignalHandlerId;
 use glib::translate::*;
@@ -20,33 +19,140 @@ use std::pin::Pin;
 use std::ptr;
 
 glib::wrapper! {
-    #[doc(alias = "PanelGrid")]
-    pub struct Grid(Object<ffi::PanelGrid, ffi::PanelGridClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+    #[doc(alias = "PanelSaveDialog")]
+    pub struct SaveDialog(Object<ffi::PanelSaveDialog, ffi::PanelSaveDialogClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 
     match fn {
-        type_ => || ffi::panel_grid_get_type(),
+        type_ => || ffi::panel_save_dialog_get_type(),
     }
 }
 
-impl Grid {
-    pub const NONE: Option<&'static Grid> = None;
-
-    #[doc(alias = "panel_grid_new")]
-    pub fn new() -> Grid {
+impl SaveDialog {
+    #[doc(alias = "panel_save_dialog_new")]
+    pub fn new() -> SaveDialog {
         assert_initialized_main_thread!();
-        unsafe { gtk::Widget::from_glib_full(ffi::panel_grid_new()).unsafe_cast() }
+        unsafe { gtk::Widget::from_glib_full(ffi::panel_save_dialog_new()).unsafe_cast() }
     }
 
     // rustdoc-stripper-ignore-next
-    /// Creates a new builder-pattern struct instance to construct [`Grid`] objects.
+    /// Creates a new builder-pattern struct instance to construct [`SaveDialog`] objects.
     ///
-    /// This method returns an instance of [`GridBuilder`](crate::builders::GridBuilder) which can be used to create [`Grid`] objects.
-    pub fn builder() -> GridBuilder {
-        GridBuilder::default()
+    /// This method returns an instance of [`SaveDialogBuilder`](crate::builders::SaveDialogBuilder) which can be used to create [`SaveDialog`] objects.
+    pub fn builder() -> SaveDialogBuilder {
+        SaveDialogBuilder::default()
+    }
+
+    #[doc(alias = "panel_save_dialog_add_delegate")]
+    pub fn add_delegate(&self, delegate: &impl IsA<SaveDelegate>) {
+        unsafe {
+            ffi::panel_save_dialog_add_delegate(
+                self.to_glib_none().0,
+                delegate.as_ref().to_glib_none().0,
+            );
+        }
+    }
+
+    #[doc(alias = "panel_save_dialog_get_close_after_save")]
+    #[doc(alias = "get_close_after_save")]
+    pub fn closes_after_save(&self) -> bool {
+        unsafe {
+            from_glib(ffi::panel_save_dialog_get_close_after_save(
+                self.to_glib_none().0,
+            ))
+        }
+    }
+
+    #[doc(alias = "panel_save_dialog_run_async")]
+    pub fn run_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
+        &self,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
+    ) {
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
+        unsafe extern "C" fn run_async_trampoline<P: FnOnce(Result<(), glib::Error>) + 'static>(
+            _source_object: *mut glib::gobject_ffi::GObject,
+            res: *mut gio::ffi::GAsyncResult,
+            user_data: glib::ffi::gpointer,
+        ) {
+            let mut error = ptr::null_mut();
+            let _ = ffi::panel_save_dialog_run_finish(_source_object as *mut _, res, &mut error);
+            let result = if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            };
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
+            callback(result);
+        }
+        let callback = run_async_trampoline::<P>;
+        unsafe {
+            ffi::panel_save_dialog_run_async(
+                self.to_glib_none().0,
+                cancellable.map(|p| p.as_ref()).to_glib_none().0,
+                Some(callback),
+                Box_::into_raw(user_data) as *mut _,
+            );
+        }
+    }
+
+    pub fn run_future(
+        &self,
+    ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.run_async(Some(cancellable), move |res| {
+                send.resolve(res);
+            });
+        }))
+    }
+
+    #[doc(alias = "panel_save_dialog_set_close_after_save")]
+    pub fn set_close_after_save(&self, close_after_save: bool) {
+        unsafe {
+            ffi::panel_save_dialog_set_close_after_save(
+                self.to_glib_none().0,
+                close_after_save.into_glib(),
+            );
+        }
+    }
+
+    #[doc(alias = "close-after-save")]
+    pub fn connect_close_after_save_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_close_after_save_trampoline<F: Fn(&SaveDialog) + 'static>(
+            this: *mut ffi::PanelSaveDialog,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::close-after-save\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_close_after_save_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
     }
 }
 
-impl Default for Grid {
+impl Default for SaveDialog {
     fn default() -> Self {
         Self::new()
     }
@@ -54,11 +160,12 @@ impl Default for Grid {
 
 #[derive(Clone, Default)]
 // rustdoc-stripper-ignore-next
-/// A [builder-pattern] type to construct [`Grid`] objects.
+/// A [builder-pattern] type to construct [`SaveDialog`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
 #[must_use = "The builder must be built to be used"]
-pub struct GridBuilder {
+pub struct SaveDialogBuilder {
+    close_after_save: Option<bool>,
     can_focus: Option<bool>,
     can_target: Option<bool>,
     css_classes: Option<Vec<String>>,
@@ -91,18 +198,21 @@ pub struct GridBuilder {
     //accessible-role: /*Unknown type*/,
 }
 
-impl GridBuilder {
+impl SaveDialogBuilder {
     // rustdoc-stripper-ignore-next
-    /// Create a new [`GridBuilder`].
+    /// Create a new [`SaveDialogBuilder`].
     pub fn new() -> Self {
         Self::default()
     }
 
     // rustdoc-stripper-ignore-next
-    /// Build the [`Grid`].
+    /// Build the [`SaveDialog`].
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
-    pub fn build(self) -> Grid {
+    pub fn build(self) -> SaveDialog {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref close_after_save) = self.close_after_save {
+            properties.push(("close-after-save", close_after_save));
+        }
         if let Some(ref can_focus) = self.can_focus {
             properties.push(("can-focus", can_focus));
         }
@@ -175,7 +285,13 @@ impl GridBuilder {
         if let Some(ref width_request) = self.width_request {
             properties.push(("width-request", width_request));
         }
-        glib::Object::new::<Grid>(&properties).expect("Failed to create an instance of Grid")
+        glib::Object::new::<SaveDialog>(&properties)
+            .expect("Failed to create an instance of SaveDialog")
+    }
+
+    pub fn close_after_save(mut self, close_after_save: bool) -> Self {
+        self.close_after_save = Some(close_after_save);
+        self
     }
 
     pub fn can_focus(mut self, can_focus: bool) -> Self {
@@ -299,195 +415,8 @@ impl GridBuilder {
     }
 }
 
-pub trait GridExt: 'static {
-    #[doc(alias = "panel_grid_add")]
-    fn add(&self, widget: &impl IsA<Widget>);
-
-    #[doc(alias = "panel_grid_agree_to_close_async")]
-    fn agree_to_close_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
-        &self,
-        cancellable: Option<&impl IsA<gio::Cancellable>>,
-        callback: P,
-    );
-
-    fn agree_to_close_future(
-        &self,
-    ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
-
-    #[doc(alias = "panel_grid_foreach_frame")]
-    fn foreach_frame<P: FnMut(&Frame)>(&self, callback: P);
-
-    #[doc(alias = "panel_grid_get_column")]
-    #[doc(alias = "get_column")]
-    fn column(&self, column: u32) -> GridColumn;
-
-    #[doc(alias = "panel_grid_get_most_recent_column")]
-    #[doc(alias = "get_most_recent_column")]
-    fn most_recent_column(&self) -> GridColumn;
-
-    #[doc(alias = "panel_grid_get_most_recent_frame")]
-    #[doc(alias = "get_most_recent_frame")]
-    fn most_recent_frame(&self) -> Frame;
-
-    #[doc(alias = "panel_grid_get_n_columns")]
-    #[doc(alias = "get_n_columns")]
-    fn n_columns(&self) -> u32;
-
-    #[doc(alias = "panel_grid_insert_column")]
-    fn insert_column(&self, position: u32);
-
-    #[doc(alias = "create-frame")]
-    fn connect_create_frame<F: Fn(&Self) -> Frame + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<Grid>> GridExt for O {
-    fn add(&self, widget: &impl IsA<Widget>) {
-        unsafe {
-            ffi::panel_grid_add(
-                self.as_ref().to_glib_none().0,
-                widget.as_ref().to_glib_none().0,
-            );
-        }
-    }
-
-    fn agree_to_close_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
-        &self,
-        cancellable: Option<&impl IsA<gio::Cancellable>>,
-        callback: P,
-    ) {
-        let main_context = glib::MainContext::ref_thread_default();
-        let is_main_context_owner = main_context.is_owner();
-        let has_acquired_main_context = (!is_main_context_owner)
-            .then(|| main_context.acquire().ok())
-            .flatten();
-        assert!(
-            is_main_context_owner || has_acquired_main_context.is_some(),
-            "Async operations only allowed if the thread is owning the MainContext"
-        );
-
-        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
-            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
-        unsafe extern "C" fn agree_to_close_async_trampoline<
-            P: FnOnce(Result<(), glib::Error>) + 'static,
-        >(
-            _source_object: *mut glib::gobject_ffi::GObject,
-            res: *mut gio::ffi::GAsyncResult,
-            user_data: glib::ffi::gpointer,
-        ) {
-            let mut error = ptr::null_mut();
-            let _ =
-                ffi::panel_grid_agree_to_close_finish(_source_object as *mut _, res, &mut error);
-            let result = if error.is_null() {
-                Ok(())
-            } else {
-                Err(from_glib_full(error))
-            };
-            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
-                Box_::from_raw(user_data as *mut _);
-            let callback: P = callback.into_inner();
-            callback(result);
-        }
-        let callback = agree_to_close_async_trampoline::<P>;
-        unsafe {
-            ffi::panel_grid_agree_to_close_async(
-                self.as_ref().to_glib_none().0,
-                cancellable.map(|p| p.as_ref()).to_glib_none().0,
-                Some(callback),
-                Box_::into_raw(user_data) as *mut _,
-            );
-        }
-    }
-
-    fn agree_to_close_future(
-        &self,
-    ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
-        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
-            obj.agree_to_close_async(Some(cancellable), move |res| {
-                send.resolve(res);
-            });
-        }))
-    }
-
-    fn foreach_frame<P: FnMut(&Frame)>(&self, callback: P) {
-        let callback_data: P = callback;
-        unsafe extern "C" fn callback_func<P: FnMut(&Frame)>(
-            frame: *mut ffi::PanelFrame,
-            user_data: glib::ffi::gpointer,
-        ) {
-            let frame = from_glib_borrow(frame);
-            let callback: *mut P = user_data as *const _ as usize as *mut P;
-            (*callback)(&frame);
-        }
-        let callback = Some(callback_func::<P> as _);
-        let super_callback0: &P = &callback_data;
-        unsafe {
-            ffi::panel_grid_foreach_frame(
-                self.as_ref().to_glib_none().0,
-                callback,
-                super_callback0 as *const _ as usize as *mut _,
-            );
-        }
-    }
-
-    fn column(&self, column: u32) -> GridColumn {
-        unsafe {
-            from_glib_none(ffi::panel_grid_get_column(
-                self.as_ref().to_glib_none().0,
-                column,
-            ))
-        }
-    }
-
-    fn most_recent_column(&self) -> GridColumn {
-        unsafe {
-            from_glib_none(ffi::panel_grid_get_most_recent_column(
-                self.as_ref().to_glib_none().0,
-            ))
-        }
-    }
-
-    fn most_recent_frame(&self) -> Frame {
-        unsafe {
-            from_glib_none(ffi::panel_grid_get_most_recent_frame(
-                self.as_ref().to_glib_none().0,
-            ))
-        }
-    }
-
-    fn n_columns(&self) -> u32 {
-        unsafe { ffi::panel_grid_get_n_columns(self.as_ref().to_glib_none().0) }
-    }
-
-    fn insert_column(&self, position: u32) {
-        unsafe {
-            ffi::panel_grid_insert_column(self.as_ref().to_glib_none().0, position);
-        }
-    }
-
-    fn connect_create_frame<F: Fn(&Self) -> Frame + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn create_frame_trampoline<P: IsA<Grid>, F: Fn(&P) -> Frame + 'static>(
-            this: *mut ffi::PanelGrid,
-            f: glib::ffi::gpointer,
-        ) -> *mut ffi::PanelFrame {
-            let f: &F = &*(f as *const F);
-            f(Grid::from_glib_borrow(this).unsafe_cast_ref()).to_glib_full()
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"create-frame\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    create_frame_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
-}
-
-impl fmt::Display for Grid {
+impl fmt::Display for SaveDialog {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("Grid")
+        f.write_str("SaveDialog")
     }
 }
