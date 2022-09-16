@@ -41,26 +41,6 @@ impl FrameHeaderBar {
         FrameHeaderBarBuilder::default()
     }
 
-    #[doc(alias = "panel_frame_header_bar_get_background_rgba")]
-    #[doc(alias = "get_background_rgba")]
-    pub fn background_rgba(&self) -> Option<gdk::RGBA> {
-        unsafe {
-            from_glib_none(ffi::panel_frame_header_bar_get_background_rgba(
-                self.to_glib_none().0,
-            ))
-        }
-    }
-
-    #[doc(alias = "panel_frame_header_bar_get_foreground_rgba")]
-    #[doc(alias = "get_foreground_rgba")]
-    pub fn foreground_rgba(&self) -> Option<gdk::RGBA> {
-        unsafe {
-            from_glib_none(ffi::panel_frame_header_bar_get_foreground_rgba(
-                self.to_glib_none().0,
-            ))
-        }
-    }
-
     #[doc(alias = "panel_frame_header_bar_get_menu_popover")]
     #[doc(alias = "get_menu_popover")]
     pub fn menu_popover(&self) -> gtk::PopoverMenu {
@@ -81,76 +61,10 @@ impl FrameHeaderBar {
         }
     }
 
-    #[doc(alias = "panel_frame_header_bar_set_background_rgba")]
-    pub fn set_background_rgba(&self, background_rgba: Option<&gdk::RGBA>) {
-        unsafe {
-            ffi::panel_frame_header_bar_set_background_rgba(
-                self.to_glib_none().0,
-                background_rgba.to_glib_none().0,
-            );
-        }
-    }
-
-    #[doc(alias = "panel_frame_header_bar_set_foreground_rgba")]
-    pub fn set_foreground_rgba(&self, foreground_rgba: Option<&gdk::RGBA>) {
-        unsafe {
-            ffi::panel_frame_header_bar_set_foreground_rgba(
-                self.to_glib_none().0,
-                foreground_rgba.to_glib_none().0,
-            );
-        }
-    }
-
     #[doc(alias = "panel_frame_header_bar_set_show_icon")]
     pub fn set_show_icon(&self, show_icon: bool) {
         unsafe {
             ffi::panel_frame_header_bar_set_show_icon(self.to_glib_none().0, show_icon.into_glib());
-        }
-    }
-
-    #[doc(alias = "background-rgba")]
-    pub fn connect_background_rgba_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_background_rgba_trampoline<F: Fn(&FrameHeaderBar) + 'static>(
-            this: *mut ffi::PanelFrameHeaderBar,
-            _param_spec: glib::ffi::gpointer,
-            f: glib::ffi::gpointer,
-        ) {
-            let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this))
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::background-rgba\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_background_rgba_trampoline::<F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
-
-    #[doc(alias = "foreground-rgba")]
-    pub fn connect_foreground_rgba_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_foreground_rgba_trampoline<F: Fn(&FrameHeaderBar) + 'static>(
-            this: *mut ffi::PanelFrameHeaderBar,
-            _param_spec: glib::ffi::gpointer,
-            f: glib::ffi::gpointer,
-        ) {
-            let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this))
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::foreground-rgba\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_foreground_rgba_trampoline::<F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
         }
     }
 
@@ -191,8 +105,6 @@ impl Default for FrameHeaderBar {
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
 #[must_use = "The builder must be built to be used"]
 pub struct FrameHeaderBarBuilder {
-    background_rgba: Option<gdk::RGBA>,
-    foreground_rgba: Option<gdk::RGBA>,
     show_icon: Option<bool>,
     can_focus: Option<bool>,
     can_target: Option<bool>,
@@ -239,12 +151,6 @@ impl FrameHeaderBarBuilder {
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> FrameHeaderBar {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
-        if let Some(ref background_rgba) = self.background_rgba {
-            properties.push(("background-rgba", background_rgba));
-        }
-        if let Some(ref foreground_rgba) = self.foreground_rgba {
-            properties.push(("foreground-rgba", foreground_rgba));
-        }
         if let Some(ref show_icon) = self.show_icon {
             properties.push(("show-icon", show_icon));
         }
@@ -325,16 +231,6 @@ impl FrameHeaderBarBuilder {
         }
         glib::Object::new::<FrameHeaderBar>(&properties)
             .expect("Failed to create an instance of FrameHeaderBar")
-    }
-
-    pub fn background_rgba(mut self, background_rgba: &gdk::RGBA) -> Self {
-        self.background_rgba = Some(background_rgba.clone());
-        self
-    }
-
-    pub fn foreground_rgba(mut self, foreground_rgba: &gdk::RGBA) -> Self {
-        self.foreground_rgba = Some(foreground_rgba.clone());
-        self
     }
 
     pub fn show_icon(mut self, show_icon: bool) -> Self {

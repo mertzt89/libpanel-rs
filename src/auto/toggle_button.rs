@@ -3,8 +3,8 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
+use crate::Area;
 use crate::Dock;
-use crate::DockPosition;
 use glib::object::Cast;
 use glib::object::IsA;
 use glib::object::ObjectType as ObjectType_;
@@ -18,33 +18,37 @@ use std::fmt;
 use std::mem::transmute;
 
 glib::wrapper! {
-    #[doc(alias = "PanelDockSwitcher")]
-    pub struct DockSwitcher(Object<ffi::PanelDockSwitcher, ffi::PanelDockSwitcherClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+    #[doc(alias = "PanelToggleButton")]
+    pub struct ToggleButton(Object<ffi::PanelToggleButton, ffi::PanelToggleButtonClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 
     match fn {
-        type_ => || ffi::panel_dock_switcher_get_type(),
+        type_ => || ffi::panel_toggle_button_get_type(),
     }
 }
 
-impl DockSwitcher {
-    #[doc(alias = "panel_dock_switcher_new")]
-    pub fn new(dock: &impl IsA<Dock>, position: DockPosition) -> DockSwitcher {
+impl ToggleButton {
+    #[doc(alias = "panel_toggle_button_new")]
+    pub fn new(dock: &impl IsA<Dock>, area: Area) -> ToggleButton {
         skip_assert_initialized!();
         unsafe {
-            gtk::Widget::from_glib_none(ffi::panel_dock_switcher_new(
+            gtk::Widget::from_glib_none(ffi::panel_toggle_button_new(
                 dock.as_ref().to_glib_none().0,
-                position.into_glib(),
+                area.into_glib(),
             ))
             .unsafe_cast()
         }
     }
 
     // rustdoc-stripper-ignore-next
-    /// Creates a new builder-pattern struct instance to construct [`DockSwitcher`] objects.
+    /// Creates a new builder-pattern struct instance to construct [`ToggleButton`] objects.
     ///
-    /// This method returns an instance of [`DockSwitcherBuilder`](crate::builders::DockSwitcherBuilder) which can be used to create [`DockSwitcher`] objects.
-    pub fn builder() -> DockSwitcherBuilder {
-        DockSwitcherBuilder::default()
+    /// This method returns an instance of [`ToggleButtonBuilder`](crate::builders::ToggleButtonBuilder) which can be used to create [`ToggleButton`] objects.
+    pub fn builder() -> ToggleButtonBuilder {
+        ToggleButtonBuilder::default()
+    }
+
+    pub fn area(&self) -> Area {
+        glib::ObjectExt::property(self, "area")
     }
 
     pub fn dock(&self) -> Option<Dock> {
@@ -55,14 +59,10 @@ impl DockSwitcher {
         glib::ObjectExt::set_property(self, "dock", &dock)
     }
 
-    pub fn position(&self) -> DockPosition {
-        glib::ObjectExt::property(self, "position")
-    }
-
     #[doc(alias = "dock")]
     pub fn connect_dock_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_dock_trampoline<F: Fn(&DockSwitcher) + 'static>(
-            this: *mut ffi::PanelDockSwitcher,
+        unsafe extern "C" fn notify_dock_trampoline<F: Fn(&ToggleButton) + 'static>(
+            this: *mut ffi::PanelToggleButton,
             _param_spec: glib::ffi::gpointer,
             f: glib::ffi::gpointer,
         ) {
@@ -83,22 +83,22 @@ impl DockSwitcher {
     }
 }
 
-impl Default for DockSwitcher {
+impl Default for ToggleButton {
     fn default() -> Self {
         glib::object::Object::new::<Self>(&[])
-            .expect("Can't construct DockSwitcher object with default parameters")
+            .expect("Can't construct ToggleButton object with default parameters")
     }
 }
 
 #[derive(Clone, Default)]
 // rustdoc-stripper-ignore-next
-/// A [builder-pattern] type to construct [`DockSwitcher`] objects.
+/// A [builder-pattern] type to construct [`ToggleButton`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
 #[must_use = "The builder must be built to be used"]
-pub struct DockSwitcherBuilder {
+pub struct ToggleButtonBuilder {
+    area: Option<Area>,
     dock: Option<Dock>,
-    position: Option<DockPosition>,
     can_focus: Option<bool>,
     can_target: Option<bool>,
     css_classes: Option<Vec<String>>,
@@ -131,23 +131,23 @@ pub struct DockSwitcherBuilder {
     //accessible-role: /*Unknown type*/,
 }
 
-impl DockSwitcherBuilder {
+impl ToggleButtonBuilder {
     // rustdoc-stripper-ignore-next
-    /// Create a new [`DockSwitcherBuilder`].
+    /// Create a new [`ToggleButtonBuilder`].
     pub fn new() -> Self {
         Self::default()
     }
 
     // rustdoc-stripper-ignore-next
-    /// Build the [`DockSwitcher`].
+    /// Build the [`ToggleButton`].
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
-    pub fn build(self) -> DockSwitcher {
+    pub fn build(self) -> ToggleButton {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref area) = self.area {
+            properties.push(("area", area));
+        }
         if let Some(ref dock) = self.dock {
             properties.push(("dock", dock));
-        }
-        if let Some(ref position) = self.position {
-            properties.push(("position", position));
         }
         if let Some(ref can_focus) = self.can_focus {
             properties.push(("can-focus", can_focus));
@@ -221,17 +221,17 @@ impl DockSwitcherBuilder {
         if let Some(ref width_request) = self.width_request {
             properties.push(("width-request", width_request));
         }
-        glib::Object::new::<DockSwitcher>(&properties)
-            .expect("Failed to create an instance of DockSwitcher")
+        glib::Object::new::<ToggleButton>(&properties)
+            .expect("Failed to create an instance of ToggleButton")
+    }
+
+    pub fn area(mut self, area: Area) -> Self {
+        self.area = Some(area);
+        self
     }
 
     pub fn dock(mut self, dock: &impl IsA<Dock>) -> Self {
         self.dock = Some(dock.clone().upcast());
-        self
-    }
-
-    pub fn position(mut self, position: DockPosition) -> Self {
-        self.position = Some(position);
         self
     }
 
@@ -356,8 +356,8 @@ impl DockSwitcherBuilder {
     }
 }
 
-impl fmt::Display for DockSwitcher {
+impl fmt::Display for ToggleButton {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("DockSwitcher")
+        f.write_str("ToggleButton")
     }
 }

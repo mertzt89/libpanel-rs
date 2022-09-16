@@ -1,6 +1,6 @@
 [package]
 name = "libpanel-sys"
-version = "0.1.0-alpha-3"
+version = "0.1.0-alpha-4"
 authors = ["Jason Francis <jafrancis999@gmail.com>"]
 edition = "2018"
 build = "build.rs"
@@ -16,7 +16,7 @@ documentation = "https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/stable/la
 features = ["dox"]
 [package.metadata.system-deps.libpanel_1]
 name = "libpanel-1"
-version = "1.0.alpha"
+version = "1.0.alpha2"
 
 [lib]
 name = "libpanel_sys"

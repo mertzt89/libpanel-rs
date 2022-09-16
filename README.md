@@ -1,6 +1,6 @@
 # libpanel-rs
 
-The Rust bindings of [libpanel](https://gitlab.gnome.org/chergert/libpanel)
+The Rust bindings of [libpanel](https://gitlab.gnome.org/GNOME/libpanel)
 
 Website: <https://gitlab.gnome.org/World/Rust/libpanel-rs>
 

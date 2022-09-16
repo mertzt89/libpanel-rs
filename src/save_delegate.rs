@@ -6,19 +6,19 @@ use std::mem::transmute;
 pub trait SaveDelegateExtManual {
     fn connect_save<F, R>(&self, f: F) -> SignalHandlerId
     where
-        F: Fn(&Self) -> R + 'static,
+        F: Fn(&Self, &gio::Task<bool>) -> R + 'static,
         R: Future<Output = Result<(), glib::Error>> + 'static;
 }
 
 impl<O: IsA<SaveDelegate>> SaveDelegateExtManual for O {
     fn connect_save<F, R>(&self, f: F) -> SignalHandlerId
     where
-        F: Fn(&Self) -> R + 'static,
+        F: Fn(&Self, &gio::Task<bool>) -> R + 'static,
         R: Future<Output = Result<(), glib::Error>> + 'static,
     {
         unsafe extern "C" fn save_trampoline<
             P: IsA<SaveDelegate>,
-            F: Fn(&P) -> R + 'static,
+            F: Fn(&P, &gio::Task<bool>) -> R + 'static,
             R: Future<Output = Result<(), glib::Error>> + 'static,
         >(
             this: *mut ffi::PanelSaveDelegate,
@@ -28,7 +28,7 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExtManual for O {
             let f: &F = &*(f as *const F);
             let task: gio::Task<bool> = from_glib_none(task);
             let delegate = SaveDelegate::from_glib_borrow(this);
-            let fut = f(delegate.unsafe_cast_ref());
+            let fut = f(delegate.unsafe_cast_ref(), &task);
             task.context().spawn_local(async move {
                 task.return_result(fut.await.map(|_| true));
             });

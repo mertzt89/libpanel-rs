@@ -12,15 +12,15 @@ generate_builder = true
 external_libraries = [
     "GLib",
     "GObject",
+    "Gio",
     "Gtk",
     "Adw",
 ]
 
 generate = [
   "Panel.*",
+  "Panel.Area",
   "Panel.Dock",
-  "Panel.DockPosition",
-  "Panel.DockSwitcher",
   "Panel.Frame",
   "Panel.FrameCallback",
   "Panel.FrameHeader",
@@ -31,8 +31,11 @@ generate = [
   "Panel.GridColumn",
   "Panel.OmniBar",
   "Panel.Paned",
+  "Panel.Position",
+  "Panel.SaveDialog",
   "Panel.Statusbar",
   "Panel.ThemeSelector",
+  "Panel.ToggleButton",
   "Panel.Widget",
 ]
 
@@ -41,6 +44,7 @@ manual = [
   "GLib.Variant",
   "GObject.Object",
   "GObject.Value",
+  "Gio.ActionGroup",
   "Gio.AsyncReadyCallback",
   "Gio.AsyncResult",
   "Gio.Cancellable",

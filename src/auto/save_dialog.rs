@@ -3,41 +3,156 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::Frame;
-use crate::FrameHeader;
+use crate::SaveDelegate;
 use glib::object::Cast;
 use glib::object::IsA;
+use glib::object::ObjectType as ObjectType_;
+use glib::signal::connect_raw;
+use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::StaticType;
 use glib::ToValue;
+use std::boxed::Box as Box_;
 use std::fmt;
+use std::mem::transmute;
+use std::pin::Pin;
+use std::ptr;
 
 glib::wrapper! {
-    #[doc(alias = "PanelFrameSwitcher")]
-    pub struct FrameSwitcher(Object<ffi::PanelFrameSwitcher, ffi::PanelFrameSwitcherClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gtk::Orientable, FrameHeader;
+    #[doc(alias = "PanelSaveDialog")]
+    pub struct SaveDialog(Object<ffi::PanelSaveDialog, ffi::PanelSaveDialogClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 
     match fn {
-        type_ => || ffi::panel_frame_switcher_get_type(),
+        type_ => || ffi::panel_save_dialog_get_type(),
     }
 }
 
-impl FrameSwitcher {
-    #[doc(alias = "panel_frame_switcher_new")]
-    pub fn new() -> FrameSwitcher {
+impl SaveDialog {
+    #[doc(alias = "panel_save_dialog_new")]
+    pub fn new() -> SaveDialog {
         assert_initialized_main_thread!();
-        unsafe { gtk::Widget::from_glib_none(ffi::panel_frame_switcher_new()).unsafe_cast() }
+        unsafe { gtk::Widget::from_glib_full(ffi::panel_save_dialog_new()).unsafe_cast() }
     }
 
     // rustdoc-stripper-ignore-next
-    /// Creates a new builder-pattern struct instance to construct [`FrameSwitcher`] objects.
+    /// Creates a new builder-pattern struct instance to construct [`SaveDialog`] objects.
     ///
-    /// This method returns an instance of [`FrameSwitcherBuilder`](crate::builders::FrameSwitcherBuilder) which can be used to create [`FrameSwitcher`] objects.
-    pub fn builder() -> FrameSwitcherBuilder {
-        FrameSwitcherBuilder::default()
+    /// This method returns an instance of [`SaveDialogBuilder`](crate::builders::SaveDialogBuilder) which can be used to create [`SaveDialog`] objects.
+    pub fn builder() -> SaveDialogBuilder {
+        SaveDialogBuilder::default()
+    }
+
+    #[doc(alias = "panel_save_dialog_add_delegate")]
+    pub fn add_delegate(&self, delegate: &impl IsA<SaveDelegate>) {
+        unsafe {
+            ffi::panel_save_dialog_add_delegate(
+                self.to_glib_none().0,
+                delegate.as_ref().to_glib_none().0,
+            );
+        }
+    }
+
+    #[doc(alias = "panel_save_dialog_get_close_after_save")]
+    #[doc(alias = "get_close_after_save")]
+    pub fn closes_after_save(&self) -> bool {
+        unsafe {
+            from_glib(ffi::panel_save_dialog_get_close_after_save(
+                self.to_glib_none().0,
+            ))
+        }
+    }
+
+    #[doc(alias = "panel_save_dialog_run_async")]
+    pub fn run_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
+        &self,
+        cancellable: Option<&impl IsA<gio::Cancellable>>,
+        callback: P,
+    ) {
+        let main_context = glib::MainContext::ref_thread_default();
+        let is_main_context_owner = main_context.is_owner();
+        let has_acquired_main_context = (!is_main_context_owner)
+            .then(|| main_context.acquire().ok())
+            .flatten();
+        assert!(
+            is_main_context_owner || has_acquired_main_context.is_some(),
+            "Async operations only allowed if the thread is owning the MainContext"
+        );
+
+        let user_data: Box_<glib::thread_guard::ThreadGuard<P>> =
+            Box_::new(glib::thread_guard::ThreadGuard::new(callback));
+        unsafe extern "C" fn run_async_trampoline<P: FnOnce(Result<(), glib::Error>) + 'static>(
+            _source_object: *mut glib::gobject_ffi::GObject,
+            res: *mut gio::ffi::GAsyncResult,
+            user_data: glib::ffi::gpointer,
+        ) {
+            let mut error = ptr::null_mut();
+            let _ = ffi::panel_save_dialog_run_finish(_source_object as *mut _, res, &mut error);
+            let result = if error.is_null() {
+                Ok(())
+            } else {
+                Err(from_glib_full(error))
+            };
+            let callback: Box_<glib::thread_guard::ThreadGuard<P>> =
+                Box_::from_raw(user_data as *mut _);
+            let callback: P = callback.into_inner();
+            callback(result);
+        }
+        let callback = run_async_trampoline::<P>;
+        unsafe {
+            ffi::panel_save_dialog_run_async(
+                self.to_glib_none().0,
+                cancellable.map(|p| p.as_ref()).to_glib_none().0,
+                Some(callback),
+                Box_::into_raw(user_data) as *mut _,
+            );
+        }
+    }
+
+    pub fn run_future(
+        &self,
+    ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
+        Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
+            obj.run_async(Some(cancellable), move |res| {
+                send.resolve(res);
+            });
+        }))
+    }
+
+    #[doc(alias = "panel_save_dialog_set_close_after_save")]
+    pub fn set_close_after_save(&self, close_after_save: bool) {
+        unsafe {
+            ffi::panel_save_dialog_set_close_after_save(
+                self.to_glib_none().0,
+                close_after_save.into_glib(),
+            );
+        }
+    }
+
+    #[doc(alias = "close-after-save")]
+    pub fn connect_close_after_save_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_close_after_save_trampoline<F: Fn(&SaveDialog) + 'static>(
+            this: *mut ffi::PanelSaveDialog,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(&from_glib_borrow(this))
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::close-after-save\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_close_after_save_trampoline::<F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
     }
 }
 
-impl Default for FrameSwitcher {
+impl Default for SaveDialog {
     fn default() -> Self {
         Self::new()
     }
@@ -45,11 +160,12 @@ impl Default for FrameSwitcher {
 
 #[derive(Clone, Default)]
 // rustdoc-stripper-ignore-next
-/// A [builder-pattern] type to construct [`FrameSwitcher`] objects.
+/// A [builder-pattern] type to construct [`SaveDialog`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
 #[must_use = "The builder must be built to be used"]
-pub struct FrameSwitcherBuilder {
+pub struct SaveDialogBuilder {
+    close_after_save: Option<bool>,
     can_focus: Option<bool>,
     can_target: Option<bool>,
     css_classes: Option<Vec<String>>,
@@ -80,22 +196,23 @@ pub struct FrameSwitcherBuilder {
     visible: Option<bool>,
     width_request: Option<i32>,
     //accessible-role: /*Unknown type*/,
-    //orientation: /*Unknown type*/,
-    frame: Option<Frame>,
 }
 
-impl FrameSwitcherBuilder {
+impl SaveDialogBuilder {
     // rustdoc-stripper-ignore-next
-    /// Create a new [`FrameSwitcherBuilder`].
+    /// Create a new [`SaveDialogBuilder`].
     pub fn new() -> Self {
         Self::default()
     }
 
     // rustdoc-stripper-ignore-next
-    /// Build the [`FrameSwitcher`].
+    /// Build the [`SaveDialog`].
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
-    pub fn build(self) -> FrameSwitcher {
+    pub fn build(self) -> SaveDialog {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref close_after_save) = self.close_after_save {
+            properties.push(("close-after-save", close_after_save));
+        }
         if let Some(ref can_focus) = self.can_focus {
             properties.push(("can-focus", can_focus));
         }
@@ -168,11 +285,13 @@ impl FrameSwitcherBuilder {
         if let Some(ref width_request) = self.width_request {
             properties.push(("width-request", width_request));
         }
-        if let Some(ref frame) = self.frame {
-            properties.push(("frame", frame));
-        }
-        glib::Object::new::<FrameSwitcher>(&properties)
-            .expect("Failed to create an instance of FrameSwitcher")
+        glib::Object::new::<SaveDialog>(&properties)
+            .expect("Failed to create an instance of SaveDialog")
+    }
+
+    pub fn close_after_save(mut self, close_after_save: bool) -> Self {
+        self.close_after_save = Some(close_after_save);
+        self
     }
 
     pub fn can_focus(mut self, can_focus: bool) -> Self {
@@ -294,15 +413,10 @@ impl FrameSwitcherBuilder {
         self.width_request = Some(width_request);
         self
     }
-
-    pub fn frame(mut self, frame: &impl IsA<Frame>) -> Self {
-        self.frame = Some(frame.clone().upcast());
-        self
-    }
 }
 
-impl fmt::Display for FrameSwitcher {
+impl fmt::Display for SaveDialog {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("FrameSwitcher")
+        f.write_str("SaveDialog")
     }
 }

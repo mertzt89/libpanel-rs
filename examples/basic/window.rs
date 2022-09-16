@@ -105,23 +105,11 @@ impl ExampleWindow {
             .unwrap()
             .set_state(&name.to_variant());
     }
-    async fn save(page: ExamplePage, delegate: panel::SaveDelegate) -> Result<(), glib::Error> {
-        println!("Actually save the file");
-
-        page.set_modified(false);
-        delegate.set_progress(1.0);
-
-        Ok(())
-    }
     fn add_document(&self) {
         let imp = self.imp();
         let count = imp.document_count.get() + 1;
         imp.document_count.set(count);
         let title = format!("Untitled Document {}", count);
-        let save_delegate = panel::SaveDelegate::builder()
-            .title(&title)
-            .subtitle("~/Documents")
-            .build();
 
         let widget = ExamplePage::new();
         widget.set_title(Some(&title));
@@ -129,18 +117,27 @@ impl ExampleWindow {
         widget.set_icon_name(Some("text-x-generic-symbolic"));
         widget.set_menu_model(Some(&*imp.page_menu));
         widget.set_can_maximize(true);
-        widget.set_save_delegate(Some(&save_delegate));
         widget.set_modified(true);
-
-        save_delegate.connect_save(
-            glib::clone!(@weak widget => @default-panic, move |delegate| {
-                Self::save(widget, delegate.clone())
-            }),
-        );
 
         imp.grid.add(&widget);
         widget.raise();
         widget.focus_default();
+
+        widget
+            .bind_property("command-bar-text", &*imp.command_bar, "label")
+            .build();
+        widget
+            .bind_property("command-text", &*imp.command, "visible")
+            .transform_to(|_, v| {
+                v.get::<Option<&str>>()
+                    .ok()
+                    .flatten()
+                    .map(|s| (!s.is_empty()).to_value())
+            })
+            .build();
+        widget
+            .bind_property("command-text", &*imp.command, "label")
+            .build();
     }
     #[template_callback]
     fn create_frame_cb(_: &panel::Grid, window: &Self) -> panel::Frame {

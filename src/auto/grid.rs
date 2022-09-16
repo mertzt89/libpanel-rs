@@ -314,6 +314,9 @@ pub trait GridExt: 'static {
         &self,
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
 
+    #[doc(alias = "panel_grid_foreach_frame")]
+    fn foreach_frame<P: FnMut(&Frame)>(&self, callback: P);
+
     #[doc(alias = "panel_grid_get_column")]
     #[doc(alias = "get_column")]
     fn column(&self, column: u32) -> GridColumn;
@@ -403,6 +406,27 @@ impl<O: IsA<Grid>> GridExt for O {
                 send.resolve(res);
             });
         }))
+    }
+
+    fn foreach_frame<P: FnMut(&Frame)>(&self, callback: P) {
+        let callback_data: P = callback;
+        unsafe extern "C" fn callback_func<P: FnMut(&Frame)>(
+            frame: *mut ffi::PanelFrame,
+            user_data: glib::ffi::gpointer,
+        ) {
+            let frame = from_glib_borrow(frame);
+            let callback: *mut P = user_data as *const _ as usize as *mut P;
+            (*callback)(&frame);
+        }
+        let callback = Some(callback_func::<P> as _);
+        let super_callback0: &P = &callback_data;
+        unsafe {
+            ffi::panel_grid_foreach_frame(
+                self.as_ref().to_glib_none().0,
+                callback,
+                super_callback0 as *const _ as usize as *mut _,
+            );
+        }
     }
 
     fn column(&self, column: u32) -> GridColumn {
