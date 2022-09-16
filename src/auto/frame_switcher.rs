@@ -7,15 +7,10 @@ use crate::Frame;
 use crate::FrameHeader;
 use glib::object::Cast;
 use glib::object::IsA;
-use glib::object::ObjectType as ObjectType_;
-use glib::signal::connect_raw;
-use glib::signal::SignalHandlerId;
 use glib::translate::*;
 use glib::StaticType;
 use glib::ToValue;
-use std::boxed::Box as Box_;
 use std::fmt;
-use std::mem::transmute;
 
 glib::wrapper! {
     #[doc(alias = "PanelFrameSwitcher")]
@@ -40,92 +35,6 @@ impl FrameSwitcher {
     pub fn builder() -> FrameSwitcherBuilder {
         FrameSwitcherBuilder::default()
     }
-
-    #[doc(alias = "panel_frame_switcher_get_background_rgba")]
-    #[doc(alias = "get_background_rgba")]
-    pub fn background_rgba(&self) -> Option<gdk::RGBA> {
-        unsafe {
-            from_glib_none(ffi::panel_frame_switcher_get_background_rgba(
-                self.to_glib_none().0,
-            ))
-        }
-    }
-
-    #[doc(alias = "panel_frame_switcher_get_foreground_rgba")]
-    #[doc(alias = "get_foreground_rgba")]
-    pub fn foreground_rgba(&self) -> Option<gdk::RGBA> {
-        unsafe {
-            from_glib_none(ffi::panel_frame_switcher_get_foreground_rgba(
-                self.to_glib_none().0,
-            ))
-        }
-    }
-
-    #[doc(alias = "panel_frame_switcher_set_background_rgba")]
-    pub fn set_background_rgba(&self, background_rgba: Option<&gdk::RGBA>) {
-        unsafe {
-            ffi::panel_frame_switcher_set_background_rgba(
-                self.to_glib_none().0,
-                background_rgba.to_glib_none().0,
-            );
-        }
-    }
-
-    #[doc(alias = "panel_frame_switcher_set_foreground_rgba")]
-    pub fn set_foreground_rgba(&self, foreground_rgba: Option<&gdk::RGBA>) {
-        unsafe {
-            ffi::panel_frame_switcher_set_foreground_rgba(
-                self.to_glib_none().0,
-                foreground_rgba.to_glib_none().0,
-            );
-        }
-    }
-
-    #[doc(alias = "background-rgba")]
-    pub fn connect_background_rgba_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_background_rgba_trampoline<F: Fn(&FrameSwitcher) + 'static>(
-            this: *mut ffi::PanelFrameSwitcher,
-            _param_spec: glib::ffi::gpointer,
-            f: glib::ffi::gpointer,
-        ) {
-            let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this))
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::background-rgba\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_background_rgba_trampoline::<F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
-
-    #[doc(alias = "foreground-rgba")]
-    pub fn connect_foreground_rgba_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_foreground_rgba_trampoline<F: Fn(&FrameSwitcher) + 'static>(
-            this: *mut ffi::PanelFrameSwitcher,
-            _param_spec: glib::ffi::gpointer,
-            f: glib::ffi::gpointer,
-        ) {
-            let f: &F = &*(f as *const F);
-            f(&from_glib_borrow(this))
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::foreground-rgba\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_foreground_rgba_trampoline::<F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
 }
 
 impl Default for FrameSwitcher {
@@ -141,8 +50,6 @@ impl Default for FrameSwitcher {
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
 #[must_use = "The builder must be built to be used"]
 pub struct FrameSwitcherBuilder {
-    background_rgba: Option<gdk::RGBA>,
-    foreground_rgba: Option<gdk::RGBA>,
     can_focus: Option<bool>,
     can_target: Option<bool>,
     css_classes: Option<Vec<String>>,
@@ -189,12 +96,6 @@ impl FrameSwitcherBuilder {
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> FrameSwitcher {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
-        if let Some(ref background_rgba) = self.background_rgba {
-            properties.push(("background-rgba", background_rgba));
-        }
-        if let Some(ref foreground_rgba) = self.foreground_rgba {
-            properties.push(("foreground-rgba", foreground_rgba));
-        }
         if let Some(ref can_focus) = self.can_focus {
             properties.push(("can-focus", can_focus));
         }
@@ -272,16 +173,6 @@ impl FrameSwitcherBuilder {
         }
         glib::Object::new::<FrameSwitcher>(&properties)
             .expect("Failed to create an instance of FrameSwitcher")
-    }
-
-    pub fn background_rgba(mut self, background_rgba: &gdk::RGBA) -> Self {
-        self.background_rgba = Some(background_rgba.clone());
-        self
-    }
-
-    pub fn foreground_rgba(mut self, foreground_rgba: &gdk::RGBA) -> Self {
-        self.foreground_rgba = Some(foreground_rgba.clone());
-        self
     }
 
     pub fn can_focus(mut self, can_focus: bool) -> Self {

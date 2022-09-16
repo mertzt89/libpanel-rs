@@ -12,6 +12,7 @@ generate_builder = true
 external_libraries = [
     "GLib",
     "GObject",
+    "Gio",
     "Gtk",
     "Adw",
 ]
@@ -41,6 +42,7 @@ manual = [
   "GLib.Variant",
   "GObject.Object",
   "GObject.Value",
+  "Gio.ActionGroup",
   "Gio.AsyncReadyCallback",
   "Gio.AsyncResult",
   "Gio.Cancellable",

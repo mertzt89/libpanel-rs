@@ -54,6 +54,7 @@ impl Default for OmniBar {
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
 #[must_use = "The builder must be built to be used"]
 pub struct OmniBarBuilder {
+    action_tooltip: Option<String>,
     icon_name: Option<String>,
     menu_model: Option<gio::MenuModel>,
     popover: Option<gtk::Popover>,
@@ -102,6 +103,9 @@ impl OmniBarBuilder {
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> OmniBar {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
+        if let Some(ref action_tooltip) = self.action_tooltip {
+            properties.push(("action-tooltip", action_tooltip));
+        }
         if let Some(ref icon_name) = self.icon_name {
             properties.push(("icon-name", icon_name));
         }
@@ -187,6 +191,11 @@ impl OmniBarBuilder {
             properties.push(("width-request", width_request));
         }
         glib::Object::new::<OmniBar>(&properties).expect("Failed to create an instance of OmniBar")
+    }
+
+    pub fn action_tooltip(mut self, action_tooltip: &str) -> Self {
+        self.action_tooltip = Some(action_tooltip.to_string());
+        self
     }
 
     pub fn icon_name(mut self, icon_name: &str) -> Self {
@@ -360,6 +369,12 @@ pub trait OmniBarExt: 'static {
     #[doc(alias = "panel_omni_bar_stop_pulsing")]
     fn stop_pulsing(&self);
 
+    #[doc(alias = "action-tooltip")]
+    fn action_tooltip(&self) -> Option<glib::GString>;
+
+    #[doc(alias = "action-tooltip")]
+    fn set_action_tooltip(&self, action_tooltip: Option<&str>);
+
     #[doc(alias = "icon-name")]
     fn icon_name(&self) -> Option<glib::GString>;
 
@@ -371,6 +386,9 @@ pub trait OmniBarExt: 'static {
 
     #[doc(alias = "menu-model")]
     fn set_menu_model<P: IsA<gio::MenuModel>>(&self, menu_model: Option<&P>);
+
+    #[doc(alias = "action-tooltip")]
+    fn connect_action_tooltip_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     #[doc(alias = "icon-name")]
     fn connect_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -454,6 +472,14 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
         }
     }
 
+    fn action_tooltip(&self) -> Option<glib::GString> {
+        glib::ObjectExt::property(self.as_ref(), "action-tooltip")
+    }
+
+    fn set_action_tooltip(&self, action_tooltip: Option<&str>) {
+        glib::ObjectExt::set_property(self.as_ref(), "action-tooltip", &action_tooltip)
+    }
+
     fn icon_name(&self) -> Option<glib::GString> {
         glib::ObjectExt::property(self.as_ref(), "icon-name")
     }
@@ -468,6 +494,31 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
 
     fn set_menu_model<P: IsA<gio::MenuModel>>(&self, menu_model: Option<&P>) {
         glib::ObjectExt::set_property(self.as_ref(), "menu-model", &menu_model)
+    }
+
+    fn connect_action_tooltip_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_action_tooltip_trampoline<
+            P: IsA<OmniBar>,
+            F: Fn(&P) + 'static,
+        >(
+            this: *mut ffi::PanelOmniBar,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(OmniBar::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::action-tooltip\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_action_tooltip_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
     }
 
     fn connect_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {

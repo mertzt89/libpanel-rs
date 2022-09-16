@@ -55,10 +55,8 @@ impl Default for Widget {
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
 #[must_use = "The builder must be built to be used"]
 pub struct WidgetBuilder {
-    background_rgba: Option<gdk::RGBA>,
     can_maximize: Option<bool>,
     child: Option<gtk::Widget>,
-    foreground_rgba: Option<gdk::RGBA>,
     icon: Option<gio::Icon>,
     icon_name: Option<String>,
     kind: Option<String>,
@@ -112,17 +110,11 @@ impl WidgetBuilder {
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> Widget {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
-        if let Some(ref background_rgba) = self.background_rgba {
-            properties.push(("background-rgba", background_rgba));
-        }
         if let Some(ref can_maximize) = self.can_maximize {
             properties.push(("can-maximize", can_maximize));
         }
         if let Some(ref child) = self.child {
             properties.push(("child", child));
-        }
-        if let Some(ref foreground_rgba) = self.foreground_rgba {
-            properties.push(("foreground-rgba", foreground_rgba));
         }
         if let Some(ref icon) = self.icon {
             properties.push(("icon", icon));
@@ -226,11 +218,6 @@ impl WidgetBuilder {
         glib::Object::new::<Widget>(&properties).expect("Failed to create an instance of Widget")
     }
 
-    pub fn background_rgba(mut self, background_rgba: &gdk::RGBA) -> Self {
-        self.background_rgba = Some(background_rgba.clone());
-        self
-    }
-
     pub fn can_maximize(mut self, can_maximize: bool) -> Self {
         self.can_maximize = Some(can_maximize);
         self
@@ -238,11 +225,6 @@ impl WidgetBuilder {
 
     pub fn child(mut self, child: &impl IsA<gtk::Widget>) -> Self {
         self.child = Some(child.clone().upcast());
-        self
-    }
-
-    pub fn foreground_rgba(mut self, foreground_rgba: &gdk::RGBA) -> Self {
-        self.foreground_rgba = Some(foreground_rgba.clone());
         self
     }
 
@@ -413,15 +395,14 @@ impl WidgetBuilder {
 }
 
 pub trait WidgetExt: 'static {
+    #[doc(alias = "panel_widget_action_set_enabled")]
+    fn action_set_enabled(&self, action_name: &str, enabled: bool);
+
     #[doc(alias = "panel_widget_close")]
     fn close(&self);
 
     #[doc(alias = "panel_widget_focus_default")]
     fn focus_default(&self) -> bool;
-
-    #[doc(alias = "panel_widget_get_background_rgba")]
-    #[doc(alias = "get_background_rgba")]
-    fn background_rgba(&self) -> Option<gdk::RGBA>;
 
     #[doc(alias = "panel_widget_get_busy")]
     #[doc(alias = "get_busy")]
@@ -438,10 +419,6 @@ pub trait WidgetExt: 'static {
     #[doc(alias = "panel_widget_get_default_focus")]
     #[doc(alias = "get_default_focus")]
     fn default_focus(&self) -> Option<gtk::Widget>;
-
-    #[doc(alias = "panel_widget_get_foreground_rgba")]
-    #[doc(alias = "get_foreground_rgba")]
-    fn foreground_rgba(&self) -> Option<gdk::RGBA>;
 
     #[doc(alias = "panel_widget_get_icon")]
     #[doc(alias = "get_icon")]
@@ -479,6 +456,9 @@ pub trait WidgetExt: 'static {
     #[doc(alias = "get_title")]
     fn title(&self) -> Option<glib::GString>;
 
+    #[doc(alias = "panel_widget_insert_action_group")]
+    fn insert_action_group(&self, prefix: &str, group: &impl IsA<gio::ActionGroup>);
+
     #[doc(alias = "panel_widget_mark_busy")]
     fn mark_busy(&self);
 
@@ -488,17 +468,11 @@ pub trait WidgetExt: 'static {
     #[doc(alias = "panel_widget_raise")]
     fn raise(&self);
 
-    #[doc(alias = "panel_widget_set_background_rgba")]
-    fn set_background_rgba(&self, background_rgba: Option<&gdk::RGBA>);
-
     #[doc(alias = "panel_widget_set_can_maximize")]
     fn set_can_maximize(&self, can_maximize: bool);
 
     #[doc(alias = "panel_widget_set_child")]
     fn set_child(&self, child: Option<&impl IsA<gtk::Widget>>);
-
-    #[doc(alias = "panel_widget_set_foreground_rgba")]
-    fn set_foreground_rgba(&self, foreground_rgba: Option<&gdk::RGBA>);
 
     #[doc(alias = "panel_widget_set_icon")]
     fn set_icon(&self, icon: Option<&impl IsA<gio::Icon>>);
@@ -542,9 +516,6 @@ pub trait WidgetExt: 'static {
     #[doc(alias = "presented")]
     fn connect_presented<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-    #[doc(alias = "background-rgba")]
-    fn connect_background_rgba_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
     #[doc(alias = "busy")]
     fn connect_busy_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
@@ -553,9 +524,6 @@ pub trait WidgetExt: 'static {
 
     #[doc(alias = "child")]
     fn connect_child_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "foreground-rgba")]
-    fn connect_foreground_rgba_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     #[doc(alias = "icon")]
     fn connect_icon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -586,6 +554,16 @@ pub trait WidgetExt: 'static {
 }
 
 impl<O: IsA<Widget>> WidgetExt for O {
+    fn action_set_enabled(&self, action_name: &str, enabled: bool) {
+        unsafe {
+            ffi::panel_widget_action_set_enabled(
+                self.as_ref().to_glib_none().0,
+                action_name.to_glib_none().0,
+                enabled.into_glib(),
+            );
+        }
+    }
+
     fn close(&self) {
         unsafe {
             ffi::panel_widget_close(self.as_ref().to_glib_none().0);
@@ -595,14 +573,6 @@ impl<O: IsA<Widget>> WidgetExt for O {
     fn focus_default(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_widget_focus_default(
-                self.as_ref().to_glib_none().0,
-            ))
-        }
-    }
-
-    fn background_rgba(&self) -> Option<gdk::RGBA> {
-        unsafe {
-            from_glib_none(ffi::panel_widget_get_background_rgba(
                 self.as_ref().to_glib_none().0,
             ))
         }
@@ -627,14 +597,6 @@ impl<O: IsA<Widget>> WidgetExt for O {
     fn default_focus(&self) -> Option<gtk::Widget> {
         unsafe {
             from_glib_none(ffi::panel_widget_get_default_focus(
-                self.as_ref().to_glib_none().0,
-            ))
-        }
-    }
-
-    fn foreground_rgba(&self) -> Option<gdk::RGBA> {
-        unsafe {
-            from_glib_none(ffi::panel_widget_get_foreground_rgba(
                 self.as_ref().to_glib_none().0,
             ))
         }
@@ -700,6 +662,16 @@ impl<O: IsA<Widget>> WidgetExt for O {
         unsafe { from_glib_none(ffi::panel_widget_get_title(self.as_ref().to_glib_none().0)) }
     }
 
+    fn insert_action_group(&self, prefix: &str, group: &impl IsA<gio::ActionGroup>) {
+        unsafe {
+            ffi::panel_widget_insert_action_group(
+                self.as_ref().to_glib_none().0,
+                prefix.to_glib_none().0,
+                group.as_ref().to_glib_none().0,
+            );
+        }
+    }
+
     fn mark_busy(&self) {
         unsafe {
             ffi::panel_widget_mark_busy(self.as_ref().to_glib_none().0);
@@ -718,15 +690,6 @@ impl<O: IsA<Widget>> WidgetExt for O {
         }
     }
 
-    fn set_background_rgba(&self, background_rgba: Option<&gdk::RGBA>) {
-        unsafe {
-            ffi::panel_widget_set_background_rgba(
-                self.as_ref().to_glib_none().0,
-                background_rgba.to_glib_none().0,
-            );
-        }
-    }
-
     fn set_can_maximize(&self, can_maximize: bool) {
         unsafe {
             ffi::panel_widget_set_can_maximize(
@@ -741,15 +704,6 @@ impl<O: IsA<Widget>> WidgetExt for O {
             ffi::panel_widget_set_child(
                 self.as_ref().to_glib_none().0,
                 child.map(|p| p.as_ref()).to_glib_none().0,
-            );
-        }
-    }
-
-    fn set_foreground_rgba(&self, foreground_rgba: Option<&gdk::RGBA>) {
-        unsafe {
-            ffi::panel_widget_set_foreground_rgba(
-                self.as_ref().to_glib_none().0,
-                foreground_rgba.to_glib_none().0,
             );
         }
     }
@@ -888,31 +842,6 @@ impl<O: IsA<Widget>> WidgetExt for O {
         }
     }
 
-    fn connect_background_rgba_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_background_rgba_trampoline<
-            P: IsA<Widget>,
-            F: Fn(&P) + 'static,
-        >(
-            this: *mut ffi::PanelWidget,
-            _param_spec: glib::ffi::gpointer,
-            f: glib::ffi::gpointer,
-        ) {
-            let f: &F = &*(f as *const F);
-            f(Widget::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::background-rgba\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_background_rgba_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
-
     fn connect_busy_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_busy_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWidget,
@@ -973,31 +902,6 @@ impl<O: IsA<Widget>> WidgetExt for O {
                 b"notify::child\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_child_trampoline::<Self, F> as *const (),
-                )),
-                Box_::into_raw(f),
-            )
-        }
-    }
-
-    fn connect_foreground_rgba_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_foreground_rgba_trampoline<
-            P: IsA<Widget>,
-            F: Fn(&P) + 'static,
-        >(
-            this: *mut ffi::PanelWidget,
-            _param_spec: glib::ffi::gpointer,
-            f: glib::ffi::gpointer,
-        ) {
-            let f: &F = &*(f as *const F);
-            f(Widget::from_glib_borrow(this).unsafe_cast_ref())
-        }
-        unsafe {
-            let f: Box_<F> = Box_::new(f);
-            connect_raw(
-                self.as_ptr() as *mut _,
-                b"notify::foreground-rgba\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
-                    notify_foreground_rgba_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
