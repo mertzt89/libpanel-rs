@@ -33,7 +33,7 @@ pub const PANEL_AREA_CENTER: PanelArea = 4;
 pub const PANEL_MAJOR_VERSION: c_int = 1;
 pub const PANEL_MICRO_VERSION: c_int = 0;
 pub const PANEL_MINOR_VERSION: c_int = 0;
-pub const PANEL_VERSION_S: *const c_char = b"1.0.alpha2\0" as *const u8 as *const c_char;
+pub const PANEL_VERSION_S: *const c_char = b"1.0.0\0" as *const u8 as *const c_char;
 pub const PANEL_WIDGET_KIND_ANY: *const c_char = b"*\0" as *const u8 as *const c_char;
 pub const PANEL_WIDGET_KIND_DOCUMENT: *const c_char = b"document\0" as *const u8 as *const c_char;
 pub const PANEL_WIDGET_KIND_UNKNOWN: *const c_char = b"unknown\0" as *const u8 as *const c_char;
@@ -627,10 +627,12 @@ extern "C" {
     pub fn panel_frame_get_pages(self_: *mut PanelFrame) -> *mut gtk::GtkSelectionModel;
     pub fn panel_frame_get_placeholder(self_: *mut PanelFrame) -> *mut gtk::GtkWidget;
     pub fn panel_frame_get_position(self_: *mut PanelFrame) -> *mut PanelPosition;
+    pub fn panel_frame_get_requested_size(self_: *mut PanelFrame) -> c_int;
     pub fn panel_frame_get_visible_child(self_: *mut PanelFrame) -> *mut PanelWidget;
     pub fn panel_frame_remove(self_: *mut PanelFrame, panel: *mut PanelWidget);
     pub fn panel_frame_set_header(self_: *mut PanelFrame, header: *mut PanelFrameHeader);
     pub fn panel_frame_set_placeholder(self_: *mut PanelFrame, placeholder: *mut gtk::GtkWidget);
+    pub fn panel_frame_set_requested_size(self_: *mut PanelFrame, requested_size: c_int);
     pub fn panel_frame_set_visible_child(self_: *mut PanelFrame, widget: *mut PanelWidget);
 
     //=========================================================================
@@ -754,6 +756,7 @@ extern "C" {
     pub fn panel_position_get_type() -> GType;
     pub fn panel_position_new() -> *mut PanelPosition;
     pub fn panel_position_new_from_variant(variant: *mut glib::GVariant) -> *mut PanelPosition;
+    pub fn panel_position_equal(a: *mut PanelPosition, b: *mut PanelPosition) -> gboolean;
     pub fn panel_position_get_area(self_: *mut PanelPosition) -> PanelArea;
     pub fn panel_position_get_area_set(self_: *mut PanelPosition) -> gboolean;
     pub fn panel_position_get_column(self_: *mut PanelPosition) -> c_uint;
@@ -883,6 +886,7 @@ extern "C" {
     pub fn panel_widget_get_default_focus(self_: *mut PanelWidget) -> *mut gtk::GtkWidget;
     pub fn panel_widget_get_icon(self_: *mut PanelWidget) -> *mut gio::GIcon;
     pub fn panel_widget_get_icon_name(self_: *mut PanelWidget) -> *const c_char;
+    pub fn panel_widget_get_id(self_: *mut PanelWidget) -> *const c_char;
     pub fn panel_widget_get_kind(self_: *mut PanelWidget) -> *const c_char;
     pub fn panel_widget_get_menu_model(self_: *mut PanelWidget) -> *mut gio::GMenuModel;
     pub fn panel_widget_get_modified(self_: *mut PanelWidget) -> gboolean;
@@ -903,6 +907,7 @@ extern "C" {
     pub fn panel_widget_set_child(self_: *mut PanelWidget, child: *mut gtk::GtkWidget);
     pub fn panel_widget_set_icon(self_: *mut PanelWidget, icon: *mut gio::GIcon);
     pub fn panel_widget_set_icon_name(self_: *mut PanelWidget, icon_name: *const c_char);
+    pub fn panel_widget_set_id(self_: *mut PanelWidget, id: *const c_char);
     pub fn panel_widget_set_kind(self_: *mut PanelWidget, kind: *const c_char);
     pub fn panel_widget_set_menu_model(self_: *mut PanelWidget, menu_model: *mut gio::GMenuModel);
     pub fn panel_widget_set_modified(self_: *mut PanelWidget, modified: gboolean);

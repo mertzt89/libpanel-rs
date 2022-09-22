@@ -355,6 +355,10 @@ pub trait FrameExt: 'static {
     #[doc(alias = "get_position")]
     fn position(&self) -> Position;
 
+    #[doc(alias = "panel_frame_get_requested_size")]
+    #[doc(alias = "get_requested_size")]
+    fn requested_size(&self) -> i32;
+
     #[doc(alias = "panel_frame_get_visible_child")]
     #[doc(alias = "get_visible_child")]
     fn visible_child(&self) -> Option<Widget>;
@@ -367,6 +371,9 @@ pub trait FrameExt: 'static {
 
     #[doc(alias = "panel_frame_set_placeholder")]
     fn set_placeholder(&self, placeholder: Option<&impl IsA<gtk::Widget>>);
+
+    #[doc(alias = "panel_frame_set_requested_size")]
+    fn set_requested_size(&self, requested_size: i32);
 
     #[doc(alias = "panel_frame_set_visible_child")]
     fn set_visible_child(&self, widget: &impl IsA<Widget>);
@@ -448,6 +455,10 @@ impl<O: IsA<Frame>> FrameExt for O {
         }
     }
 
+    fn requested_size(&self) -> i32 {
+        unsafe { ffi::panel_frame_get_requested_size(self.as_ref().to_glib_none().0) }
+    }
+
     fn visible_child(&self) -> Option<Widget> {
         unsafe {
             from_glib_none(ffi::panel_frame_get_visible_child(
@@ -480,6 +491,12 @@ impl<O: IsA<Frame>> FrameExt for O {
                 self.as_ref().to_glib_none().0,
                 placeholder.map(|p| p.as_ref()).to_glib_none().0,
             );
+        }
+    }
+
+    fn set_requested_size(&self, requested_size: i32) {
+        unsafe {
+            ffi::panel_frame_set_requested_size(self.as_ref().to_glib_none().0, requested_size);
         }
     }
 

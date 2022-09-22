@@ -381,7 +381,7 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("PANEL_MAJOR_VERSION", "1"),
     ("PANEL_MICRO_VERSION", "0"),
     ("PANEL_MINOR_VERSION", "0"),
-    ("PANEL_VERSION_S", "1.0.alpha2"),
+    ("PANEL_VERSION_S", "1.0.0"),
     ("PANEL_WIDGET_KIND_ANY", "*"),
     ("PANEL_WIDGET_KIND_DOCUMENT", "document"),
     ("PANEL_WIDGET_KIND_UNKNOWN", "unknown"),
