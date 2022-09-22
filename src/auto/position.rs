@@ -50,6 +50,16 @@ impl Position {
         PositionBuilder::default()
     }
 
+    #[doc(alias = "panel_position_equal")]
+    pub fn equal(&self, b: &Position) -> bool {
+        unsafe {
+            from_glib(ffi::panel_position_equal(
+                self.to_glib_none().0,
+                b.to_glib_none().0,
+            ))
+        }
+    }
+
     #[doc(alias = "panel_position_get_area")]
     #[doc(alias = "get_area")]
     pub fn area(&self) -> Area {

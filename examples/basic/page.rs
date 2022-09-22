@@ -58,8 +58,12 @@ impl ObjectImpl for ExamplePagePrivate {
     fn properties() -> &'static [glib::ParamSpec] {
         static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
             vec![
-                glib::ParamSpecString::builder("command-text").read_only().build(),
-                glib::ParamSpecString::builder("command-bar-text").read_only().build(),
+                glib::ParamSpecString::builder("command-text")
+                    .read_only()
+                    .build(),
+                glib::ParamSpecString::builder("command-bar-text")
+                    .read_only()
+                    .build(),
             ]
         });
         PROPERTIES.as_ref()

@@ -60,6 +60,7 @@ pub struct WidgetBuilder {
     child: Option<gtk::Widget>,
     icon: Option<gio::Icon>,
     icon_name: Option<String>,
+    id: Option<String>,
     kind: Option<String>,
     menu_model: Option<gio::MenuModel>,
     modified: Option<bool>,
@@ -122,6 +123,9 @@ impl WidgetBuilder {
         }
         if let Some(ref icon_name) = self.icon_name {
             properties.push(("icon-name", icon_name));
+        }
+        if let Some(ref id) = self.id {
+            properties.push(("id", id));
         }
         if let Some(ref kind) = self.kind {
             properties.push(("kind", kind));
@@ -236,6 +240,11 @@ impl WidgetBuilder {
 
     pub fn icon_name(mut self, icon_name: &str) -> Self {
         self.icon_name = Some(icon_name.to_string());
+        self
+    }
+
+    pub fn id(mut self, id: &str) -> Self {
+        self.id = Some(id.to_string());
         self
     }
 
@@ -432,6 +441,10 @@ pub trait WidgetExt: 'static {
     #[doc(alias = "get_icon_name")]
     fn icon_name(&self) -> Option<glib::GString>;
 
+    #[doc(alias = "panel_widget_get_id")]
+    #[doc(alias = "get_id")]
+    fn id(&self) -> glib::GString;
+
     #[doc(alias = "panel_widget_get_kind")]
     #[doc(alias = "get_kind")]
     fn kind(&self) -> glib::GString;
@@ -488,6 +501,9 @@ pub trait WidgetExt: 'static {
     #[doc(alias = "panel_widget_set_icon_name")]
     fn set_icon_name(&self, icon_name: Option<&str>);
 
+    #[doc(alias = "panel_widget_set_id")]
+    fn set_id(&self, id: &str);
+
     #[doc(alias = "panel_widget_set_kind")]
     fn set_kind(&self, kind: Option<&str>);
 
@@ -538,6 +554,9 @@ pub trait WidgetExt: 'static {
 
     #[doc(alias = "icon-name")]
     fn connect_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+
+    #[doc(alias = "id")]
+    fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
     #[doc(alias = "kind")]
     fn connect_kind_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -626,6 +645,10 @@ impl<O: IsA<Widget>> WidgetExt for O {
                 self.as_ref().to_glib_none().0,
             ))
         }
+    }
+
+    fn id(&self) -> glib::GString {
+        unsafe { from_glib_none(ffi::panel_widget_get_id(self.as_ref().to_glib_none().0)) }
     }
 
     fn kind(&self) -> glib::GString {
@@ -745,6 +768,12 @@ impl<O: IsA<Widget>> WidgetExt for O {
                 self.as_ref().to_glib_none().0,
                 icon_name.to_glib_none().0,
             );
+        }
+    }
+
+    fn set_id(&self, id: &str) {
+        unsafe {
+            ffi::panel_widget_set_id(self.as_ref().to_glib_none().0, id.to_glib_none().0);
         }
     }
 
@@ -968,6 +997,28 @@ impl<O: IsA<Widget>> WidgetExt for O {
                 b"notify::icon-name\0".as_ptr() as *const _,
                 Some(transmute::<_, unsafe extern "C" fn()>(
                     notify_icon_name_trampoline::<Self, F> as *const (),
+                )),
+                Box_::into_raw(f),
+            )
+        }
+    }
+
+    fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
+        unsafe extern "C" fn notify_id_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
+            this: *mut ffi::PanelWidget,
+            _param_spec: glib::ffi::gpointer,
+            f: glib::ffi::gpointer,
+        ) {
+            let f: &F = &*(f as *const F);
+            f(Widget::from_glib_borrow(this).unsafe_cast_ref())
+        }
+        unsafe {
+            let f: Box_<F> = Box_::new(f);
+            connect_raw(
+                self.as_ptr() as *mut _,
+                b"notify::id\0".as_ptr() as *const _,
+                Some(transmute::<_, unsafe extern "C" fn()>(
+                    notify_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
             )
