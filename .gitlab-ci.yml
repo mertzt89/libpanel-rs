@@ -21,7 +21,7 @@ before_script:
 
 build:
   script:
-    - cargo build --all-features --examples
+    - cargo build --features gtk_v4_6 --examples
     - xvfb-run -a -s "-screen 0 1024x768x24" cargo test
 
 docs:

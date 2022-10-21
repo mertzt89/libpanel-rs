@@ -15,7 +15,7 @@ keywords = ["gtk4-rs", "gnome", "adwaita", "panel", "GUI"]
 name = "libpanel"
 
 [features]
-dox = []
+dox = ["ffi/dox", "glib/dox", "gio/dox", "gdk/dox", "gtk/dox", "adw/dox"]
 gtk_v4_2 = ["gtk/v4_2", "adw/gtk_v4_2"]
 gtk_v4_4 = ["gtk_v4_2", "gtk/v4_4", "adw/gtk_v4_4"]
 gtk_v4_6 = ["gtk_v4_4", "gtk/v4_6", "adw/gtk_v4_6"]
