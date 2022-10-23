@@ -21,7 +21,7 @@ before_script:
 
 build:
   script:
-    - cargo build --features gtk_v4_6 --examples
+    - cargo build --features gtk_v4_6,adw_v1_2 --examples
     - xvfb-run -a -s "-screen 0 1024x768x24" cargo test
 
 docs:
@@ -34,7 +34,7 @@ docs:
     - ./generator.py --embed-docs
     - rustup default nightly
     - eval $(./gir-rustdoc.py pre-docs)
-    - cargo doc --features dox --no-deps -p libpanel -p libpanel-sys
+    - cargo doc --all-features --no-deps -p libpanel -p libpanel-sys
     - mv target/doc/ docs
   artifacts:
     paths:

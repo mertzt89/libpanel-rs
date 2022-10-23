@@ -20,7 +20,7 @@
 
 use super::page::ExamplePage;
 use gtk::{gio, glib, subclass::prelude::*, CompositeTemplate};
-use libadwaita::{self as adw, prelude::*, subclass::prelude::*};
+use adw::{prelude::*, subclass::prelude::*};
 use libpanel::{self as panel, prelude::*};
 use std::cell::Cell;
 
