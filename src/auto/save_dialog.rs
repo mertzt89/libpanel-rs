@@ -18,6 +18,18 @@ use std::mem::transmute;
 use std::pin::Pin;
 use std::ptr;
 
+#[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+#[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+glib::wrapper! {
+    #[doc(alias = "PanelSaveDialog")]
+    pub struct SaveDialog(Object<ffi::PanelSaveDialog, ffi::PanelSaveDialogClass>) @extends adw::MessageDialog, gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+
+    match fn {
+        type_ => || ffi::panel_save_dialog_get_type(),
+    }
+}
+
+#[cfg(not(any(feature = "adw_v1_2", feature = "dox")))]
 glib::wrapper! {
     #[doc(alias = "PanelSaveDialog")]
     pub struct SaveDialog(Object<ffi::PanelSaveDialog, ffi::PanelSaveDialogClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
@@ -166,6 +178,27 @@ impl Default for SaveDialog {
 #[must_use = "The builder must be built to be used"]
 pub struct SaveDialogBuilder {
     close_after_save: Option<bool>,
+    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    body: Option<String>,
+    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    body_use_markup: Option<bool>,
+    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    close_response: Option<String>,
+    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    default_response: Option<String>,
+    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    extra_child: Option<gtk::Widget>,
+    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    heading: Option<String>,
+    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    heading_use_markup: Option<bool>,
     can_focus: Option<bool>,
     can_target: Option<bool>,
     css_classes: Option<Vec<String>>,
@@ -212,6 +245,34 @@ impl SaveDialogBuilder {
         let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
         if let Some(ref close_after_save) = self.close_after_save {
             properties.push(("close-after-save", close_after_save));
+        }
+        #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+        if let Some(ref body) = self.body {
+            properties.push(("body", body));
+        }
+        #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+        if let Some(ref body_use_markup) = self.body_use_markup {
+            properties.push(("body-use-markup", body_use_markup));
+        }
+        #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+        if let Some(ref close_response) = self.close_response {
+            properties.push(("close-response", close_response));
+        }
+        #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+        if let Some(ref default_response) = self.default_response {
+            properties.push(("default-response", default_response));
+        }
+        #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+        if let Some(ref extra_child) = self.extra_child {
+            properties.push(("extra-child", extra_child));
+        }
+        #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+        if let Some(ref heading) = self.heading {
+            properties.push(("heading", heading));
+        }
+        #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+        if let Some(ref heading_use_markup) = self.heading_use_markup {
+            properties.push(("heading-use-markup", heading_use_markup));
         }
         if let Some(ref can_focus) = self.can_focus {
             properties.push(("can-focus", can_focus));
@@ -286,11 +347,59 @@ impl SaveDialogBuilder {
             properties.push(("width-request", width_request));
         }
         glib::Object::new::<SaveDialog>(&properties)
-            .expect("Failed to create an instance of SaveDialog")
     }
 
     pub fn close_after_save(mut self, close_after_save: bool) -> Self {
         self.close_after_save = Some(close_after_save);
+        self
+    }
+
+    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    pub fn body(mut self, body: &str) -> Self {
+        self.body = Some(body.to_string());
+        self
+    }
+
+    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    pub fn body_use_markup(mut self, body_use_markup: bool) -> Self {
+        self.body_use_markup = Some(body_use_markup);
+        self
+    }
+
+    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    pub fn close_response(mut self, close_response: &str) -> Self {
+        self.close_response = Some(close_response.to_string());
+        self
+    }
+
+    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    pub fn default_response(mut self, default_response: &str) -> Self {
+        self.default_response = Some(default_response.to_string());
+        self
+    }
+
+    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    pub fn extra_child(mut self, extra_child: &impl IsA<gtk::Widget>) -> Self {
+        self.extra_child = Some(extra_child.clone().upcast());
+        self
+    }
+
+    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    pub fn heading(mut self, heading: &str) -> Self {
+        self.heading = Some(heading.to_string());
+        self
+    }
+
+    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
+    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    pub fn heading_use_markup(mut self, heading_use_markup: bool) -> Self {
+        self.heading_use_markup = Some(heading_use_markup);
         self
     }
 

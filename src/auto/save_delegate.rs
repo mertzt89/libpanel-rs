@@ -95,7 +95,6 @@ impl SaveDelegateBuilder {
             properties.push(("title", title));
         }
         glib::Object::new::<SaveDelegate>(&properties)
-            .expect("Failed to create an instance of SaveDelegate")
     }
 
     pub fn icon(mut self, icon: &impl IsA<gio::Icon>) -> Self {

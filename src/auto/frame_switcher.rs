@@ -172,7 +172,6 @@ impl FrameSwitcherBuilder {
             properties.push(("frame", frame));
         }
         glib::Object::new::<FrameSwitcher>(&properties)
-            .expect("Failed to create an instance of FrameSwitcher")
     }
 
     pub fn can_focus(mut self, can_focus: bool) -> Self {

@@ -86,7 +86,6 @@ impl ToggleButton {
 impl Default for ToggleButton {
     fn default() -> Self {
         glib::object::Object::new::<Self>(&[])
-            .expect("Can't construct ToggleButton object with default parameters")
     }
 }
 
@@ -222,7 +221,6 @@ impl ToggleButtonBuilder {
             properties.push(("width-request", width_request));
         }
         glib::Object::new::<ToggleButton>(&properties)
-            .expect("Failed to create an instance of ToggleButton")
     }
 
     pub fn area(mut self, area: Area) -> Self {

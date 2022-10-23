@@ -22,7 +22,7 @@ version = "1.0.0"
 name = "libpanel_sys"
 
 [features]
-dox = []
+dox = ["glib/dox", "gobject/dox", "gio/dox", "gdk/dox", "gtk/dox", "adw/dox"]
 
 [dependencies]
 libc = "0.2"

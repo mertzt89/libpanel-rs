@@ -230,7 +230,6 @@ impl FrameHeaderBarBuilder {
             properties.push(("frame", frame));
         }
         glib::Object::new::<FrameHeaderBar>(&properties)
-            .expect("Failed to create an instance of FrameHeaderBar")
     }
 
     pub fn show_icon(mut self, show_icon: bool) -> Self {

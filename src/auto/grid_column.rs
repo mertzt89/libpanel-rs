@@ -216,7 +216,6 @@ impl GridColumnBuilder {
             properties.push(("width-request", width_request));
         }
         glib::Object::new::<GridColumn>(&properties)
-            .expect("Failed to create an instance of GridColumn")
     }
 
     pub fn can_focus(mut self, can_focus: bool) -> Self {

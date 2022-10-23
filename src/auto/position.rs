@@ -419,7 +419,6 @@ impl PositionBuilder {
             properties.push(("row-set", row_set));
         }
         glib::Object::new::<Position>(&properties)
-            .expect("Failed to create an instance of Position")
     }
 
     pub fn area(mut self, area: Area) -> Self {

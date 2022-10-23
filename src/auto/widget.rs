@@ -220,7 +220,7 @@ impl WidgetBuilder {
         if let Some(ref width_request) = self.width_request {
             properties.push(("width-request", width_request));
         }
-        glib::Object::new::<Widget>(&properties).expect("Failed to create an instance of Widget")
+        glib::Object::new::<Widget>(&properties)
     }
 
     pub fn can_maximize(mut self, can_maximize: bool) -> Self {
