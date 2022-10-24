@@ -68,16 +68,17 @@ impl ObjectImpl for ExamplePagePrivate {
         });
         PROPERTIES.as_ref()
     }
-    fn property(&self, _obj: &Self::Type, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
+    fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
         match pspec.name() {
             "command-text" => "".to_value(),
             "command-bar-text" => "".to_value(),
             _ => unimplemented!(),
         }
     }
-    fn constructed(&self, obj: &Self::Type) {
-        self.parent_constructed(obj);
+    fn constructed(&self) {
+        self.parent_constructed();
         let scroller = gtk::ScrolledWindow::new();
+        let obj = self.obj();
         obj.set_child(Some(&scroller));
 
         self.text_view.replace(Some(gtk::TextView::new()));
@@ -123,6 +124,6 @@ impl PanelWidgetImpl for ExamplePagePrivate {
 
 impl ExamplePage {
     pub fn new() -> Self {
-        glib::Object::new(&[]).expect("Failed to create ExamplePage")
+        glib::Object::new(&[])
     }
 }

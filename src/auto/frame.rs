@@ -182,7 +182,7 @@ impl FrameBuilder {
         if let Some(ref width_request) = self.width_request {
             properties.push(("width-request", width_request));
         }
-        glib::Object::new::<Frame>(&properties).expect("Failed to create an instance of Frame")
+        glib::Object::new::<Frame>(&properties)
     }
 
     pub fn placeholder(mut self, placeholder: &impl IsA<gtk::Widget>) -> Self {

@@ -1,6 +1,6 @@
 [package]
 name = "libpanel-sys"
-version = "0.1.0-alpha-4"
+version = "0.2.0"
 authors = ["Jason Francis <jafrancis999@gmail.com>"]
 edition = "2018"
 build = "build.rs"
@@ -22,7 +22,7 @@ version = "1.0.0"
 name = "libpanel_sys"
 
 [features]
-dox = []
+dox = ["glib/dox", "gobject/dox", "gio/dox", "gdk/dox", "gtk/dox", "adw/dox"]
 
 [dependencies]
 libc = "0.2"

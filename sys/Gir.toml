@@ -3,7 +3,7 @@ girs_directories = ["..", "../gir-files"]
 work_mode = "sys"
 library = "Panel"
 version = "1"
-min_cfg_version = "1.0.0-alpha0"
+min_cfg_version = "1.0.0"
 split_build_rs = true
 external_libraries = [
     "GLib",

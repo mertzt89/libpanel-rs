@@ -175,7 +175,7 @@ impl GridBuilder {
         if let Some(ref width_request) = self.width_request {
             properties.push(("width-request", width_request));
         }
-        glib::Object::new::<Grid>(&properties).expect("Failed to create an instance of Grid")
+        glib::Object::new::<Grid>(&properties)
     }
 
     pub fn can_focus(mut self, can_focus: bool) -> Self {

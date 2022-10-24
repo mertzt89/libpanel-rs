@@ -217,7 +217,6 @@ impl ThemeSelectorBuilder {
             properties.push(("width-request", width_request));
         }
         glib::Object::new::<ThemeSelector>(&properties)
-            .expect("Failed to create an instance of ThemeSelector")
     }
 
     pub fn action_name(mut self, action_name: &str) -> Self {

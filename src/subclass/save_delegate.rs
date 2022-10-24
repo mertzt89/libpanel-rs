@@ -109,7 +109,7 @@ unsafe extern "C" fn save_delegate_save_async<T: SaveDelegateImpl>(
                 move |task: gio::LocalTask<bool>, source_object: Option<&glib::Object>| {
                     let result: *mut gio::ffi::GAsyncResult =
                         task.upcast_ref::<gio::AsyncResult>().to_glib_none().0;
-                    let source_object: *mut glib::object::GObject = source_object.to_glib_none().0;
+                    let source_object: *mut glib::gobject_ffi::GObject = source_object.to_glib_none().0;
                     callback(source_object, result, user_data)
                 },
             );

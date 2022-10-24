@@ -205,7 +205,7 @@ impl DockBuilder {
         if let Some(ref width_request) = self.width_request {
             properties.push(("width-request", width_request));
         }
-        glib::Object::new::<Dock>(&properties).expect("Failed to create an instance of Dock")
+        glib::Object::new::<Dock>(&properties)
     }
 
     pub fn bottom_height(mut self, bottom_height: i32) -> Self {

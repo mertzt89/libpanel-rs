@@ -20,7 +20,7 @@
 
 use super::page::ExamplePage;
 use gtk::{gio, glib, subclass::prelude::*, CompositeTemplate};
-use libadwaita::{self as adw, prelude::*, subclass::prelude::*};
+use adw::{prelude::*, subclass::prelude::*};
 use libpanel::{self as panel, prelude::*};
 use std::cell::Cell;
 
@@ -85,7 +85,7 @@ impl ObjectSubclass for ExampleWindowPrivate {
 #[gtk::template_callbacks]
 impl ExampleWindow {
     pub fn new<P: glib::IsA<gtk::Application>>(app: &P) -> Self {
-        glib::Object::new(&[("application", app)]).expect("Failed to create ExampleWindow")
+        glib::Object::new(&[("application", app)])
     }
     fn notify_theme_cb(&self, style_manager: &adw::StyleManager) {
         let name = match style_manager.color_scheme() {
@@ -128,12 +128,7 @@ impl ExampleWindow {
             .build();
         widget
             .bind_property("command-text", &*imp.command, "visible")
-            .transform_to(|_, v| {
-                v.get::<Option<&str>>()
-                    .ok()
-                    .flatten()
-                    .map(|s| (!s.is_empty()).to_value())
-            })
+            .transform_to(|_, v: Option<&str>| v.map(|s| (!s.is_empty())))
             .build();
         widget
             .bind_property("command-text", &*imp.command, "label")
@@ -196,8 +191,9 @@ impl ExampleWindow {
 }
 
 impl ObjectImpl for ExampleWindowPrivate {
-    fn constructed(&self, obj: &Self::Type) {
-        self.parent_constructed(obj);
+    fn constructed(&self) {
+        self.parent_constructed();
+        let obj = self.obj();
         let action = gio::SimpleAction::new_stateful(
             "theme",
             Some(glib::VariantTy::STRING),

@@ -303,7 +303,6 @@ impl FrameTabBarBuilder {
             properties.push(("frame", frame));
         }
         glib::Object::new::<FrameTabBar>(&properties)
-            .expect("Failed to create an instance of FrameTabBar")
     }
 
     pub fn autohide(mut self, autohide: bool) -> Self {
