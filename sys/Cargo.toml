@@ -9,9 +9,12 @@ categories = ["api-bindings", "gui"]
 keywords = ["gtk4-rs", "gnome", "adwaita", "panel", "GUI"]
 description = "FFI bindings for GNOME libpanel"
 license = "MIT"
+license-file = "COPYING"
 homepage = "https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/"
 repository = "https://gitlab.gnome.org/World/Rust/libpanel-rs"
 documentation = "https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/stable/latest/docs/libpanel_sys"
+include = ["/src", "/tests", "/build.rs"]
+
 [package.metadata.docs.rs]
 features = ["dox"]
 [package.metadata.system-deps.libpanel_1]
