@@ -6,11 +6,14 @@ edition = "2021"
 homepage = "https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/"
 description = "Rust bindings for GNOME libpanel"
 license = "MIT"
+license-file = "COPYING"
+readme = "README.md"
 repository = "https://gitlab.gnome.org/World/Rust/libpanel-rs"
 documentation = "https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/stable/latest/docs/libpanel"
 categories = ["api-bindings", "gui"]
 keywords = ["gtk4-rs", "gnome", "adwaita", "panel", "GUI"]
 rust-version = "1.60"
+include = ["/src", "/examples", "/README.md"]
 
 [lib]
 name = "libpanel"
@@ -40,4 +43,4 @@ adw = { git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs", package = "li
 
 [workspace]
 members = ["sys"]
-exclude = ["gir"]
+exclude = ["gir", "gir-files"]
