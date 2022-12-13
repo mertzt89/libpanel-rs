@@ -48,7 +48,7 @@ impl<T: SaveDelegateImpl> SaveDelegateImplExt for T {
                     .save_finish
                     .expect("No parent class implementation for \"save_finish\"");
 
-                let ret: Box<ThreadGuard<gio::GioFutureResult<(), glib::Error>>> =
+                let ret: Box<ThreadGuard<gio::GioFutureResult<Result<(), glib::Error>>>> =
                     Box::from_raw(user_data as *mut _);
                 let ret = ret.into_inner();
 
@@ -109,7 +109,8 @@ unsafe extern "C" fn save_delegate_save_async<T: SaveDelegateImpl>(
                 move |task: gio::LocalTask<bool>, source_object: Option<&glib::Object>| {
                     let result: *mut gio::ffi::GAsyncResult =
                         task.upcast_ref::<gio::AsyncResult>().to_glib_none().0;
-                    let source_object: *mut glib::gobject_ffi::GObject = source_object.to_glib_none().0;
+                    let source_object: *mut glib::gobject_ffi::GObject =
+                        source_object.to_glib_none().0;
                     callback(source_object, result, user_data)
                 },
             );
