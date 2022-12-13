@@ -19,8 +19,8 @@
  */
 
 use super::page::ExamplePage;
-use gtk::{gio, glib, subclass::prelude::*, CompositeTemplate};
 use adw::{prelude::*, subclass::prelude::*};
+use gtk::{gio, glib, CompositeTemplate};
 use libpanel::{self as panel, prelude::*};
 use std::cell::Cell;
 

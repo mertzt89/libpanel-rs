@@ -3,13 +3,8 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::Frame;
-use crate::FrameHeader;
-use glib::object::Cast;
-use glib::object::IsA;
-use glib::translate::*;
-use glib::StaticType;
-use glib::ToValue;
+use crate::{Frame, FrameHeader};
+use glib::{prelude::*, translate::*};
 use std::fmt;
 
 glib::wrapper! {
