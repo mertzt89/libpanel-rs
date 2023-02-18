@@ -5,22 +5,22 @@ use glib::Cast;
 use gtk::subclass::prelude::*;
 
 pub trait PanelGridImpl: WidgetImpl {
-    fn create_frame(&self, grid: &Self::Type) -> Option<Frame> {
-        PanelGridImplExt::parent_create_frame(self, grid)
+    fn create_frame(&self) -> Option<Frame> {
+        PanelGridImplExt::parent_create_frame(self)
     }
 }
 
 pub trait PanelGridImplExt: ObjectSubclass {
-    fn parent_create_frame(&self, grid: &Self::Type) -> Option<Frame>;
+    fn parent_create_frame(&self) -> Option<Frame>;
 }
 
 impl<T: PanelGridImpl> PanelGridImplExt for T {
-    fn parent_create_frame(&self, grid: &Self::Type) -> Option<Frame> {
+    fn parent_create_frame(&self) -> Option<Frame> {
         unsafe {
             let data = T::type_data();
             let parent_class = data.as_ref().parent_class() as *mut ffi::PanelGridClass;
             if let Some(f) = (*parent_class).create_frame {
-                return from_glib_none(f(grid.unsafe_cast_ref::<Grid>().to_glib_none().0));
+                return from_glib_none(f(self.obj().unsafe_cast_ref::<Grid>().to_glib_none().0));
             }
             None
         }
@@ -44,9 +44,6 @@ unsafe extern "C" fn panel_grid_create_frame<T: PanelGridImpl>(
 ) -> *mut ffi::PanelFrame {
     let instance = &*(ptr as *mut T::Instance);
     let imp = instance.imp();
-    let wrap: Borrowed<Grid> = from_glib_borrow(ptr);
 
-    PanelGridImpl::create_frame(imp, wrap.unsafe_cast_ref())
-        .to_glib_none()
-        .0
+    PanelGridImpl::create_frame(imp).to_glib_none().0
 }

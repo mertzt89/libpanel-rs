@@ -117,7 +117,7 @@ impl ObjectImpl for ExamplePagePrivate {
 }
 impl WidgetImpl for ExamplePagePrivate {}
 impl PanelWidgetImpl for ExamplePagePrivate {
-    fn default_focus(&self, _widget: &Self::Type) -> Option<gtk::Widget> {
+    fn default_focus(&self) -> Option<gtk::Widget> {
         Some(self.text_view.borrow().as_ref().unwrap().clone().upcast())
     }
 }
