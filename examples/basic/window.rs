@@ -85,7 +85,7 @@ impl ObjectSubclass for ExampleWindowPrivate {
 #[gtk::template_callbacks]
 impl ExampleWindow {
     pub fn new<P: glib::IsA<gtk::Application>>(app: &P) -> Self {
-        glib::Object::new(&[("application", app)])
+        glib::Object::builder().property("application", app).build()
     }
     fn notify_theme_cb(&self, style_manager: &adw::StyleManager) {
         let name = match style_manager.color_scheme() {
@@ -136,7 +136,7 @@ impl ExampleWindow {
     }
     #[template_callback]
     fn create_frame_cb(_: &panel::Grid, window: &Self) -> panel::Frame {
-        let imp = ExampleWindowPrivate::from_instance(window);
+        let imp = window.imp();
         let frame = panel::Frame::new();
 
         let status = adw::StatusPage::builder()

@@ -124,6 +124,6 @@ impl PanelWidgetImpl for ExamplePagePrivate {
 
 impl ExamplePage {
     pub fn new() -> Self {
-        glib::Object::new(&[])
+        glib::Object::new()
     }
 }

@@ -33,7 +33,7 @@ impl SaveDelegate {
     ///
     /// This method returns an instance of [`SaveDelegateBuilder`](crate::builders::SaveDelegateBuilder) which can be used to create [`SaveDelegate`] objects.
     pub fn builder() -> SaveDelegateBuilder {
-        SaveDelegateBuilder::default()
+        SaveDelegateBuilder::new()
     }
 }
 
@@ -43,82 +43,63 @@ impl Default for SaveDelegate {
     }
 }
 
-#[derive(Clone, Default)]
 // rustdoc-stripper-ignore-next
 /// A [builder-pattern] type to construct [`SaveDelegate`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
 #[must_use = "The builder must be built to be used"]
 pub struct SaveDelegateBuilder {
-    icon: Option<gio::Icon>,
-    icon_name: Option<String>,
-    is_draft: Option<bool>,
-    progress: Option<f64>,
-    subtitle: Option<String>,
-    title: Option<String>,
+    builder: glib::object::ObjectBuilder<'static, SaveDelegate>,
 }
 
 impl SaveDelegateBuilder {
-    // rustdoc-stripper-ignore-next
-    /// Create a new [`SaveDelegateBuilder`].
-    pub fn new() -> Self {
-        Self::default()
+    fn new() -> Self {
+        Self {
+            builder: glib::object::Object::builder(),
+        }
+    }
+
+    pub fn icon(self, icon: &impl IsA<gio::Icon>) -> Self {
+        Self {
+            builder: self.builder.property("icon", icon.clone().upcast()),
+        }
+    }
+
+    pub fn icon_name(self, icon_name: impl Into<glib::GString>) -> Self {
+        Self {
+            builder: self.builder.property("icon-name", icon_name.into()),
+        }
+    }
+
+    pub fn is_draft(self, is_draft: bool) -> Self {
+        Self {
+            builder: self.builder.property("is-draft", is_draft),
+        }
+    }
+
+    pub fn progress(self, progress: f64) -> Self {
+        Self {
+            builder: self.builder.property("progress", progress),
+        }
+    }
+
+    pub fn subtitle(self, subtitle: impl Into<glib::GString>) -> Self {
+        Self {
+            builder: self.builder.property("subtitle", subtitle.into()),
+        }
+    }
+
+    pub fn title(self, title: impl Into<glib::GString>) -> Self {
+        Self {
+            builder: self.builder.property("title", title.into()),
+        }
     }
 
     // rustdoc-stripper-ignore-next
     /// Build the [`SaveDelegate`].
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> SaveDelegate {
-        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
-        if let Some(ref icon) = self.icon {
-            properties.push(("icon", icon));
-        }
-        if let Some(ref icon_name) = self.icon_name {
-            properties.push(("icon-name", icon_name));
-        }
-        if let Some(ref is_draft) = self.is_draft {
-            properties.push(("is-draft", is_draft));
-        }
-        if let Some(ref progress) = self.progress {
-            properties.push(("progress", progress));
-        }
-        if let Some(ref subtitle) = self.subtitle {
-            properties.push(("subtitle", subtitle));
-        }
-        if let Some(ref title) = self.title {
-            properties.push(("title", title));
-        }
-        glib::Object::new::<SaveDelegate>(&properties)
-    }
-
-    pub fn icon(mut self, icon: &impl IsA<gio::Icon>) -> Self {
-        self.icon = Some(icon.clone().upcast());
-        self
-    }
-
-    pub fn icon_name(mut self, icon_name: &str) -> Self {
-        self.icon_name = Some(icon_name.to_string());
-        self
-    }
-
-    pub fn is_draft(mut self, is_draft: bool) -> Self {
-        self.is_draft = Some(is_draft);
-        self
-    }
-
-    pub fn progress(mut self, progress: f64) -> Self {
-        self.progress = Some(progress);
-        self
-    }
-
-    pub fn subtitle(mut self, subtitle: &str) -> Self {
-        self.subtitle = Some(subtitle.to_string());
-        self
-    }
-
-    pub fn title(mut self, title: &str) -> Self {
-        self.title = Some(title.to_string());
-        self
+        self.builder.build()
     }
 }
 

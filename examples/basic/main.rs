@@ -31,12 +31,12 @@ fn activate(app: &gtk::Application) {
     window.present();
 }
 
-fn main() {
+fn main() -> glib::ExitCode {
     let app = gtk::Application::new(
         Some("org.gnome.gitlab.world.rust.libpanel-rs.Example"),
         gtk::gio::ApplicationFlags::FLAGS_NONE,
     );
     app.connect_startup(startup);
     app.connect_activate(activate);
-    std::process::exit(app.run());
+    app.run()
 }

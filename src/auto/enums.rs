@@ -45,6 +45,7 @@ impl fmt::Display for Area {
 impl IntoGlib for Area {
     type GlibType = ffi::PanelArea;
 
+    #[inline]
     fn into_glib(self) -> ffi::PanelArea {
         match self {
             Self::Start => ffi::PANEL_AREA_START,
@@ -59,8 +60,10 @@ impl IntoGlib for Area {
 
 #[doc(hidden)]
 impl FromGlib<ffi::PanelArea> for Area {
+    #[inline]
     unsafe fn from_glib(value: ffi::PanelArea) -> Self {
         skip_assert_initialized!();
+
         match value {
             ffi::PANEL_AREA_START => Self::Start,
             ffi::PANEL_AREA_END => Self::End,
@@ -73,8 +76,19 @@ impl FromGlib<ffi::PanelArea> for Area {
 }
 
 impl StaticType for Area {
+    #[inline]
     fn static_type() -> Type {
         unsafe { from_glib(ffi::panel_area_get_type()) }
+    }
+}
+
+impl glib::HasParamSpec for Area {
+    type ParamSpec = glib::ParamSpecEnum;
+    type SetValue = Self;
+    type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
+
+    fn param_spec_builder() -> Self::BuilderFn {
+        |name, default_value| Self::ParamSpec::builder_with_default(name, default_value)
     }
 }
 
@@ -85,6 +99,7 @@ impl glib::value::ValueType for Area {
 unsafe impl<'a> FromValue<'a> for Area {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
+    #[inline]
     unsafe fn from_value(value: &'a glib::Value) -> Self {
         skip_assert_initialized!();
         from_glib(glib::gobject_ffi::g_value_get_enum(value.to_glib_none().0))
@@ -92,6 +107,7 @@ unsafe impl<'a> FromValue<'a> for Area {
 }
 
 impl ToValue for Area {
+    #[inline]
     fn to_value(&self) -> glib::Value {
         let mut value = glib::Value::for_value_type::<Self>();
         unsafe {
@@ -100,6 +116,7 @@ impl ToValue for Area {
         value
     }
 
+    #[inline]
     fn value_type(&self) -> glib::Type {
         Self::static_type()
     }
