@@ -5,36 +5,36 @@ use glib::Cast;
 use gtk::subclass::prelude::*;
 
 pub trait FrameHeaderImpl: WidgetImpl {
-    fn page_changed(&self, header: &Self::Type, widget: Option<&Widget>) {
-        FrameHeaderImplExt::parent_page_changed(self, header, widget);
+    fn page_changed(&self, widget: Option<&Widget>) {
+        FrameHeaderImplExt::parent_page_changed(self, widget);
     }
-    fn can_drop(&self, header: &Self::Type, widget: &Widget) -> bool {
-        FrameHeaderImplExt::parent_can_drop(self, header, widget)
+    fn can_drop(&self, widget: &Widget) -> bool {
+        FrameHeaderImplExt::parent_can_drop(self, widget)
     }
-    fn add_prefix(&self, header: &Self::Type, priority: i32, widget: &Widget) {
-        FrameHeaderImplExt::parent_add_prefix(self, header, priority, widget);
+    fn add_prefix(&self, priority: i32, widget: &Widget) {
+        FrameHeaderImplExt::parent_add_prefix(self, priority, widget);
     }
-    fn add_suffix(&self, header: &Self::Type, priority: i32, widget: &Widget) {
-        FrameHeaderImplExt::parent_add_suffix(self, header, priority, widget);
+    fn add_suffix(&self, priority: i32, widget: &Widget) {
+        FrameHeaderImplExt::parent_add_suffix(self, priority, widget);
     }
 }
 
 pub trait FrameHeaderImplExt: ObjectSubclass {
-    fn parent_page_changed(&self, header: &Self::Type, widget: Option<&Widget>);
-    fn parent_can_drop(&self, header: &Self::Type, widget: &Widget) -> bool;
-    fn parent_add_prefix(&self, header: &Self::Type, priority: i32, widget: &Widget);
-    fn parent_add_suffix(&self, header: &Self::Type, priority: i32, widget: &Widget);
+    fn parent_page_changed(&self, widget: Option<&Widget>);
+    fn parent_can_drop(&self, widget: &Widget) -> bool;
+    fn parent_add_prefix(&self, priority: i32, widget: &Widget);
+    fn parent_add_suffix(&self, priority: i32, widget: &Widget);
 }
 
 impl<T: FrameHeaderImpl> FrameHeaderImplExt for T {
-    fn parent_page_changed(&self, header: &Self::Type, widget: Option<&Widget>) {
+    fn parent_page_changed(&self, widget: Option<&Widget>) {
         unsafe {
             let data = T::type_data();
             let parent_iface = data.as_ref().parent_interface::<FrameHeader>()
                 as *const ffi::PanelFrameHeaderInterface;
             if let Some(f) = (*parent_iface).page_changed {
                 f(
-                    header.unsafe_cast_ref::<FrameHeader>().to_glib_none().0,
+                    self.obj().unsafe_cast_ref::<FrameHeader>().to_glib_none().0,
                     widget
                         .map(|w| w.unsafe_cast_ref::<Widget>())
                         .to_glib_none()
@@ -43,42 +43,42 @@ impl<T: FrameHeaderImpl> FrameHeaderImplExt for T {
             }
         }
     }
-    fn parent_can_drop(&self, header: &Self::Type, widget: &Widget) -> bool {
+    fn parent_can_drop(&self, widget: &Widget) -> bool {
         unsafe {
             let data = T::type_data();
             let parent_iface = data.as_ref().parent_interface::<FrameHeader>()
                 as *const ffi::PanelFrameHeaderInterface;
             if let Some(f) = (*parent_iface).can_drop {
                 return f(
-                    header.unsafe_cast_ref::<FrameHeader>().to_glib_none().0,
+                    self.obj().unsafe_cast_ref::<FrameHeader>().to_glib_none().0,
                     widget.unsafe_cast_ref::<Widget>().to_glib_none().0,
                 ) != 0;
             }
             false
         }
     }
-    fn parent_add_prefix(&self, header: &Self::Type, priority: i32, widget: &Widget) {
+    fn parent_add_prefix(&self, priority: i32, widget: &Widget) {
         unsafe {
             let data = T::type_data();
             let parent_iface = data.as_ref().parent_interface::<FrameHeader>()
                 as *const ffi::PanelFrameHeaderInterface;
             if let Some(f) = (*parent_iface).add_prefix {
                 f(
-                    header.unsafe_cast_ref::<FrameHeader>().to_glib_none().0,
+                    self.obj().unsafe_cast_ref::<FrameHeader>().to_glib_none().0,
                     priority,
                     widget.unsafe_cast_ref::<gtk::Widget>().to_glib_none().0,
                 );
             }
         }
     }
-    fn parent_add_suffix(&self, header: &Self::Type, priority: i32, widget: &Widget) {
+    fn parent_add_suffix(&self, priority: i32, widget: &Widget) {
         unsafe {
             let data = T::type_data();
             let parent_iface = data.as_ref().parent_interface::<FrameHeader>()
                 as *const ffi::PanelFrameHeaderInterface;
             if let Some(f) = (*parent_iface).add_suffix {
                 f(
-                    header.unsafe_cast_ref::<FrameHeader>().to_glib_none().0,
+                    self.obj().unsafe_cast_ref::<FrameHeader>().to_glib_none().0,
                     priority,
                     widget.unsafe_cast_ref::<gtk::Widget>().to_glib_none().0,
                 );
@@ -105,18 +105,13 @@ unsafe extern "C" fn frame_header_page_changed<T: FrameHeaderImpl>(
 ) {
     let instance = &*(ptr as *mut T::Instance);
     let imp = instance.imp();
-    let wrap: Borrowed<FrameHeader> = from_glib_borrow(ptr);
     let widget: Option<Borrowed<Widget>> = if widget.is_null() {
         None
     } else {
         Some(from_glib_borrow(widget))
     };
 
-    FrameHeaderImpl::page_changed(
-        imp,
-        wrap.unsafe_cast_ref(),
-        widget.as_ref().map(|w| w.unsafe_cast_ref()),
-    );
+    FrameHeaderImpl::page_changed(imp, widget.as_ref().map(|w| w.unsafe_cast_ref()));
 }
 
 unsafe extern "C" fn frame_header_can_drop<T: FrameHeaderImpl>(
@@ -125,11 +120,9 @@ unsafe extern "C" fn frame_header_can_drop<T: FrameHeaderImpl>(
 ) -> glib::ffi::gboolean {
     let instance = &*(ptr as *mut T::Instance);
     let imp = instance.imp();
-    let wrap: Borrowed<FrameHeader> = from_glib_borrow(ptr);
     let widget: Borrowed<Widget> = from_glib_borrow(widget);
 
-    FrameHeaderImpl::can_drop(imp, wrap.unsafe_cast_ref(), widget.unsafe_cast_ref())
-        as glib::ffi::gboolean
+    FrameHeaderImpl::can_drop(imp, widget.unsafe_cast_ref()) as glib::ffi::gboolean
 }
 
 unsafe extern "C" fn frame_header_add_prefix<T: FrameHeaderImpl>(
@@ -139,15 +132,9 @@ unsafe extern "C" fn frame_header_add_prefix<T: FrameHeaderImpl>(
 ) {
     let instance = &*(ptr as *mut T::Instance);
     let imp = instance.imp();
-    let wrap: Borrowed<FrameHeader> = from_glib_borrow(ptr);
     let widget: Borrowed<gtk::Widget> = from_glib_borrow(widget);
 
-    FrameHeaderImpl::add_prefix(
-        imp,
-        wrap.unsafe_cast_ref(),
-        priority,
-        widget.unsafe_cast_ref(),
-    );
+    FrameHeaderImpl::add_prefix(imp, priority, widget.unsafe_cast_ref());
 }
 
 unsafe extern "C" fn frame_header_add_suffix<T: FrameHeaderImpl>(
@@ -157,13 +144,7 @@ unsafe extern "C" fn frame_header_add_suffix<T: FrameHeaderImpl>(
 ) {
     let instance = &*(ptr as *mut T::Instance);
     let imp = instance.imp();
-    let wrap: Borrowed<FrameHeader> = from_glib_borrow(ptr);
     let widget: Borrowed<gtk::Widget> = from_glib_borrow(widget);
 
-    FrameHeaderImpl::add_suffix(
-        imp,
-        wrap.unsafe_cast_ref(),
-        priority,
-        widget.unsafe_cast_ref(),
-    );
+    FrameHeaderImpl::add_suffix(imp, priority, widget.unsafe_cast_ref());
 }

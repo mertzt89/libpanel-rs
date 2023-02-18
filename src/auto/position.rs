@@ -29,7 +29,7 @@ impl Position {
 
     #[doc(alias = "panel_position_new_from_variant")]
     #[doc(alias = "new_from_variant")]
-    pub fn from_variant(variant: &glib::Variant) -> Position {
+    pub fn from_variant(variant: &glib::Variant) -> Option<Position> {
         assert_initialized_main_thread!();
         unsafe {
             from_glib_full(ffi::panel_position_new_from_variant(
@@ -43,7 +43,7 @@ impl Position {
     ///
     /// This method returns an instance of [`PositionBuilder`](crate::builders::PositionBuilder) which can be used to create [`Position`] objects.
     pub fn builder() -> PositionBuilder {
-        PositionBuilder::default()
+        PositionBuilder::new()
     }
 
     #[doc(alias = "panel_position_equal")]
@@ -166,7 +166,7 @@ impl Position {
     }
 
     #[doc(alias = "panel_position_to_variant")]
-    pub fn to_variant(&self) -> glib::Variant {
+    pub fn to_variant(&self) -> Option<glib::Variant> {
         unsafe { from_glib_full(ffi::panel_position_to_variant(self.to_glib_none().0)) }
     }
 
@@ -361,100 +361,75 @@ impl Default for Position {
     }
 }
 
-#[derive(Clone, Default)]
 // rustdoc-stripper-ignore-next
 /// A [builder-pattern] type to construct [`Position`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
 #[must_use = "The builder must be built to be used"]
 pub struct PositionBuilder {
-    area: Option<Area>,
-    area_set: Option<bool>,
-    column: Option<u32>,
-    column_set: Option<bool>,
-    depth: Option<u32>,
-    depth_set: Option<bool>,
-    row: Option<u32>,
-    row_set: Option<bool>,
+    builder: glib::object::ObjectBuilder<'static, Position>,
 }
 
 impl PositionBuilder {
-    // rustdoc-stripper-ignore-next
-    /// Create a new [`PositionBuilder`].
-    pub fn new() -> Self {
-        Self::default()
+    fn new() -> Self {
+        Self {
+            builder: glib::object::Object::builder(),
+        }
+    }
+
+    pub fn area(self, area: Area) -> Self {
+        Self {
+            builder: self.builder.property("area", area),
+        }
+    }
+
+    pub fn area_set(self, area_set: bool) -> Self {
+        Self {
+            builder: self.builder.property("area-set", area_set),
+        }
+    }
+
+    pub fn column(self, column: u32) -> Self {
+        Self {
+            builder: self.builder.property("column", column),
+        }
+    }
+
+    pub fn column_set(self, column_set: bool) -> Self {
+        Self {
+            builder: self.builder.property("column-set", column_set),
+        }
+    }
+
+    pub fn depth(self, depth: u32) -> Self {
+        Self {
+            builder: self.builder.property("depth", depth),
+        }
+    }
+
+    pub fn depth_set(self, depth_set: bool) -> Self {
+        Self {
+            builder: self.builder.property("depth-set", depth_set),
+        }
+    }
+
+    pub fn row(self, row: u32) -> Self {
+        Self {
+            builder: self.builder.property("row", row),
+        }
+    }
+
+    pub fn row_set(self, row_set: bool) -> Self {
+        Self {
+            builder: self.builder.property("row-set", row_set),
+        }
     }
 
     // rustdoc-stripper-ignore-next
     /// Build the [`Position`].
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> Position {
-        let mut properties: Vec<(&str, &dyn ToValue)> = vec![];
-        if let Some(ref area) = self.area {
-            properties.push(("area", area));
-        }
-        if let Some(ref area_set) = self.area_set {
-            properties.push(("area-set", area_set));
-        }
-        if let Some(ref column) = self.column {
-            properties.push(("column", column));
-        }
-        if let Some(ref column_set) = self.column_set {
-            properties.push(("column-set", column_set));
-        }
-        if let Some(ref depth) = self.depth {
-            properties.push(("depth", depth));
-        }
-        if let Some(ref depth_set) = self.depth_set {
-            properties.push(("depth-set", depth_set));
-        }
-        if let Some(ref row) = self.row {
-            properties.push(("row", row));
-        }
-        if let Some(ref row_set) = self.row_set {
-            properties.push(("row-set", row_set));
-        }
-        glib::Object::new::<Position>(&properties)
-    }
-
-    pub fn area(mut self, area: Area) -> Self {
-        self.area = Some(area);
-        self
-    }
-
-    pub fn area_set(mut self, area_set: bool) -> Self {
-        self.area_set = Some(area_set);
-        self
-    }
-
-    pub fn column(mut self, column: u32) -> Self {
-        self.column = Some(column);
-        self
-    }
-
-    pub fn column_set(mut self, column_set: bool) -> Self {
-        self.column_set = Some(column_set);
-        self
-    }
-
-    pub fn depth(mut self, depth: u32) -> Self {
-        self.depth = Some(depth);
-        self
-    }
-
-    pub fn depth_set(mut self, depth_set: bool) -> Self {
-        self.depth_set = Some(depth_set);
-        self
-    }
-
-    pub fn row(mut self, row: u32) -> Self {
-        self.row = Some(row);
-        self
-    }
-
-    pub fn row_set(mut self, row_set: bool) -> Self {
-        self.row_set = Some(row_set);
-        self
+        self.builder.build()
     }
 }
 

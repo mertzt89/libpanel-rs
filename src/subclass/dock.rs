@@ -5,39 +5,39 @@ use glib::Cast;
 use gtk::subclass::prelude::*;
 
 pub trait DockImpl: WidgetImpl {
-    fn panel_drag_begin(&self, dock: &Self::Type, widget: &Widget) {
-        DockImplExt::parent_panel_drag_begin(self, dock, widget);
+    fn panel_drag_begin(&self, widget: &Widget) {
+        DockImplExt::parent_panel_drag_begin(self, widget);
     }
-    fn panel_drag_end(&self, dock: &Self::Type, widget: &Widget) {
-        DockImplExt::parent_panel_drag_end(self, dock, widget);
+    fn panel_drag_end(&self, widget: &Widget) {
+        DockImplExt::parent_panel_drag_end(self, widget);
     }
 }
 
 pub trait DockImplExt: ObjectSubclass {
-    fn parent_panel_drag_begin(&self, dock: &Self::Type, widget: &Widget);
-    fn parent_panel_drag_end(&self, dock: &Self::Type, widget: &Widget);
+    fn parent_panel_drag_begin(&self, widget: &Widget);
+    fn parent_panel_drag_end(&self, widget: &Widget);
 }
 
 impl<T: DockImpl> DockImplExt for T {
-    fn parent_panel_drag_begin(&self, dock: &Self::Type, widget: &Widget) {
+    fn parent_panel_drag_begin(&self, widget: &Widget) {
         unsafe {
             let data = T::type_data();
             let parent_class = data.as_ref().parent_class() as *mut ffi::PanelDockClass;
             if let Some(f) = (*parent_class).panel_drag_begin {
                 f(
-                    dock.unsafe_cast_ref::<Dock>().to_glib_none().0,
+                    self.obj().unsafe_cast_ref::<Dock>().to_glib_none().0,
                     widget.unsafe_cast_ref::<Widget>().to_glib_none().0,
                 );
             }
         }
     }
-    fn parent_panel_drag_end(&self, dock: &Self::Type, widget: &Widget) {
+    fn parent_panel_drag_end(&self, widget: &Widget) {
         unsafe {
             let data = T::type_data();
             let parent_class = data.as_ref().parent_class() as *mut ffi::PanelDockClass;
             if let Some(f) = (*parent_class).panel_drag_end {
                 f(
-                    dock.unsafe_cast_ref::<Dock>().to_glib_none().0,
+                    self.obj().unsafe_cast_ref::<Dock>().to_glib_none().0,
                     widget.unsafe_cast_ref::<Widget>().to_glib_none().0,
                 );
             }
@@ -64,10 +64,9 @@ unsafe extern "C" fn dock_panel_drag_begin<T: DockImpl>(
 ) {
     let instance = &*(ptr as *mut T::Instance);
     let imp = instance.imp();
-    let wrap: Borrowed<Dock> = from_glib_borrow(ptr);
     let widget: Borrowed<Widget> = from_glib_borrow(widget);
 
-    DockImpl::panel_drag_begin(imp, wrap.unsafe_cast_ref(), widget.unsafe_cast_ref());
+    DockImpl::panel_drag_begin(imp, widget.unsafe_cast_ref());
 }
 
 unsafe extern "C" fn dock_panel_drag_end<T: DockImpl>(
@@ -76,8 +75,7 @@ unsafe extern "C" fn dock_panel_drag_end<T: DockImpl>(
 ) {
     let instance = &*(ptr as *mut T::Instance);
     let imp = instance.imp();
-    let wrap: Borrowed<Dock> = from_glib_borrow(ptr);
     let widget: Borrowed<Widget> = from_glib_borrow(widget);
 
-    DockImpl::panel_drag_end(imp, wrap.unsafe_cast_ref(), widget.unsafe_cast_ref());
+    DockImpl::panel_drag_end(imp, widget.unsafe_cast_ref());
 }

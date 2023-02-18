@@ -6,25 +6,20 @@ use glib::Cast;
 use std::{future::Future, pin::Pin};
 
 pub trait SaveDelegateImpl: ObjectImpl {
-    fn save_future(
-        &self,
-        delegate: &Self::Type,
-    ) -> Pin<Box<dyn Future<Output = Result<(), glib::Error>> + 'static>> {
-        self.parent_save_future(delegate)
+    fn save_future(&self) -> Pin<Box<dyn Future<Output = Result<(), glib::Error>> + 'static>> {
+        self.parent_save_future()
     }
 }
 
 pub trait SaveDelegateImplExt: ObjectSubclass {
     fn parent_save_future(
         &self,
-        delegate: &Self::Type,
     ) -> Pin<Box<dyn Future<Output = Result<(), glib::Error>> + 'static>>;
 }
 
 impl<T: SaveDelegateImpl> SaveDelegateImplExt for T {
     fn parent_save_future(
         &self,
-        delegate: &Self::Type,
     ) -> Pin<Box<dyn Future<Output = Result<(), glib::Error>> + 'static>> {
         unsafe {
             let type_data = T::type_data();
@@ -64,7 +59,7 @@ impl<T: SaveDelegateImpl> SaveDelegateImplExt for T {
             }
 
             Box::pin(gio::GioFuture::new(
-                delegate,
+                &*self.obj(),
                 move |obj, cancellable, res| {
                     let user_data = Box::new(ThreadGuard::new(res));
                     save_async(
@@ -96,15 +91,15 @@ unsafe extern "C" fn save_delegate_save_async<T: SaveDelegateImpl>(
 ) {
     let instance = &*(delegate as *mut T::Instance);
     let imp = instance.imp();
-    let delegate: SaveDelegate = from_glib_none(delegate);
     let cancellable: Option<gio::Cancellable> = from_glib_none(cancellable);
+    let delegate: Option<SaveDelegate> = callback.map(|_| from_glib_none(delegate));
 
-    let fut = imp.save_future(delegate.unsafe_cast_ref());
+    let fut = imp.save_future();
     glib::MainContext::default().spawn_local(async move {
         let res = fut.await;
         if let Some(callback) = callback {
             let t = gio::LocalTask::new(
-                Some(delegate.upcast_ref::<glib::Object>()),
+                Some(delegate.unwrap_unchecked().upcast_ref::<glib::Object>()),
                 cancellable.as_ref(),
                 move |task: gio::LocalTask<bool>, source_object: Option<&glib::Object>| {
                     let result: *mut gio::ffi::GAsyncResult =

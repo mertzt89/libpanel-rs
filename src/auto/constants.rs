@@ -3,35 +3,19 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use std::ffi::CStr;
+use glib::GStr;
 
 #[doc(alias = "PANEL_VERSION_S")]
-pub static VERSION_S: once_cell::sync::Lazy<&'static str> = once_cell::sync::Lazy::new(|| unsafe {
-    CStr::from_ptr(ffi::PANEL_VERSION_S).to_str().unwrap()
-});
+pub static VERSION_S: &GStr = unsafe { GStr::from_utf8_with_nul_unchecked(ffi::PANEL_VERSION_S) };
 #[doc(alias = "PANEL_WIDGET_KIND_ANY")]
-pub static WIDGET_KIND_ANY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::PANEL_WIDGET_KIND_ANY).to_str().unwrap()
-    });
+pub static WIDGET_KIND_ANY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::PANEL_WIDGET_KIND_ANY) };
 #[doc(alias = "PANEL_WIDGET_KIND_DOCUMENT")]
-pub static WIDGET_KIND_DOCUMENT: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::PANEL_WIDGET_KIND_DOCUMENT)
-            .to_str()
-            .unwrap()
-    });
+pub static WIDGET_KIND_DOCUMENT: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::PANEL_WIDGET_KIND_DOCUMENT) };
 #[doc(alias = "PANEL_WIDGET_KIND_UNKNOWN")]
-pub static WIDGET_KIND_UNKNOWN: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::PANEL_WIDGET_KIND_UNKNOWN)
-            .to_str()
-            .unwrap()
-    });
+pub static WIDGET_KIND_UNKNOWN: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::PANEL_WIDGET_KIND_UNKNOWN) };
 #[doc(alias = "PANEL_WIDGET_KIND_UTILITY")]
-pub static WIDGET_KIND_UTILITY: once_cell::sync::Lazy<&'static str> =
-    once_cell::sync::Lazy::new(|| unsafe {
-        CStr::from_ptr(ffi::PANEL_WIDGET_KIND_UTILITY)
-            .to_str()
-            .unwrap()
-    });
+pub static WIDGET_KIND_UTILITY: &GStr =
+    unsafe { GStr::from_utf8_with_nul_unchecked(ffi::PANEL_WIDGET_KIND_UTILITY) };
