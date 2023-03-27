@@ -3,6 +3,9 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
+mod action_muxer;
+pub use self::action_muxer::ActionMuxer;
+
 mod dock;
 pub use self::dock::Dock;
 
@@ -21,11 +24,23 @@ pub use self::frame_switcher::FrameSwitcher;
 mod frame_tab_bar;
 pub use self::frame_tab_bar::FrameTabBar;
 
+mod gsettings_action_group;
+pub use self::gsettings_action_group::GSettingsActionGroup;
+
 mod grid;
 pub use self::grid::Grid;
 
 mod grid_column;
 pub use self::grid_column::GridColumn;
+
+mod inhibitor;
+pub use self::inhibitor::Inhibitor;
+
+mod layered_settings;
+pub use self::layered_settings::LayeredSettings;
+
+mod menu_manager;
+pub use self::menu_manager::MenuManager;
 
 mod omni_bar;
 pub use self::omni_bar::OmniBar;
@@ -41,6 +56,15 @@ pub use self::save_delegate::SaveDelegate;
 
 mod save_dialog;
 pub use self::save_dialog::SaveDialog;
+
+mod session;
+pub use self::session::Session;
+
+mod session_item;
+pub use self::session_item::SessionItem;
+
+mod settings;
+pub use self::settings::Settings;
 
 mod statusbar;
 pub use self::statusbar::Statusbar;
@@ -90,6 +114,7 @@ pub mod builders {
     pub use super::position::PositionBuilder;
     pub use super::save_delegate::SaveDelegateBuilder;
     pub use super::save_dialog::SaveDialogBuilder;
+    pub use super::session_item::SessionItemBuilder;
     pub use super::statusbar::StatusbarBuilder;
     pub use super::theme_selector::ThemeSelectorBuilder;
     pub use super::toggle_button::ToggleButtonBuilder;

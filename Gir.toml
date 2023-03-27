@@ -19,6 +19,7 @@ external_libraries = [
 
 generate = [
   "Panel.*",
+  "Panel.ActionMuxer",
   "Panel.Area",
   "Panel.Dock",
   "Panel.Frame",
@@ -29,10 +30,12 @@ generate = [
   "Panel.FrameTabBar",
   "Panel.Grid",
   "Panel.GridColumn",
+  "Panel.Inhibitor",
   "Panel.OmniBar",
   "Panel.Paned",
   "Panel.Position",
   "Panel.SaveDialog",
+  "Panel.Session",
   "Panel.Statusbar",
   "Panel.ThemeSelector",
   "Panel.ToggleButton",
@@ -43,6 +46,7 @@ manual = [
   "Adw.MessageDialog",
   "GLib.Error",
   "GLib.Variant",
+  "GLib.VariantType",
   "GObject.Object",
   "GObject.Value",
   "Gio.ActionGroup",
@@ -50,8 +54,11 @@ manual = [
   "Gio.AsyncResult",
   "Gio.Cancellable",
   "Gio.Icon",
+  "Gio.Menu",
   "Gio.MenuModel",
   "Gio.Resource",
+  "Gio.Settings",
+  "Gio.SettingsSchemaKey",
   "Gio.Task",
   "Gdk.RGBA",
   "Gtk.Accessible",
@@ -65,6 +72,35 @@ manual = [
 ]
 
 [[object]]
+name = "Panel.GSettingsActionGroup"
+status = "generate"
+generate_builder = false
+    [[object.function]]
+    name = "new"
+    manual = true
+
+[[object]]
+name = "Panel.LayeredSettings"
+status = "generate"
+generate_builder = false
+    [[object.function]]
+    name = "bind"
+    manual = true
+    [[object.function]]
+    name = "bind_with_mapping"
+    manual = true
+
+[[object]]
+name = "Panel.MenuManager"
+status = "generate"
+    [[object.function]]
+    name = "add_filename"
+    manual = true
+    [[object.function]]
+    name = "add_resource"
+    manual = true
+
+[[object]]
 name = "Panel.SaveDelegate"
 status = "generate"
 manual_traits = ["SaveDelegateExtManual"]
@@ -72,3 +108,30 @@ manual_traits = ["SaveDelegateExtManual"]
     name = "save"
     manual = true
     doc_trait_name = "SaveDelegateExtManual"
+
+[[object]]
+name = "Panel.SessionItem"
+status = "generate"
+    [[object.function]]
+    name = "has_metadata"
+    manual = true
+    [[object.function]]
+    name = "metadata"
+    manual = true
+    [[object.function]]
+    name = "set_metadata"
+    manual = true
+
+[[object]]
+name = "Panel.Settings"
+status = "generate"
+generate_builder = false
+    [[object.function]]
+    name = "bind"
+    manual = true
+    [[object.function]]
+    name = "bind_with_mapping"
+    manual = true
+    [[object.function]]
+    name = "get_schema_id"
+    manual = true

@@ -2,6 +2,8 @@
 
 pub use ffi;
 #[doc(hidden)]
+pub use glib;
+#[doc(hidden)]
 pub use gio;
 #[doc(hidden)]
 pub use gtk;

@@ -334,7 +334,7 @@ pub trait DockExt: 'static {
     fn reveals_top(&self) -> bool;
 
     #[doc(alias = "panel_dock_remove")]
-    fn remove(&self, child: &impl IsA<gtk::Widget>);
+    fn remove(&self, widget: &impl IsA<gtk::Widget>);
 
     #[doc(alias = "panel_dock_set_bottom_height")]
     fn set_bottom_height(&self, height: i32);
@@ -538,11 +538,11 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
-    fn remove(&self, child: &impl IsA<gtk::Widget>) {
+    fn remove(&self, widget: &impl IsA<gtk::Widget>) {
         unsafe {
             ffi::panel_dock_remove(
                 self.as_ref().to_glib_none().0,
-                child.as_ref().to_glib_none().0,
+                widget.as_ref().to_glib_none().0,
             );
         }
     }
@@ -679,9 +679,8 @@ impl<O: IsA<Dock>> DockExt for O {
             f(
                 Dock::from_glib_borrow(this).unsafe_cast_ref(),
                 &from_glib_borrow(position),
-            ) /*Not checked*/
-            .to_glib_none()
-            .0
+            )
+            .to_glib_full()
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
