@@ -13,7 +13,7 @@ before_script:
   - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
   - source $HOME/.cargo/env
   - rustup toolchain install nightly --profile minimal --allow-downgrade -c rustfmt
-  - meson _build --prefix=/usr -Dlibadwaita:tests=false -Dlibadwaita:introspection=disabled -Dlibadwaita:examples=false -Dlibadwaita:vapi=false -Dlibpanel:introspection=disabled -Dlibpanel:install-examples=false -Dlibpanel:vapi=false -Dlibpanel:docs=disabled
+  - meson setup _build --prefix=/usr -Dlibadwaita:tests=false -Dlibadwaita:introspection=disabled -Dlibadwaita:examples=false -Dlibadwaita:vapi=false -Dlibpanel:introspection=disabled -Dlibpanel:install-examples=false -Dlibpanel:vapi=false -Dlibpanel:docs=disabled
   - ninja -C _build install
   - git submodule update --init
   - curl --proto '=https' --tlsv1.2 -sSf -o gir-rustdoc.py
