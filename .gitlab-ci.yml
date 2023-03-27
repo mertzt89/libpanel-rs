@@ -22,7 +22,7 @@ before_script:
 
 build:
   script:
-    - cargo build --features gtk_v4_6,adw_v1_2 --examples
+    - cargo build --features v1_4,gtk_v4_6,adw_v1_2 --examples
     - xvfb-run -a -s "-screen 0 1024x768x24" cargo test
 
 docs:

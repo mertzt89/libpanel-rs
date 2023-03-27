@@ -39,4 +39,11 @@ pub mod builders {
 pub mod prelude;
 pub mod subclass;
 
+mod gsettings_action_group;
+mod layered_settings;
+pub use crate::layered_settings::LayeredBindingBuilder;
+mod menu_manager;
 mod save_delegate;
+mod session_item;
+mod settings;
+pub use crate::settings::BindingBuilder;
