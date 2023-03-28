@@ -322,7 +322,7 @@ impl WidgetBuilder {
     }
 }
 
-pub trait WidgetExt: 'static {
+pub trait PanelWidgetExt: 'static {
     #[doc(alias = "panel_widget_action_set_enabled")]
     fn action_set_enabled(&self, action_name: &str, enabled: bool);
 
@@ -510,7 +510,7 @@ pub trait WidgetExt: 'static {
     fn connect_tooltip_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<Widget>> WidgetExt for O {
+impl<O: IsA<Widget>> PanelWidgetExt for O {
     fn action_set_enabled(&self, action_name: &str, enabled: bool) {
         unsafe {
             ffi::panel_widget_action_set_enabled(

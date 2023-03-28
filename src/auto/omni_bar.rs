@@ -409,7 +409,7 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
     }
 
     fn set_action_tooltip(&self, action_tooltip: Option<&str>) {
-        glib::ObjectExt::set_property(self.as_ref(), "action-tooltip", &action_tooltip)
+        glib::ObjectExt::set_property(self.as_ref(), "action-tooltip", action_tooltip)
     }
 
     fn icon_name(&self) -> Option<glib::GString> {
@@ -417,7 +417,7 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
     }
 
     fn set_icon_name(&self, icon_name: Option<&str>) {
-        glib::ObjectExt::set_property(self.as_ref(), "icon-name", &icon_name)
+        glib::ObjectExt::set_property(self.as_ref(), "icon-name", icon_name)
     }
 
     fn menu_model(&self) -> Option<gio::MenuModel> {
@@ -425,7 +425,7 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
     }
 
     fn set_menu_model<P: IsA<gio::MenuModel>>(&self, menu_model: Option<&P>) {
-        glib::ObjectExt::set_property(self.as_ref(), "menu-model", &menu_model)
+        glib::ObjectExt::set_property(self.as_ref(), "menu-model", menu_model)
     }
 
     fn connect_action_tooltip_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {

@@ -4,6 +4,8 @@ pub use ffi;
 #[doc(hidden)]
 pub use gio;
 #[doc(hidden)]
+pub use glib;
+#[doc(hidden)]
 pub use gtk;
 
 /// Asserts that this is the main thread and `gtk::init` has been called.
@@ -37,4 +39,11 @@ pub mod builders {
 pub mod prelude;
 pub mod subclass;
 
+mod gsettings_action_group;
+mod layered_settings;
+pub use crate::layered_settings::LayeredBindingBuilder;
+mod menu_manager;
 mod save_delegate;
+mod session_item;
+mod settings;
+pub use crate::settings::BindingBuilder;

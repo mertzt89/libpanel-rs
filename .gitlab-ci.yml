@@ -10,10 +10,11 @@ variables:
 image: "ghcr.io/gtk-rs/gtk4-rs/gtk4:latest"
 
 before_script:
+  - dnf update -y && dnf install appstream-devel -y && dnf clean all -y
   - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
   - source $HOME/.cargo/env
   - rustup toolchain install nightly --profile minimal --allow-downgrade -c rustfmt
-  - meson _build --prefix=/usr -Dlibadwaita:tests=false -Dlibadwaita:introspection=disabled -Dlibadwaita:examples=false -Dlibadwaita:vapi=false -Dlibpanel:introspection=disabled -Dlibpanel:install-examples=false -Dlibpanel:vapi=false -Dlibpanel:docs=disabled
+  - meson setup _build --prefix=/usr -Dlibadwaita:tests=false -Dlibadwaita:introspection=disabled -Dlibadwaita:examples=false -Dlibadwaita:vapi=false -Dlibpanel:introspection=disabled -Dlibpanel:install-examples=false -Dlibpanel:vapi=false -Dlibpanel:docs=disabled
   - ninja -C _build install
   - git submodule update --init
   - curl --proto '=https' --tlsv1.2 -sSf -o gir-rustdoc.py
@@ -22,7 +23,7 @@ before_script:
 
 build:
   script:
-    - cargo build --features gtk_v4_6,adw_v1_2 --examples
+    - cargo build --features v1_4,gtk_v4_6,adw_v1_2 --examples
     - xvfb-run -a -s "-screen 0 1024x768x24" cargo test
 
 docs:

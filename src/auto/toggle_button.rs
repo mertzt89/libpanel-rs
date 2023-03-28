@@ -50,7 +50,7 @@ impl ToggleButton {
     }
 
     pub fn set_dock<P: IsA<Dock>>(&self, dock: Option<&P>) {
-        glib::ObjectExt::set_property(self, "dock", &dock)
+        glib::ObjectExt::set_property(self, "dock", dock)
     }
 
     #[doc(alias = "dock")]
