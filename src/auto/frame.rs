@@ -258,7 +258,7 @@ impl FrameBuilder {
     }
 }
 
-pub trait FrameExt: 'static {
+pub trait PanelFrameExt: 'static {
     #[doc(alias = "panel_frame_add")]
     fn add(&self, panel: &impl IsA<Widget>);
 
@@ -351,7 +351,7 @@ pub trait FrameExt: 'static {
     fn connect_visible_child_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<Frame>> FrameExt for O {
+impl<O: IsA<Frame>> PanelFrameExt for O {
     fn add(&self, panel: &impl IsA<Widget>) {
         unsafe {
             ffi::panel_frame_add(

@@ -22,13 +22,11 @@ generate = [
   "Panel.ActionMuxer",
   "Panel.Area",
   "Panel.Dock",
-  "Panel.Frame",
   "Panel.FrameCallback",
   "Panel.FrameHeader",
   "Panel.FrameHeaderBar",
   "Panel.FrameSwitcher",
   "Panel.FrameTabBar",
-  "Panel.Grid",
   "Panel.GridColumn",
   "Panel.Inhibitor",
   "Panel.OmniBar",
@@ -39,7 +37,6 @@ generate = [
   "Panel.Statusbar",
   "Panel.ThemeSelector",
   "Panel.ToggleButton",
-  "Panel.Widget",
 ]
 
 manual = [
@@ -55,7 +52,6 @@ manual = [
   "Gio.Cancellable",
   "Gio.Icon",
   "Gio.Menu",
-  "Gio.MenuModel",
   "Gio.Resource",
   "Gio.Settings",
   "Gio.SettingsSchemaKey",
@@ -68,8 +64,22 @@ manual = [
   "Gtk.Popover",
   "Gtk.PopoverMenu",
   "Gtk.SelectionModel",
-  "Gtk.Widget",
 ]
+
+[[object]]
+name = "Gio.MenuModel"
+status = "manual"
+generate_builder = false
+
+[[object]]
+name = "Gtk.Widget"
+status = "manual"
+generate_builder = false
+
+[[object]]
+name = "Panel.Frame"
+status = "generate"
+trait_name = "PanelFrameExt"
 
 [[object]]
 name = "Panel.GSettingsActionGroup"
@@ -78,6 +88,11 @@ generate_builder = false
     [[object.function]]
     name = "new"
     manual = true
+
+[[object]]
+name = "Panel.Grid"
+status = "generate"
+trait_name = "PanelGridExt"
 
 [[object]]
 name = "Panel.LayeredSettings"
@@ -135,3 +150,8 @@ generate_builder = false
     [[object.function]]
     name = "get_schema_id"
     manual = true
+
+[[object]]
+name = "Panel.Widget"
+status = "generate"
+trait_name = "PanelWidgetExt"

@@ -238,7 +238,7 @@ impl GridBuilder {
     }
 }
 
-pub trait GridExt: 'static {
+pub trait PanelGridExt: 'static {
     #[doc(alias = "panel_grid_add")]
     fn add(&self, widget: &impl IsA<Widget>);
 
@@ -279,7 +279,7 @@ pub trait GridExt: 'static {
     fn connect_create_frame<F: Fn(&Self) -> Frame + 'static>(&self, f: F) -> SignalHandlerId;
 }
 
-impl<O: IsA<Grid>> GridExt for O {
+impl<O: IsA<Grid>> PanelGridExt for O {
     fn add(&self, widget: &impl IsA<Widget>) {
         unsafe {
             ffi::panel_grid_add(

@@ -93,12 +93,12 @@ pub use self::constants::WIDGET_KIND_UTILITY;
 #[doc(hidden)]
 pub mod traits {
     pub use super::dock::DockExt;
-    pub use super::frame::FrameExt;
+    pub use super::frame::PanelFrameExt;
     pub use super::frame_header::FrameHeaderExt;
-    pub use super::grid::GridExt;
+    pub use super::grid::PanelGridExt;
     pub use super::omni_bar::OmniBarExt;
     pub use super::save_delegate::SaveDelegateExt;
-    pub use super::widget::WidgetExt;
+    pub use super::widget::PanelWidgetExt;
 }
 #[doc(hidden)]
 pub mod builders {
