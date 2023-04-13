@@ -36,7 +36,7 @@ docs:
     - ./generator.py --embed-docs
     - rustup default nightly
     - eval $(./gir-rustdoc.py pre-docs)
-    - cargo doc --all-features --no-deps -p libpanel -p libpanel-sys
+    - RUSTFLAGS="--cfg docsrs" cargo doc --all-features --no-deps -p libpanel -p libpanel-sys
     - mv target/doc/ docs
   artifacts:
     paths:

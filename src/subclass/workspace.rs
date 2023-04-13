@@ -1,9 +1,9 @@
-use crate::Widget;
+use crate::Workspace;
+use adw::subclass::prelude::*;
 use glib::translate::*;
 use glib::Cast;
 use glib::GString;
 use glib::Variant;
-use gtk::subclass::prelude::*;
 use std::collections::HashMap;
 use std::future::Future;
 
@@ -14,43 +14,9 @@ struct Internal {
 unsafe impl Sync for Internal {}
 unsafe impl Send for Internal {}
 
-pub trait PanelWidgetImpl: WidgetImpl {
-    fn default_focus(&self) -> Option<gtk::Widget> {
-        PanelWidgetImplExt::parent_default_focus(self)
-    }
-    fn presented(&self) {
-        PanelWidgetImplExt::parent_presented(self)
-    }
-}
+pub trait WorkspaceImpl: AdwApplicationWindowImpl {}
 
-pub trait PanelWidgetImplExt: ObjectSubclass {
-    fn parent_default_focus(&self) -> Option<gtk::Widget>;
-    fn parent_presented(&self);
-}
-
-impl<T: PanelWidgetImpl> PanelWidgetImplExt for T {
-    fn parent_default_focus(&self) -> Option<gtk::Widget> {
-        unsafe {
-            let data = T::type_data();
-            let parent_class = data.as_ref().parent_class() as *mut ffi::PanelWidgetClass;
-            if let Some(f) = (*parent_class).get_default_focus {
-                return from_glib_none(f(self.obj().unsafe_cast_ref::<Widget>().to_glib_none().0));
-            }
-            None
-        }
-    }
-    fn parent_presented(&self) {
-        unsafe {
-            let data = T::type_data();
-            let parent_class = data.as_ref().parent_class() as *mut ffi::PanelWidgetClass;
-            if let Some(f) = (*parent_class).presented {
-                f(self.obj().unsafe_cast_ref::<Widget>().to_glib_none().0);
-            }
-        }
-    }
-}
-
-unsafe impl<T: PanelWidgetImpl> IsSubclassable<T> for Widget {
+unsafe impl<T: WorkspaceImpl> IsSubclassable<T> for Workspace {
     fn class_init(class: &mut glib::Class<Self>) {
         Self::parent_class_init::<T>(class);
         unsafe {
@@ -59,29 +25,10 @@ unsafe impl<T: PanelWidgetImpl> IsSubclassable<T> for Widget {
             // Used to store actions for `install_action` and `rust_builder_scope`
             data.set_class_data(<T as ObjectSubclassType>::type_(), Internal::default());
         }
-        let klass = class.as_mut();
-        klass.get_default_focus = Some(widget_get_default_focus::<T>);
-        klass.presented = Some(widget_presented::<T>);
     }
 }
 
-unsafe extern "C" fn widget_get_default_focus<T: PanelWidgetImpl>(
-    ptr: *mut ffi::PanelWidget,
-) -> *mut gtk::ffi::GtkWidget {
-    let instance = &*(ptr as *mut T::Instance);
-    let imp = instance.imp();
-
-    PanelWidgetImpl::default_focus(imp).to_glib_none().0
-}
-
-unsafe extern "C" fn widget_presented<T: PanelWidgetImpl>(ptr: *mut ffi::PanelWidget) {
-    let instance = &*(ptr as *mut T::Instance);
-    let imp = instance.imp();
-
-    PanelWidgetImpl::presented(imp);
-}
-
-pub unsafe trait PanelWidgetClassSubclassExt: ClassStruct {
+pub unsafe trait WorkspaceClassSubclassExt: ClassStruct {
     fn install_action_async<Fut, F>(
         &mut self,
         action_name: &str,
@@ -111,7 +58,7 @@ pub unsafe trait PanelWidgetClassSubclassExt: ClassStruct {
         );
     }
 
-    #[doc(alias = "panel_widget_class_install_action")]
+    #[doc(alias = "panel_workspace_class_install_action")]
     fn install_action<F>(&mut self, action_name: &str, parameter_type: Option<&str>, activate: F)
     where
         F: Fn(&<<Self as ClassStruct>::Type as ObjectSubclass>::Type, &str, Option<&Variant>)
@@ -134,7 +81,7 @@ pub unsafe trait PanelWidgetClassSubclassExt: ClassStruct {
                 .insert(action_name.to_string(), callback_ptr);
 
             unsafe extern "C" fn activate_trampoline<F, S>(
-                this: *mut gtk::ffi::GtkWidget,
+                this: *mut libc::c_void,
                 action_name: *const libc::c_char,
                 parameter: *mut glib::ffi::GVariant,
             ) where
@@ -158,33 +105,36 @@ pub unsafe trait PanelWidgetClassSubclassExt: ClassStruct {
                             panic!("Action name '{}' was not found", action_name.as_str());
                         });
 
-                let widget = gtk::Widget::from_glib_borrow(this);
+                let workspace = Workspace::from_glib_borrow(this as *mut ffi::PanelWorkspace);
 
                 let f: &F = &*(activate_callback as *const F);
                 f(
-                    widget.unsafe_cast_ref(),
+                    workspace.unsafe_cast_ref(),
                     &action_name,
                     Option::<Variant>::from_glib_borrow(parameter)
                         .as_ref()
                         .as_ref(),
                 )
             }
-            let widget_class = self as *mut _ as *mut ffi::PanelWidgetClass;
+            let workspace_class = self as *mut _ as *mut ffi::PanelWorkspaceClass;
             let callback = activate_trampoline::<F, Self>;
-            ffi::panel_widget_class_install_action(
-                widget_class,
+            ffi::panel_workspace_class_install_action(
+                workspace_class,
                 action_name.to_glib_none().0,
                 parameter_type.to_glib_none().0,
                 Some(callback),
             );
         }
     }
-    #[doc(alias = "panel_widget_class_install_property_action")]
+
+    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
+    #[doc(alias = "panel_workspace_class_install_property_action")]
     fn install_property_action(&mut self, action_name: &str, property_name: &str) {
         unsafe {
-            let widget_class = self as *mut _ as *mut ffi::PanelWidgetClass;
-            ffi::panel_widget_class_install_property_action(
-                widget_class,
+            let workspace_class = self as *mut _ as *mut ffi::PanelWorkspaceClass;
+            ffi::panel_workspace_class_install_property_action(
+                workspace_class,
                 action_name.to_glib_none().0,
                 property_name.to_glib_none().0,
             );
@@ -192,4 +142,4 @@ pub unsafe trait PanelWidgetClassSubclassExt: ClassStruct {
     }
 }
 
-unsafe impl<T: ClassStruct> PanelWidgetClassSubclassExt for T where T::Type: PanelWidgetImpl {}
+unsafe impl<T: ClassStruct> WorkspaceClassSubclassExt for T where T::Type: WorkspaceImpl {}

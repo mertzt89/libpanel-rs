@@ -215,9 +215,11 @@ impl FrameTabBarBuilder {
         }
     }
 
-    //pub fn cursor(self, cursor: /*Ignored*/&gdk::Cursor) -> Self {
-    //    Self { builder: self.builder.property("cursor", cursor), }
-    //}
+    pub fn cursor(self, cursor: &gdk::Cursor) -> Self {
+        Self {
+            builder: self.builder.property("cursor", cursor.clone()),
+        }
+    }
 
     pub fn focus_on_click(self, focus_on_click: bool) -> Self {
         Self {
@@ -231,9 +233,11 @@ impl FrameTabBarBuilder {
         }
     }
 
-    //pub fn halign(self, halign: /*Ignored*/gtk::Align) -> Self {
-    //    Self { builder: self.builder.property("halign", halign), }
-    //}
+    pub fn halign(self, halign: gtk::Align) -> Self {
+        Self {
+            builder: self.builder.property("halign", halign),
+        }
+    }
 
     pub fn has_tooltip(self, has_tooltip: bool) -> Self {
         Self {
@@ -259,9 +263,13 @@ impl FrameTabBarBuilder {
         }
     }
 
-    //pub fn layout_manager(self, layout_manager: &impl IsA</*Ignored*/gtk::LayoutManager>) -> Self {
-    //    Self { builder: self.builder.property("layout-manager", layout_manager.clone().upcast()), }
-    //}
+    pub fn layout_manager(self, layout_manager: &impl IsA<gtk::LayoutManager>) -> Self {
+        Self {
+            builder: self
+                .builder
+                .property("layout-manager", layout_manager.clone().upcast()),
+        }
+    }
 
     pub fn margin_bottom(self, margin_bottom: i32) -> Self {
         Self {
@@ -299,9 +307,11 @@ impl FrameTabBarBuilder {
         }
     }
 
-    //pub fn overflow(self, overflow: /*Ignored*/gtk::Overflow) -> Self {
-    //    Self { builder: self.builder.property("overflow", overflow), }
-    //}
+    pub fn overflow(self, overflow: gtk::Overflow) -> Self {
+        Self {
+            builder: self.builder.property("overflow", overflow),
+        }
+    }
 
     pub fn receives_default(self, receives_default: bool) -> Self {
         Self {
@@ -329,9 +339,11 @@ impl FrameTabBarBuilder {
         }
     }
 
-    //pub fn valign(self, valign: /*Ignored*/gtk::Align) -> Self {
-    //    Self { builder: self.builder.property("valign", valign), }
-    //}
+    pub fn valign(self, valign: gtk::Align) -> Self {
+        Self {
+            builder: self.builder.property("valign", valign),
+        }
+    }
 
     pub fn vexpand(self, vexpand: bool) -> Self {
         Self {
@@ -357,9 +369,11 @@ impl FrameTabBarBuilder {
         }
     }
 
-    //pub fn accessible_role(self, accessible_role: /*Ignored*/gtk::AccessibleRole) -> Self {
-    //    Self { builder: self.builder.property("accessible-role", accessible_role), }
-    //}
+    pub fn accessible_role(self, accessible_role: gtk::AccessibleRole) -> Self {
+        Self {
+            builder: self.builder.property("accessible-role", accessible_role),
+        }
+    }
 
     pub fn frame(self, frame: &impl IsA<Frame>) -> Self {
         Self {

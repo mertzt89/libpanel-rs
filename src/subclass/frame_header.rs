@@ -95,8 +95,6 @@ unsafe impl<T: FrameHeaderImpl> IsImplementable<T> for FrameHeader {
         iface.add_prefix = Some(frame_header_add_prefix::<T>);
         iface.add_suffix = Some(frame_header_add_suffix::<T>);
     }
-
-    fn instance_init(_instance: &mut glib::subclass::InitializingObject<T>) {}
 }
 
 unsafe extern "C" fn frame_header_page_changed<T: FrameHeaderImpl>(

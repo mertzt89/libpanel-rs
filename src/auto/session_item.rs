@@ -41,12 +41,6 @@ impl SessionItem {
         unsafe { from_glib_none(ffi::panel_session_item_get_id(self.to_glib_none().0)) }
     }
 
-    //#[doc(alias = "panel_session_item_get_metadata")]
-    //#[doc(alias = "get_metadata")]
-    //pub fn is_metadata(&self, key: &str, format: &str, : /*Unknown conversion*//*Unimplemented*/Basic: VarArgs) -> bool {
-    //    unsafe { TODO: call ffi:panel_session_item_get_metadata() }
-    //}
-
     #[doc(alias = "panel_session_item_get_metadata_value")]
     #[doc(alias = "get_metadata_value")]
     pub fn metadata_value(

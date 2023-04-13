@@ -18,16 +18,17 @@ include = ["/src", "/examples", "/README.md", "/COPYING"]
 name = "libpanel"
 
 [features]
-dox = ["ffi/dox", "glib/dox", "gio/dox", "gdk/dox", "gtk/dox", "dep:adw", "adw?/dox"]
+default = ["adw_v1"]
 v1_2 = ["ffi/v1_2"]
 v1_4 = ["v1_2", "ffi/v1_4"]
 gtk_v4_2 = ["gtk/v4_2", "adw?/gtk_v4_2"]
 gtk_v4_4 = ["gtk_v4_2", "gtk/v4_4", "adw?/gtk_v4_4"]
 gtk_v4_6 = ["gtk_v4_4", "gtk/v4_6", "adw?/gtk_v4_6"]
-adw_v1_2 = ["dep:adw", "adw?/v1_2"]
+adw_v1 = ["dep:adw"]
+adw_v1_2 = ["adw_v1", "adw?/v1_2"]
 
 [package.metadata.docs.rs]
-features = ["dox"]
+rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
 futures-core = { version = "0.3", default-features = false }

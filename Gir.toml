@@ -18,10 +18,10 @@ external_libraries = [
 ]
 
 generate = [
-  "Panel.*",
   "Panel.ActionMuxer",
   "Panel.Area",
   "Panel.Dock",
+  "Panel.DocumentWorkspace",
   "Panel.FrameCallback",
   "Panel.FrameHeader",
   "Panel.FrameHeaderBar",
@@ -37,9 +37,13 @@ generate = [
   "Panel.Statusbar",
   "Panel.ThemeSelector",
   "Panel.ToggleButton",
+  "Panel.Workbench",
+  "Panel.Workspace",
 ]
 
 manual = [
+  "Adw.Application",
+  "Adw.ApplicationWindow",
   "Adw.MessageDialog",
   "GLib.Error",
   "GLib.Variant",
@@ -47,6 +51,7 @@ manual = [
   "GObject.Object",
   "GObject.Value",
   "Gio.ActionGroup",
+  "Gio.ApplicationFlags",
   "Gio.AsyncReadyCallback",
   "Gio.AsyncResult",
   "Gio.Cancellable",
@@ -56,11 +61,17 @@ manual = [
   "Gio.Settings",
   "Gio.SettingsSchemaKey",
   "Gio.Task",
+  "Gdk.Cursor",
   "Gdk.RGBA",
   "Gtk.Accessible",
+  "Gtk.AccessibleRole",
+  "Gtk.Align",
+  "Gtk.ApplicationInhibitFlags",
   "Gtk.Buildable",
   "Gtk.ConstraintTarget",
   "Gtk.Orientable",
+  "Gtk.Orientation",
+  "Gtk.Overflow",
   "Gtk.Popover",
   "Gtk.PopoverMenu",
   "Gtk.SelectionModel",
@@ -72,9 +83,26 @@ status = "manual"
 generate_builder = false
 
 [[object]]
+name = "Gtk.LayoutManager"
+status = "manual"
+generate_builder = false
+
+[[object]]
 name = "Gtk.Widget"
 status = "manual"
 generate_builder = false
+
+[[object]]
+name = "Panel.*"
+status = "generate"
+    [[object.function]]
+    pattern = "marshal_.+"
+    ignore = true
+
+[[object]]
+name = "Panel.Application"
+status = "generate"
+trait_name = "PanelApplicationExt"
 
 [[object]]
 name = "Panel.Frame"
@@ -131,7 +159,8 @@ status = "generate"
     name = "has_metadata"
     manual = true
     [[object.function]]
-    name = "metadata"
+    name = "get_metadata"
+    rename = "metadata"
     manual = true
     [[object.function]]
     name = "set_metadata"

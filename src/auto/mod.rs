@@ -6,8 +6,14 @@
 mod action_muxer;
 pub use self::action_muxer::ActionMuxer;
 
+mod application;
+pub use self::application::Application;
+
 mod dock;
 pub use self::dock::Dock;
+
+mod document_workspace;
+pub use self::document_workspace::DocumentWorkspace;
 
 mod frame;
 pub use self::frame::Frame;
@@ -78,6 +84,12 @@ pub use self::toggle_button::ToggleButton;
 mod widget;
 pub use self::widget::Widget;
 
+mod workbench;
+pub use self::workbench::Workbench;
+
+mod workspace;
+pub use self::workspace::Workspace;
+
 mod enums;
 pub use self::enums::Area;
 
@@ -93,16 +105,20 @@ pub use self::constants::WIDGET_KIND_UTILITY;
 #[doc(hidden)]
 pub mod traits {
     pub use super::dock::DockExt;
+    pub use super::document_workspace::DocumentWorkspaceExt;
     pub use super::frame::PanelFrameExt;
     pub use super::frame_header::FrameHeaderExt;
     pub use super::grid::PanelGridExt;
     pub use super::omni_bar::OmniBarExt;
     pub use super::save_delegate::SaveDelegateExt;
     pub use super::widget::PanelWidgetExt;
+    pub use super::workbench::WorkbenchExt;
+    pub use super::workspace::WorkspaceExt;
 }
 #[doc(hidden)]
 pub mod builders {
     pub use super::dock::DockBuilder;
+    pub use super::document_workspace::DocumentWorkspaceBuilder;
     pub use super::frame::FrameBuilder;
     pub use super::frame_header_bar::FrameHeaderBarBuilder;
     pub use super::frame_switcher::FrameSwitcherBuilder;
@@ -119,4 +135,6 @@ pub mod builders {
     pub use super::theme_selector::ThemeSelectorBuilder;
     pub use super::toggle_button::ToggleButtonBuilder;
     pub use super::widget::WidgetBuilder;
+    pub use super::workbench::WorkbenchBuilder;
+    pub use super::workspace::WorkspaceBuilder;
 }

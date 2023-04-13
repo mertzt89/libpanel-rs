@@ -160,6 +160,47 @@ If no group was found matching @group, %NULL is returned.</doc>
         <type name="GObject.ObjectClass" c:type="GObjectClass"/>
       </field>
     </record>
+    <class name="Application"
+           c:symbol-prefix="application"
+           c:type="PanelApplication"
+           parent="Adw.Application"
+           glib:type-name="PanelApplication"
+           glib:get-type="panel_application_get_type"
+           glib:type-struct="ApplicationClass">
+      <source-position filename="src/panel-application.h" line="40"/>
+      <implements name="Gio.ActionGroup"/>
+      <implements name="Gio.ActionMap"/>
+      <constructor name="new" c:identifier="panel_application_new">
+        <source-position filename="src/panel-application.h" line="43"/>
+        <return-value transfer-ownership="full">
+          <type name="Application" c:type="PanelApplication*"/>
+        </return-value>
+        <parameters>
+          <parameter name="application_id" transfer-ownership="none">
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+          <parameter name="flags" transfer-ownership="none">
+            <type name="Gio.ApplicationFlags" c:type="GApplicationFlags"/>
+          </parameter>
+        </parameters>
+      </constructor>
+      <field name="parent_instance">
+        <type name="Adw.Application" c:type="AdwApplication"/>
+      </field>
+    </class>
+    <record name="ApplicationClass"
+            c:type="PanelApplicationClass"
+            glib:is-gtype-struct-for="Application">
+      <source-position filename="src/panel-application.h" line="40"/>
+      <field name="parent_class">
+        <type name="Adw.ApplicationClass" c:type="AdwApplicationClass"/>
+      </field>
+      <field name="_reserved" readable="0" private="1">
+        <array zero-terminated="0" fixed-size="8">
+          <type name="gpointer" c:type="gpointer"/>
+        </array>
+      </field>
+    </record>
     <enumeration name="Area"
                  glib:type-name="PanelArea"
                  glib:get-type="panel_area_get_type"
@@ -1109,6 +1150,295 @@ completes or was cancelled.</doc>
             </parameter>
           </parameters>
         </callback>
+      </field>
+    </record>
+    <class name="DocumentWorkspace"
+           c:symbol-prefix="document_workspace"
+           c:type="PanelDocumentWorkspace"
+           parent="Workspace"
+           glib:type-name="PanelDocumentWorkspace"
+           glib:get-type="panel_document_workspace_get_type"
+           glib:type-struct="DocumentWorkspaceClass">
+      <source-position filename="src/panel-document-workspace.h" line="50"/>
+      <implements name="Gio.ActionGroup"/>
+      <implements name="Gio.ActionMap"/>
+      <implements name="Gtk.Accessible"/>
+      <implements name="Gtk.Buildable"/>
+      <implements name="Gtk.ConstraintTarget"/>
+      <implements name="Gtk.Native"/>
+      <implements name="Gtk.Root"/>
+      <implements name="Gtk.ShortcutManager"/>
+      <constructor name="new"
+                   c:identifier="panel_document_workspace_new"
+                   version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-document-workspace.c"
+             line="499">Creates a new #PanelDocumentWorkspace.</doc>
+        <source-position filename="src/panel-document-workspace.h" line="53"/>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/panel-document-workspace.c"
+               line="505">a #PanelDocumentWorkspace</doc>
+          <type name="DocumentWorkspace" c:type="GtkWidget*"/>
+        </return-value>
+      </constructor>
+      <virtual-method name="add_widget">
+        <source-position filename="src/panel-document-workspace.h" line="44"/>
+        <return-value transfer-ownership="none">
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
+          </instance-parameter>
+          <parameter name="widget" transfer-ownership="none">
+            <type name="Widget" c:type="PanelWidget*"/>
+          </parameter>
+          <parameter name="position" transfer-ownership="none">
+            <type name="Position" c:type="PanelPosition*"/>
+          </parameter>
+        </parameters>
+      </virtual-method>
+      <virtual-method name="create_frame" introspectable="0">
+        <source-position filename="src/panel-document-workspace.h" line="42"/>
+        <return-value>
+          <type name="Frame" c:type="PanelFrame*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
+          </instance-parameter>
+          <parameter name="position" transfer-ownership="none">
+            <type name="Position" c:type="PanelPosition*"/>
+          </parameter>
+        </parameters>
+      </virtual-method>
+      <method name="add_widget"
+              c:identifier="panel_document_workspace_add_widget"
+              version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-document-workspace.c"
+             line="611">Requests the workspace add @widget to the dock at @position.</doc>
+        <source-position filename="src/panel-document-workspace.h" line="66"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-document-workspace.c"
+                 line="613">a #PanelDocumentWorkspace</doc>
+            <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
+          </instance-parameter>
+          <parameter name="widget" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-document-workspace.c"
+                 line="614">a #PanelWidget</doc>
+            <type name="Widget" c:type="PanelWidget*"/>
+          </parameter>
+          <parameter name="position"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/panel-document-workspace.c"
+                 line="615">a #PanelPosition or %NULL</doc>
+            <type name="Position" c:type="PanelPosition*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_dock"
+              c:identifier="panel_document_workspace_get_dock"
+              glib:get-property="dock"
+              version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-document-workspace.c"
+             line="515">Get the #PanelDock for the workspace.</doc>
+        <source-position filename="src/panel-document-workspace.h" line="55"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/panel-document-workspace.c"
+               line="521">a #PanelDock</doc>
+          <type name="Dock" c:type="PanelDock*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-document-workspace.c"
+                 line="517">a #PanelDocumentWorkspace</doc>
+            <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_grid"
+              c:identifier="panel_document_workspace_get_grid"
+              glib:get-property="grid"
+              version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-document-workspace.c"
+             line="535">Get the document grid for the workspace.</doc>
+        <source-position filename="src/panel-document-workspace.h" line="57"/>
+        <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/panel-document-workspace.c"
+               line="541">a #PanelGrid</doc>
+          <type name="Grid" c:type="PanelGrid*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-document-workspace.c"
+                 line="537">a #PanelDocumentWorkspace</doc>
+            <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_statusbar"
+              c:identifier="panel_document_workspace_get_statusbar"
+              glib:get-property="statusbar"
+              version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-document-workspace.c"
+             line="555">Gets the statusbar for the workspace.</doc>
+        <source-position filename="src/panel-document-workspace.h" line="59"/>
+        <return-value transfer-ownership="none" nullable="1">
+          <doc xml:space="preserve"
+               filename="src/panel-document-workspace.c"
+               line="561">a #PanelStatusbar</doc>
+          <type name="Statusbar" c:type="PanelStatusbar*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-document-workspace.c"
+                 line="557">a #PanelDocumentWorkspace</doc>
+            <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_titlebar"
+              c:identifier="panel_document_workspace_get_titlebar"
+              version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-document-workspace.c"
+             line="575">Gets the titlebar for the workspace.</doc>
+        <source-position filename="src/panel-document-workspace.h" line="61"/>
+        <return-value transfer-ownership="none" nullable="1">
+          <doc xml:space="preserve"
+               filename="src/panel-document-workspace.c"
+               line="581">a #GtkWidget or %NULL</doc>
+          <type name="Gtk.Widget" c:type="GtkWidget*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-document-workspace.c"
+                 line="577">a #PanelDocumentWorkspace</doc>
+            <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="set_titlebar"
+              c:identifier="panel_document_workspace_set_titlebar">
+        <source-position filename="src/panel-document-workspace.h" line="63"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
+          </instance-parameter>
+          <parameter name="titlebar" transfer-ownership="none">
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <property name="dock" transfer-ownership="none" getter="get_dock">
+        <type name="Dock"/>
+      </property>
+      <property name="grid" transfer-ownership="none" getter="get_grid">
+        <type name="Grid"/>
+      </property>
+      <property name="statusbar"
+                transfer-ownership="none"
+                getter="get_statusbar">
+        <type name="Statusbar"/>
+      </property>
+      <field name="parent_instance">
+        <type name="Workspace" c:type="PanelWorkspace"/>
+      </field>
+      <glib:signal name="add-widget" when="last">
+        <return-value transfer-ownership="none">
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <parameter name="object" transfer-ownership="none">
+            <type name="Widget"/>
+          </parameter>
+          <parameter name="p0" transfer-ownership="none">
+            <type name="Position"/>
+          </parameter>
+        </parameters>
+      </glib:signal>
+      <glib:signal name="create-frame" when="last" introspectable="0">
+        <return-value>
+          <type name="Frame"/>
+        </return-value>
+        <parameters>
+          <parameter name="object" transfer-ownership="none">
+            <type name="Position"/>
+          </parameter>
+        </parameters>
+      </glib:signal>
+    </class>
+    <record name="DocumentWorkspaceClass"
+            c:type="PanelDocumentWorkspaceClass"
+            glib:is-gtype-struct-for="DocumentWorkspace">
+      <source-position filename="src/panel-document-workspace.h" line="50"/>
+      <field name="parent_class">
+        <type name="WorkspaceClass" c:type="PanelWorkspaceClass"/>
+      </field>
+      <field name="create_frame" introspectable="0">
+        <callback name="create_frame" introspectable="0">
+          <source-position filename="src/panel-document-workspace.h"
+                           line="42"/>
+          <return-value>
+            <type name="Frame" c:type="PanelFrame*"/>
+          </return-value>
+          <parameters>
+            <parameter name="self" transfer-ownership="none">
+              <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
+            </parameter>
+            <parameter name="position" transfer-ownership="none">
+              <type name="Position" c:type="PanelPosition*"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="add_widget">
+        <callback name="add_widget">
+          <source-position filename="src/panel-document-workspace.h"
+                           line="44"/>
+          <return-value transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </return-value>
+          <parameters>
+            <parameter name="self" transfer-ownership="none">
+              <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
+            </parameter>
+            <parameter name="widget" transfer-ownership="none">
+              <type name="Widget" c:type="PanelWidget*"/>
+            </parameter>
+            <parameter name="position" transfer-ownership="none">
+              <type name="Position" c:type="PanelPosition*"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="_reserved" readable="0" private="1">
+        <array zero-terminated="0" fixed-size="16">
+          <type name="gpointer" c:type="gpointer"/>
+        </array>
       </field>
     </record>
     <function-macro name="ENCODE_VERSION"
@@ -8384,6 +8714,756 @@ of the same type as the property.</doc>
         </parameters>
       </method>
     </record>
+    <class name="Workbench"
+           c:symbol-prefix="workbench"
+           c:type="PanelWorkbench"
+           parent="Gtk.WindowGroup"
+           glib:type-name="PanelWorkbench"
+           glib:get-type="panel_workbench_get_type"
+           glib:type-struct="WorkbenchClass">
+      <source-position filename="src/panel-workbench.h" line="72"/>
+      <constructor name="new" c:identifier="panel_workbench_new">
+        <source-position filename="src/panel-workbench.h" line="75"/>
+        <return-value transfer-ownership="full">
+          <type name="Workbench" c:type="PanelWorkbench*"/>
+        </return-value>
+      </constructor>
+      <function name="find_from_widget"
+                c:identifier="panel_workbench_find_from_widget"
+                version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-workbench.c"
+             line="326">Finds the workbench that contains @widget.</doc>
+        <source-position filename="src/panel-workbench.h" line="77"/>
+        <return-value transfer-ownership="none" nullable="1">
+          <doc xml:space="preserve"
+               filename="src/panel-workbench.c"
+               line="332">a #PanelWorkbench or %NULL</doc>
+          <type name="Workbench" c:type="PanelWorkbench*"/>
+        </return-value>
+        <parameters>
+          <parameter name="widget" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workbench.c"
+                 line="328">a #GtkWidget</doc>
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </function>
+      <virtual-method name="activate" invoker="activate">
+        <source-position filename="src/panel-workbench.h" line="61"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Workbench" c:type="PanelWorkbench*"/>
+          </instance-parameter>
+        </parameters>
+      </virtual-method>
+      <virtual-method name="unload_async">
+        <source-position filename="src/panel-workbench.h" line="62"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Workbench" c:type="PanelWorkbench*"/>
+          </instance-parameter>
+          <parameter name="cancellable"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <type name="Gio.Cancellable" c:type="GCancellable*"/>
+          </parameter>
+          <parameter name="callback"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1"
+                     scope="async"
+                     closure="2">
+            <type name="Gio.AsyncReadyCallback" c:type="GAsyncReadyCallback"/>
+          </parameter>
+          <parameter name="user_data"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1"
+                     closure="2">
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+        </parameters>
+      </virtual-method>
+      <virtual-method name="unload_finish" throws="1">
+        <source-position filename="src/panel-workbench.h" line="66"/>
+        <return-value transfer-ownership="none">
+          <type name="gboolean" c:type="gboolean"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Workbench" c:type="PanelWorkbench*"/>
+          </instance-parameter>
+          <parameter name="result" transfer-ownership="none">
+            <type name="Gio.AsyncResult" c:type="GAsyncResult*"/>
+          </parameter>
+        </parameters>
+      </virtual-method>
+      <method name="action_set_enabled"
+              c:identifier="panel_workbench_action_set_enabled">
+        <source-position filename="src/panel-workbench.h" line="102"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Workbench" c:type="PanelWorkbench*"/>
+          </instance-parameter>
+          <parameter name="action_name" transfer-ownership="none">
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+          <parameter name="enabled" transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="activate" c:identifier="panel_workbench_activate">
+        <source-position filename="src/panel-workbench.h" line="84"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Workbench" c:type="PanelWorkbench*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="add_workspace"
+              c:identifier="panel_workbench_add_workspace">
+        <source-position filename="src/panel-workbench.h" line="86"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Workbench" c:type="PanelWorkbench*"/>
+          </instance-parameter>
+          <parameter name="workspace" transfer-ownership="none">
+            <type name="Workspace" c:type="PanelWorkspace*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="find_workspace_typed"
+              c:identifier="panel_workbench_find_workspace_typed"
+              version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-workbench.c"
+             line="294">Locates a workspace in @self with a type matching @type.</doc>
+        <source-position filename="src/panel-workbench.h" line="99"/>
+        <return-value transfer-ownership="none" nullable="1">
+          <doc xml:space="preserve"
+               filename="src/panel-workbench.c"
+               line="300">a #PanelWorkspace or %NULL</doc>
+          <type name="Workspace" c:type="PanelWorkspace*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workbench.c"
+                 line="296">a #PanelWorkbench</doc>
+            <type name="Workbench" c:type="PanelWorkbench*"/>
+          </instance-parameter>
+          <parameter name="workspace_type" transfer-ownership="none">
+            <type name="GType" c:type="GType"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="focus_workspace"
+              c:identifier="panel_workbench_focus_workspace">
+        <source-position filename="src/panel-workbench.h" line="92"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Workbench" c:type="PanelWorkbench*"/>
+          </instance-parameter>
+          <parameter name="workspace" transfer-ownership="none">
+            <type name="Workspace" c:type="PanelWorkspace*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="foreach_workspace"
+              c:identifier="panel_workbench_foreach_workspace"
+              version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-workbench.c"
+             line="246">Calls @foreach_func for each workspace in the workbench.</doc>
+        <source-position filename="src/panel-workbench.h" line="95"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workbench.c"
+                 line="248">a #PanelWorkbench</doc>
+            <type name="Workbench" c:type="PanelWorkbench*"/>
+          </instance-parameter>
+          <parameter name="foreach_func"
+                     transfer-ownership="none"
+                     scope="call"
+                     closure="1">
+            <doc xml:space="preserve"
+                 filename="src/panel-workbench.c"
+                 line="249">a function to call for each workspace</doc>
+            <type name="WorkspaceForeach" c:type="PanelWorkspaceForeach"/>
+          </parameter>
+          <parameter name="foreach_func_data"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/panel-workbench.c"
+                 line="250">the data for the @foreach_func</doc>
+            <type name="gpointer" c:type="gpointer"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_id"
+              c:identifier="panel_workbench_get_id"
+              glib:get-property="id">
+        <source-position filename="src/panel-workbench.h" line="79"/>
+        <return-value transfer-ownership="none">
+          <type name="utf8" c:type="const char*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Workbench" c:type="PanelWorkbench*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="remove_workspace"
+              c:identifier="panel_workbench_remove_workspace">
+        <source-position filename="src/panel-workbench.h" line="89"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Workbench" c:type="PanelWorkbench*"/>
+          </instance-parameter>
+          <parameter name="workspace" transfer-ownership="none">
+            <type name="Workspace" c:type="PanelWorkspace*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="set_id"
+              c:identifier="panel_workbench_set_id"
+              glib:set-property="id">
+        <source-position filename="src/panel-workbench.h" line="81"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Workbench" c:type="PanelWorkbench*"/>
+          </instance-parameter>
+          <parameter name="id" transfer-ownership="none">
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <property name="id"
+                version="1.4"
+                writable="1"
+                transfer-ownership="none"
+                setter="set_id"
+                getter="get_id"
+                default-value="NULL">
+        <doc xml:space="preserve"
+             filename="src/panel-workbench.c"
+             line="137">The "id" of the workbench.
+
+This is generally used by applications to help destinguish between
+projects, so that the project-id matches the workbench-id.</doc>
+        <type name="utf8" c:type="gchar*"/>
+      </property>
+      <field name="parent_instance">
+        <type name="Gtk.WindowGroup" c:type="GtkWindowGroup"/>
+      </field>
+      <glib:signal name="activate" when="last">
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+      </glib:signal>
+    </class>
+    <record name="WorkbenchClass"
+            c:type="PanelWorkbenchClass"
+            glib:is-gtype-struct-for="Workbench">
+      <source-position filename="src/panel-workbench.h" line="72"/>
+      <field name="parent_class">
+        <type name="Gtk.WindowGroupClass" c:type="GtkWindowGroupClass"/>
+      </field>
+      <field name="activate">
+        <callback name="activate">
+          <source-position filename="src/panel-workbench.h" line="61"/>
+          <return-value transfer-ownership="none">
+            <type name="none" c:type="void"/>
+          </return-value>
+          <parameters>
+            <parameter name="self" transfer-ownership="none">
+              <type name="Workbench" c:type="PanelWorkbench*"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="unload_async">
+        <callback name="unload_async">
+          <source-position filename="src/panel-workbench.h" line="62"/>
+          <return-value transfer-ownership="none">
+            <type name="none" c:type="void"/>
+          </return-value>
+          <parameters>
+            <parameter name="self" transfer-ownership="none">
+              <type name="Workbench" c:type="PanelWorkbench*"/>
+            </parameter>
+            <parameter name="cancellable"
+                       transfer-ownership="none"
+                       nullable="1"
+                       allow-none="1">
+              <type name="Gio.Cancellable" c:type="GCancellable*"/>
+            </parameter>
+            <parameter name="callback"
+                       transfer-ownership="none"
+                       nullable="1"
+                       allow-none="1"
+                       scope="async"
+                       closure="3">
+              <type name="Gio.AsyncReadyCallback"
+                    c:type="GAsyncReadyCallback"/>
+            </parameter>
+            <parameter name="user_data"
+                       transfer-ownership="none"
+                       nullable="1"
+                       allow-none="1"
+                       closure="3">
+              <type name="gpointer" c:type="gpointer"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="unload_finish">
+        <callback name="unload_finish" throws="1">
+          <source-position filename="src/panel-workbench.h" line="66"/>
+          <return-value transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </return-value>
+          <parameters>
+            <parameter name="self" transfer-ownership="none">
+              <type name="Workbench" c:type="PanelWorkbench*"/>
+            </parameter>
+            <parameter name="result" transfer-ownership="none">
+              <type name="Gio.AsyncResult" c:type="GAsyncResult*"/>
+            </parameter>
+          </parameters>
+        </callback>
+      </field>
+      <field name="_reserved" readable="0" private="1">
+        <array zero-terminated="0" fixed-size="8">
+          <type name="gpointer" c:type="gpointer"/>
+        </array>
+      </field>
+      <method name="install_action"
+              c:identifier="panel_workbench_class_install_action">
+        <doc xml:space="preserve"
+             filename="src/panel-workbench.c"
+             line="211">This should be called at class initialization time to specify
+actions to be added for all instances of this class.
+
+Actions installed by this function are stateless. The only state
+they have is whether they are enabled or not.</doc>
+        <source-position filename="src/panel-workbench.h" line="106"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="workbench_class" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workbench.c"
+                 line="213">a `PanelWorkspaceClass`</doc>
+            <type name="WorkbenchClass" c:type="PanelWorkbenchClass*"/>
+          </instance-parameter>
+          <parameter name="action_name" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workbench.c"
+                 line="214">a prefixed action name, such as "project.open"</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+          <parameter name="parameter_type"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/panel-workbench.c"
+                 line="215">the parameter type</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+          <parameter name="activate"
+                     transfer-ownership="none"
+                     scope="notified">
+            <doc xml:space="preserve"
+                 filename="src/panel-workbench.c"
+                 line="216">callback to use when the action is activated</doc>
+            <type name="ActionActivateFunc" c:type="PanelActionActivateFunc"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="install_property_action"
+              c:identifier="panel_workbench_class_install_property_action"
+              version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-workbench.c"
+             line="456">Installs an action called @action_name on @workbench_class and
+binds its state to the value of the @property_name property.
+
+This function will perform a few santity checks on the property selected
+via @property_name. Namely, the property must exist, must be readable,
+writable and must not be construct-only. There are also restrictions
+on the type of the given property, it must be boolean, int, unsigned int,
+double or string. If any of these conditions are not met, a critical
+warning will be printed and no action will be added.
+
+The state type of the action matches the property type.
+
+If the property is boolean, the action will have no parameter and
+toggle the property value. Otherwise, the action will have a parameter
+of the same type as the property.</doc>
+        <source-position filename="src/panel-workbench.h" line="111"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="workbench_class" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workbench.c"
+                 line="458">a `GtkWorkbenchClass`</doc>
+            <type name="WorkbenchClass" c:type="PanelWorkbenchClass*"/>
+          </instance-parameter>
+          <parameter name="action_name" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workbench.c"
+                 line="459">name of the action</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+          <parameter name="property_name" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workbench.c"
+                 line="460">name of the property in instances of @workbench_class
+  or any parent class.</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+        </parameters>
+      </method>
+    </record>
+    <class name="Workspace"
+           c:symbol-prefix="workspace"
+           c:type="PanelWorkspace"
+           parent="Adw.ApplicationWindow"
+           glib:type-name="PanelWorkspace"
+           glib:get-type="panel_workspace_get_type"
+           glib:type-struct="WorkspaceClass">
+      <source-position filename="src/panel-workbench.h" line="121"/>
+      <implements name="Gio.ActionGroup"/>
+      <implements name="Gio.ActionMap"/>
+      <implements name="Gtk.Accessible"/>
+      <implements name="Gtk.Buildable"/>
+      <implements name="Gtk.ConstraintTarget"/>
+      <implements name="Gtk.Native"/>
+      <implements name="Gtk.Root"/>
+      <implements name="Gtk.ShortcutManager"/>
+      <function name="find_from_widget"
+                c:identifier="panel_workspace_find_from_widget"
+                version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-workspace.c"
+             line="228">Finds the workspace that contains @widget.</doc>
+        <source-position filename="src/panel-workbench.h" line="124"/>
+        <return-value transfer-ownership="none" nullable="1">
+          <doc xml:space="preserve"
+               filename="src/panel-workspace.c"
+               line="234">a #PanelWorkspace or %NULL</doc>
+          <type name="Workspace" c:type="PanelWorkspace*"/>
+        </return-value>
+        <parameters>
+          <parameter name="widget" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workspace.c"
+                 line="230">a #GtkWidget</doc>
+            <type name="Gtk.Widget" c:type="GtkWidget*"/>
+          </parameter>
+        </parameters>
+      </function>
+      <method name="action_set_enabled"
+              c:identifier="panel_workspace_action_set_enabled">
+        <source-position filename="src/panel-workbench.h" line="137"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Workspace" c:type="PanelWorkspace*"/>
+          </instance-parameter>
+          <parameter name="action_name" transfer-ownership="none">
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+          <parameter name="enabled" transfer-ownership="none">
+            <type name="gboolean" c:type="gboolean"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="get_id"
+              c:identifier="panel_workspace_get_id"
+              glib:get-property="id">
+        <source-position filename="src/panel-workbench.h" line="128"/>
+        <return-value transfer-ownership="none">
+          <type name="utf8" c:type="const char*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Workspace" c:type="PanelWorkspace*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="get_workbench"
+              c:identifier="panel_workspace_get_workbench"
+              version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-workspace.c"
+             line="394">Gets the #PanelWorkbench @self is a part of.</doc>
+        <source-position filename="src/panel-workbench.h" line="126"/>
+        <return-value transfer-ownership="none" nullable="1">
+          <doc xml:space="preserve"
+               filename="src/panel-workspace.c"
+               line="400">a #PanelWorkbench, or %NULL</doc>
+          <type name="Workbench" c:type="PanelWorkbench*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workspace.c"
+                 line="396">a #PanelWorkspace</doc>
+            <type name="Workspace" c:type="PanelWorkspace*"/>
+          </instance-parameter>
+        </parameters>
+      </method>
+      <method name="inhibit"
+              c:identifier="panel_workspace_inhibit"
+              version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-workspace.c"
+             line="419">Inhibits one or more particular actions in the session.
+
+When the resulting #PanelInhibitor releases it's last reference
+the inhibitor will be dismissed. Alternatively, you may force the
+release of the inhibit using panel_inhibitor_uninhibit().</doc>
+        <source-position filename="src/panel-workbench.h" line="133"/>
+        <return-value transfer-ownership="full" nullable="1">
+          <doc xml:space="preserve"
+               filename="src/panel-workspace.c"
+               line="431">a #PanelInhibitor or %NULL</doc>
+          <type name="Inhibitor" c:type="PanelInhibitor*"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workspace.c"
+                 line="421">a #PanelWorkspace</doc>
+            <type name="Workspace" c:type="PanelWorkspace*"/>
+          </instance-parameter>
+          <parameter name="flags" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workspace.c"
+                 line="422">the inhibit flags</doc>
+            <type name="Gtk.ApplicationInhibitFlags"
+                  c:type="GtkApplicationInhibitFlags"/>
+          </parameter>
+          <parameter name="reason" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workspace.c"
+                 line="423">the reason for the inhibit</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="set_id"
+              c:identifier="panel_workspace_set_id"
+              glib:set-property="id">
+        <source-position filename="src/panel-workbench.h" line="130"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="self" transfer-ownership="none">
+            <type name="Workspace" c:type="PanelWorkspace*"/>
+          </instance-parameter>
+          <parameter name="id" transfer-ownership="none">
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+        </parameters>
+      </method>
+      <property name="id"
+                version="1.4"
+                writable="1"
+                transfer-ownership="none"
+                setter="set_id"
+                getter="get_id"
+                default-value="NULL">
+        <doc xml:space="preserve"
+             filename="src/panel-workspace.c"
+             line="125">The "id" of the workspace.
+
+This is generally used by applications to help destinguish between
+types of workspaces, particularly when saving session state.</doc>
+        <type name="utf8" c:type="gchar*"/>
+      </property>
+      <field name="parent_instance">
+        <type name="Adw.ApplicationWindow" c:type="AdwApplicationWindow"/>
+      </field>
+    </class>
+    <record name="WorkspaceClass"
+            c:type="PanelWorkspaceClass"
+            glib:is-gtype-struct-for="Workspace">
+      <source-position filename="src/panel-workbench.h" line="121"/>
+      <field name="parent_class">
+        <type name="Adw.ApplicationWindowClass"
+              c:type="AdwApplicationWindowClass"/>
+      </field>
+      <field name="_reserved" readable="0" private="1">
+        <array zero-terminated="0" fixed-size="8">
+          <type name="gpointer" c:type="gpointer"/>
+        </array>
+      </field>
+      <method name="install_action"
+              c:identifier="panel_workspace_class_install_action">
+        <doc xml:space="preserve"
+             filename="src/panel-workspace.c"
+             line="193">This should be called at class initialization time to specify
+actions to be added for all instances of this class.
+
+Actions installed by this function are stateless. The only state
+they have is whether they are enabled or not.</doc>
+        <source-position filename="src/panel-workbench.h" line="141"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="workspace_class" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workspace.c"
+                 line="195">a `PanelWorkspaceClass`</doc>
+            <type name="WorkspaceClass" c:type="PanelWorkspaceClass*"/>
+          </instance-parameter>
+          <parameter name="action_name" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workspace.c"
+                 line="196">a prefixed action name, such as "project.open"</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+          <parameter name="parameter_type"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/panel-workspace.c"
+                 line="197">the parameter type</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+          <parameter name="activate"
+                     transfer-ownership="none"
+                     scope="notified">
+            <doc xml:space="preserve"
+                 filename="src/panel-workspace.c"
+                 line="198">callback to use when the action is activated</doc>
+            <type name="ActionActivateFunc" c:type="PanelActionActivateFunc"/>
+          </parameter>
+        </parameters>
+      </method>
+      <method name="install_property_action"
+              c:identifier="panel_workspace_class_install_property_action"
+              version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-workspace.c"
+             line="293">Installs an action called @action_name on @workspace_class and
+binds its state to the value of the @property_name property.
+
+This function will perform a few santity checks on the property selected
+via @property_name. Namely, the property must exist, must be readable,
+writable and must not be construct-only. There are also restrictions
+on the type of the given property, it must be boolean, int, unsigned int,
+double or string. If any of these conditions are not met, a critical
+warning will be printed and no action will be added.
+
+The state type of the action matches the property type.
+
+If the property is boolean, the action will have no parameter and
+toggle the property value. Otherwise, the action will have a parameter
+of the same type as the property.</doc>
+        <source-position filename="src/panel-workbench.h" line="146"/>
+        <return-value transfer-ownership="none">
+          <type name="none" c:type="void"/>
+        </return-value>
+        <parameters>
+          <instance-parameter name="workspace_class" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workspace.c"
+                 line="295">a `GtkWorkspaceClass`</doc>
+            <type name="WorkspaceClass" c:type="PanelWorkspaceClass*"/>
+          </instance-parameter>
+          <parameter name="action_name" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workspace.c"
+                 line="296">name of the action</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+          <parameter name="property_name" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-workspace.c"
+                 line="297">name of the property in instances of @workspace_class
+  or any parent class.</doc>
+            <type name="utf8" c:type="const char*"/>
+          </parameter>
+        </parameters>
+      </method>
+    </record>
+    <callback name="WorkspaceForeach"
+              c:type="PanelWorkspaceForeach"
+              version="1.4">
+      <doc xml:space="preserve"
+           filename="src/panel-workbench.h"
+           line="44">This function is called for each workspace window within a #PanelWorkbench
+when using panel_workbench_foreach_workspace().</doc>
+      <source-position filename="src/panel-workbench.h" line="54"/>
+      <return-value transfer-ownership="none">
+        <type name="none" c:type="void"/>
+      </return-value>
+      <parameters>
+        <parameter name="workspace" transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/panel-workbench.h"
+               line="46">a #PanelWorkspace</doc>
+          <type name="Workspace" c:type="PanelWorkspace*"/>
+        </parameter>
+        <parameter name="user_data"
+                   transfer-ownership="none"
+                   nullable="1"
+                   allow-none="1"
+                   closure="1">
+          <doc xml:space="preserve"
+               filename="src/panel-workbench.h"
+               line="47">closure data provided with foreach func</doc>
+          <type name="gpointer" c:type="gpointer"/>
+        </parameter>
+      </parameters>
+    </callback>
     <function name="check_version" c:identifier="panel_check_version">
       <source-position filename="src/panel-version-macros.h" line="158"/>
       <return-value transfer-ownership="none">
@@ -8436,6 +9516,146 @@ of the same type as the property.</doc>
       <return-value transfer-ownership="none">
         <type name="none" c:type="void"/>
       </return-value>
+    </function>
+    <function name="marshal_BOOLEAN__OBJECT_OBJECT"
+              c:identifier="panel_marshal_BOOLEAN__OBJECT_OBJECT">
+      <source-position filename="src/panel-marshal.h" line="10"/>
+      <return-value transfer-ownership="none">
+        <type name="none" c:type="void"/>
+      </return-value>
+      <parameters>
+        <parameter name="closure" transfer-ownership="none">
+          <type name="GObject.Closure" c:type="GClosure*"/>
+        </parameter>
+        <parameter name="return_value" transfer-ownership="none">
+          <type name="GObject.Value" c:type="GValue*"/>
+        </parameter>
+        <parameter name="n_param_values" transfer-ownership="none">
+          <type name="guint" c:type="guint"/>
+        </parameter>
+        <parameter name="param_values" transfer-ownership="none">
+          <type name="GObject.Value" c:type="const GValue*"/>
+        </parameter>
+        <parameter name="invocation_hint"
+                   transfer-ownership="none"
+                   nullable="1"
+                   allow-none="1">
+          <type name="gpointer" c:type="gpointer"/>
+        </parameter>
+        <parameter name="marshal_data"
+                   transfer-ownership="none"
+                   nullable="1"
+                   allow-none="1">
+          <type name="gpointer" c:type="gpointer"/>
+        </parameter>
+      </parameters>
+    </function>
+    <function name="marshal_BOOLEAN__OBJECT_OBJECTv"
+              c:identifier="panel_marshal_BOOLEAN__OBJECT_OBJECTv"
+              introspectable="0">
+      <source-position filename="src/panel-marshal.h" line="17"/>
+      <return-value transfer-ownership="none">
+        <type name="none" c:type="void"/>
+      </return-value>
+      <parameters>
+        <parameter name="closure" transfer-ownership="none">
+          <type name="GObject.Closure" c:type="GClosure*"/>
+        </parameter>
+        <parameter name="return_value" transfer-ownership="none">
+          <type name="GObject.Value" c:type="GValue*"/>
+        </parameter>
+        <parameter name="instance"
+                   transfer-ownership="none"
+                   nullable="1"
+                   allow-none="1">
+          <type name="gpointer" c:type="gpointer"/>
+        </parameter>
+        <parameter name="args" transfer-ownership="none">
+          <type name="va_list" c:type="va_list"/>
+        </parameter>
+        <parameter name="marshal_data"
+                   transfer-ownership="none"
+                   nullable="1"
+                   allow-none="1">
+          <type name="gpointer" c:type="gpointer"/>
+        </parameter>
+        <parameter name="n_params" transfer-ownership="none">
+          <type name="gint" c:type="int"/>
+        </parameter>
+        <parameter name="param_types" transfer-ownership="none">
+          <type name="GType" c:type="GType*"/>
+        </parameter>
+      </parameters>
+    </function>
+    <function name="marshal_OBJECT__OBJECT"
+              c:identifier="panel_marshal_OBJECT__OBJECT">
+      <source-position filename="src/panel-marshal.h" line="27"/>
+      <return-value transfer-ownership="none">
+        <type name="none" c:type="void"/>
+      </return-value>
+      <parameters>
+        <parameter name="closure" transfer-ownership="none">
+          <type name="GObject.Closure" c:type="GClosure*"/>
+        </parameter>
+        <parameter name="return_value" transfer-ownership="none">
+          <type name="GObject.Value" c:type="GValue*"/>
+        </parameter>
+        <parameter name="n_param_values" transfer-ownership="none">
+          <type name="guint" c:type="guint"/>
+        </parameter>
+        <parameter name="param_values" transfer-ownership="none">
+          <type name="GObject.Value" c:type="const GValue*"/>
+        </parameter>
+        <parameter name="invocation_hint"
+                   transfer-ownership="none"
+                   nullable="1"
+                   allow-none="1">
+          <type name="gpointer" c:type="gpointer"/>
+        </parameter>
+        <parameter name="marshal_data"
+                   transfer-ownership="none"
+                   nullable="1"
+                   allow-none="1">
+          <type name="gpointer" c:type="gpointer"/>
+        </parameter>
+      </parameters>
+    </function>
+    <function name="marshal_OBJECT__OBJECTv"
+              c:identifier="panel_marshal_OBJECT__OBJECTv"
+              introspectable="0">
+      <source-position filename="src/panel-marshal.h" line="34"/>
+      <return-value transfer-ownership="none">
+        <type name="none" c:type="void"/>
+      </return-value>
+      <parameters>
+        <parameter name="closure" transfer-ownership="none">
+          <type name="GObject.Closure" c:type="GClosure*"/>
+        </parameter>
+        <parameter name="return_value" transfer-ownership="none">
+          <type name="GObject.Value" c:type="GValue*"/>
+        </parameter>
+        <parameter name="instance"
+                   transfer-ownership="none"
+                   nullable="1"
+                   allow-none="1">
+          <type name="gpointer" c:type="gpointer"/>
+        </parameter>
+        <parameter name="args" transfer-ownership="none">
+          <type name="va_list" c:type="va_list"/>
+        </parameter>
+        <parameter name="marshal_data"
+                   transfer-ownership="none"
+                   nullable="1"
+                   allow-none="1">
+          <type name="gpointer" c:type="gpointer"/>
+        </parameter>
+        <parameter name="n_params" transfer-ownership="none">
+          <type name="gint" c:type="int"/>
+        </parameter>
+        <parameter name="param_types" transfer-ownership="none">
+          <type name="GType" c:type="GType*"/>
+        </parameter>
+      </parameters>
     </function>
     <docsection name="panel-settings">
       <doc xml:space="preserve"

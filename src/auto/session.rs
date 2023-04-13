@@ -6,8 +6,8 @@
 use crate::SessionItem;
 use glib::translate::*;
 use std::fmt;
-#[cfg(any(feature = "v1_4", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
+#[cfg(any(feature = "v1_4", docsrs))]
+#[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
 use std::ptr;
 
 glib::wrapper! {
@@ -26,8 +26,8 @@ impl Session {
         unsafe { from_glib_full(ffi::panel_session_new()) }
     }
 
-    #[cfg(any(feature = "v1_4", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
+    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_session_new_from_variant")]
     #[doc(alias = "new_from_variant")]
     pub fn from_variant(variant: &glib::Variant) -> Result<Session, glib::Error> {
@@ -50,8 +50,8 @@ impl Session {
         }
     }
 
-    #[cfg(any(feature = "v1_4", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
+    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_session_get_item")]
     #[doc(alias = "get_item")]
     pub fn item(&self, position: u32) -> Option<SessionItem> {
@@ -71,8 +71,8 @@ impl Session {
         }
     }
 
-    #[cfg(any(feature = "v1_4", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
+    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_session_lookup_by_id")]
     pub fn lookup_by_id(&self, id: &str) -> Option<SessionItem> {
         unsafe {

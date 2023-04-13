@@ -11,8 +11,8 @@ use glib::{
 };
 use std::{boxed::Box as Box_, fmt, mem::transmute, pin::Pin, ptr};
 
-#[cfg(any(feature = "adw_v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+#[cfg(any(feature = "adw_v1_2", docsrs))]
+#[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
 glib::wrapper! {
     #[doc(alias = "PanelSaveDialog")]
     pub struct SaveDialog(Object<ffi::PanelSaveDialog, ffi::PanelSaveDialogClass>) @extends adw::MessageDialog, gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
@@ -22,7 +22,7 @@ glib::wrapper! {
     }
 }
 
-#[cfg(not(any(feature = "adw_v1_2", feature = "dox")))]
+#[cfg(not(any(feature = "adw_v1_2", docsrs)))]
 glib::wrapper! {
     #[doc(alias = "PanelSaveDialog")]
     pub struct SaveDialog(Object<ffi::PanelSaveDialog, ffi::PanelSaveDialogClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
@@ -185,24 +185,24 @@ impl SaveDialogBuilder {
         }
     }
 
-    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    #[cfg(any(feature = "adw_v1_2", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
     pub fn body(self, body: impl Into<glib::GString>) -> Self {
         Self {
             builder: self.builder.property("body", body.into()),
         }
     }
 
-    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    #[cfg(any(feature = "adw_v1_2", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
     pub fn body_use_markup(self, body_use_markup: bool) -> Self {
         Self {
             builder: self.builder.property("body-use-markup", body_use_markup),
         }
     }
 
-    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    #[cfg(any(feature = "adw_v1_2", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
     pub fn close_response(self, close_response: impl Into<glib::GString>) -> Self {
         Self {
             builder: self
@@ -211,8 +211,8 @@ impl SaveDialogBuilder {
         }
     }
 
-    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    #[cfg(any(feature = "adw_v1_2", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
     pub fn default_response(self, default_response: impl Into<glib::GString>) -> Self {
         Self {
             builder: self
@@ -221,8 +221,8 @@ impl SaveDialogBuilder {
         }
     }
 
-    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    #[cfg(any(feature = "adw_v1_2", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
     pub fn extra_child(self, extra_child: &impl IsA<gtk::Widget>) -> Self {
         Self {
             builder: self
@@ -231,16 +231,16 @@ impl SaveDialogBuilder {
         }
     }
 
-    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    #[cfg(any(feature = "adw_v1_2", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
     pub fn heading(self, heading: impl Into<glib::GString>) -> Self {
         Self {
             builder: self.builder.property("heading", heading.into()),
         }
     }
 
-    #[cfg(any(feature = "adw_v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "adw_v1_2")))]
+    #[cfg(any(feature = "adw_v1_2", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
     pub fn heading_use_markup(self, heading_use_markup: bool) -> Self {
         Self {
             builder: self
@@ -273,9 +273,11 @@ impl SaveDialogBuilder {
         }
     }
 
-    //pub fn cursor(self, cursor: /*Ignored*/&gdk::Cursor) -> Self {
-    //    Self { builder: self.builder.property("cursor", cursor), }
-    //}
+    pub fn cursor(self, cursor: &gdk::Cursor) -> Self {
+        Self {
+            builder: self.builder.property("cursor", cursor.clone()),
+        }
+    }
 
     pub fn focus_on_click(self, focus_on_click: bool) -> Self {
         Self {
@@ -289,9 +291,11 @@ impl SaveDialogBuilder {
         }
     }
 
-    //pub fn halign(self, halign: /*Ignored*/gtk::Align) -> Self {
-    //    Self { builder: self.builder.property("halign", halign), }
-    //}
+    pub fn halign(self, halign: gtk::Align) -> Self {
+        Self {
+            builder: self.builder.property("halign", halign),
+        }
+    }
 
     pub fn has_tooltip(self, has_tooltip: bool) -> Self {
         Self {
@@ -317,9 +321,13 @@ impl SaveDialogBuilder {
         }
     }
 
-    //pub fn layout_manager(self, layout_manager: &impl IsA</*Ignored*/gtk::LayoutManager>) -> Self {
-    //    Self { builder: self.builder.property("layout-manager", layout_manager.clone().upcast()), }
-    //}
+    pub fn layout_manager(self, layout_manager: &impl IsA<gtk::LayoutManager>) -> Self {
+        Self {
+            builder: self
+                .builder
+                .property("layout-manager", layout_manager.clone().upcast()),
+        }
+    }
 
     pub fn margin_bottom(self, margin_bottom: i32) -> Self {
         Self {
@@ -357,9 +365,11 @@ impl SaveDialogBuilder {
         }
     }
 
-    //pub fn overflow(self, overflow: /*Ignored*/gtk::Overflow) -> Self {
-    //    Self { builder: self.builder.property("overflow", overflow), }
-    //}
+    pub fn overflow(self, overflow: gtk::Overflow) -> Self {
+        Self {
+            builder: self.builder.property("overflow", overflow),
+        }
+    }
 
     pub fn receives_default(self, receives_default: bool) -> Self {
         Self {
@@ -387,9 +397,11 @@ impl SaveDialogBuilder {
         }
     }
 
-    //pub fn valign(self, valign: /*Ignored*/gtk::Align) -> Self {
-    //    Self { builder: self.builder.property("valign", valign), }
-    //}
+    pub fn valign(self, valign: gtk::Align) -> Self {
+        Self {
+            builder: self.builder.property("valign", valign),
+        }
+    }
 
     pub fn vexpand(self, vexpand: bool) -> Self {
         Self {
@@ -415,9 +427,11 @@ impl SaveDialogBuilder {
         }
     }
 
-    //pub fn accessible_role(self, accessible_role: /*Ignored*/gtk::AccessibleRole) -> Self {
-    //    Self { builder: self.builder.property("accessible-role", accessible_role), }
-    //}
+    pub fn accessible_role(self, accessible_role: gtk::AccessibleRole) -> Self {
+        Self {
+            builder: self.builder.property("accessible-role", accessible_role),
+        }
+    }
 
     // rustdoc-stripper-ignore-next
     /// Build the [`SaveDialog`].
