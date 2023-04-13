@@ -47,14 +47,10 @@ impl<T: DockImpl> DockImplExt for T {
 
 unsafe impl<T: DockImpl> IsSubclassable<T> for Dock {
     fn class_init(class: &mut glib::Class<Self>) {
-        <gtk::Widget as IsSubclassable<T>>::class_init(class);
+        Self::parent_class_init::<T>(class);
         let klass = class.as_mut();
         klass.panel_drag_begin = Some(dock_panel_drag_begin::<T>);
         klass.panel_drag_end = Some(dock_panel_drag_end::<T>);
-    }
-
-    fn instance_init(instance: &mut glib::subclass::InitializingObject<T>) {
-        <gtk::Widget as IsSubclassable<T>>::instance_init(instance);
     }
 }
 

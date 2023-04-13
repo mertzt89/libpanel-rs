@@ -29,13 +29,9 @@ impl<T: PanelGridImpl> PanelGridImplExt for T {
 
 unsafe impl<T: PanelGridImpl> IsSubclassable<T> for Grid {
     fn class_init(class: &mut glib::Class<Self>) {
-        <gtk::Widget as IsSubclassable<T>>::class_init(class);
+        Self::parent_class_init::<T>(class);
         let klass = class.as_mut();
         klass.create_frame = Some(panel_grid_create_frame::<T>);
-    }
-
-    fn instance_init(instance: &mut glib::subclass::InitializingObject<T>) {
-        <gtk::Widget as IsSubclassable<T>>::instance_init(instance);
     }
 }
 

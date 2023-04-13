@@ -3,8 +3,8 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-#[cfg(any(feature = "v1_2", feature = "dox"))]
-#[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+#[cfg(any(feature = "v1_2", docsrs))]
+#[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
 use crate::Position;
 use crate::{Area, Frame, Widget};
 use glib::{
@@ -135,9 +135,11 @@ impl DockBuilder {
         }
     }
 
-    //pub fn cursor(self, cursor: /*Ignored*/&gdk::Cursor) -> Self {
-    //    Self { builder: self.builder.property("cursor", cursor), }
-    //}
+    pub fn cursor(self, cursor: &gdk::Cursor) -> Self {
+        Self {
+            builder: self.builder.property("cursor", cursor.clone()),
+        }
+    }
 
     pub fn focus_on_click(self, focus_on_click: bool) -> Self {
         Self {
@@ -151,9 +153,11 @@ impl DockBuilder {
         }
     }
 
-    //pub fn halign(self, halign: /*Ignored*/gtk::Align) -> Self {
-    //    Self { builder: self.builder.property("halign", halign), }
-    //}
+    pub fn halign(self, halign: gtk::Align) -> Self {
+        Self {
+            builder: self.builder.property("halign", halign),
+        }
+    }
 
     pub fn has_tooltip(self, has_tooltip: bool) -> Self {
         Self {
@@ -179,9 +183,13 @@ impl DockBuilder {
         }
     }
 
-    //pub fn layout_manager(self, layout_manager: &impl IsA</*Ignored*/gtk::LayoutManager>) -> Self {
-    //    Self { builder: self.builder.property("layout-manager", layout_manager.clone().upcast()), }
-    //}
+    pub fn layout_manager(self, layout_manager: &impl IsA<gtk::LayoutManager>) -> Self {
+        Self {
+            builder: self
+                .builder
+                .property("layout-manager", layout_manager.clone().upcast()),
+        }
+    }
 
     pub fn margin_bottom(self, margin_bottom: i32) -> Self {
         Self {
@@ -219,9 +227,11 @@ impl DockBuilder {
         }
     }
 
-    //pub fn overflow(self, overflow: /*Ignored*/gtk::Overflow) -> Self {
-    //    Self { builder: self.builder.property("overflow", overflow), }
-    //}
+    pub fn overflow(self, overflow: gtk::Overflow) -> Self {
+        Self {
+            builder: self.builder.property("overflow", overflow),
+        }
+    }
 
     pub fn receives_default(self, receives_default: bool) -> Self {
         Self {
@@ -249,9 +259,11 @@ impl DockBuilder {
         }
     }
 
-    //pub fn valign(self, valign: /*Ignored*/gtk::Align) -> Self {
-    //    Self { builder: self.builder.property("valign", valign), }
-    //}
+    pub fn valign(self, valign: gtk::Align) -> Self {
+        Self {
+            builder: self.builder.property("valign", valign),
+        }
+    }
 
     pub fn vexpand(self, vexpand: bool) -> Self {
         Self {
@@ -277,9 +289,11 @@ impl DockBuilder {
         }
     }
 
-    //pub fn accessible_role(self, accessible_role: /*Ignored*/gtk::AccessibleRole) -> Self {
-    //    Self { builder: self.builder.property("accessible-role", accessible_role), }
-    //}
+    pub fn accessible_role(self, accessible_role: gtk::AccessibleRole) -> Self {
+        Self {
+            builder: self.builder.property("accessible-role", accessible_role),
+        }
+    }
 
     // rustdoc-stripper-ignore-next
     /// Build the [`Dock`].
@@ -375,16 +389,16 @@ pub trait DockExt: 'static {
     #[doc(alias = "top-height")]
     fn top_height(&self) -> i32;
 
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     #[doc(alias = "adopt-widget")]
     fn connect_adopt_widget<F: Fn(&Self, &Widget) -> bool + 'static>(
         &self,
         f: F,
     ) -> SignalHandlerId;
 
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     #[doc(alias = "create-frame")]
     fn connect_create_frame<F: Fn(&Self, &Position) -> Frame + 'static>(
         &self,
@@ -627,8 +641,8 @@ impl<O: IsA<Dock>> DockExt for O {
         glib::ObjectExt::property(self.as_ref(), "top-height")
     }
 
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     fn connect_adopt_widget<F: Fn(&Self, &Widget) -> bool + 'static>(
         &self,
         f: F,
@@ -661,8 +675,8 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_2", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_2")))]
+    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     fn connect_create_frame<F: Fn(&Self, &Position) -> Frame + 'static>(
         &self,
         f: F,

@@ -21,8 +21,8 @@ impl MenuManager {
         }
     }
 
-    #[cfg(any(feature = "v1_4", feature = "dox"))]
-    #[cfg_attr(feature = "dox", doc(cfg(feature = "v1_4")))]
+    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_menu_manager_add_resource")]
     pub fn add_resource(&self, resource: &str) -> Result<u32, glib::Error> {
         unsafe {
