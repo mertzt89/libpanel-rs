@@ -3,12 +3,12 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-#[cfg(any(feature = "v1_4", docsrs))]
+#[cfg(feature = "v1_4")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
 use glib::prelude::*;
 use glib::translate::*;
 use std::fmt;
-#[cfg(any(feature = "v1_4", docsrs))]
+#[cfg(feature = "v1_4")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
 use std::mem;
 
@@ -28,7 +28,7 @@ impl MenuManager {
         unsafe { from_glib_full(ffi::panel_menu_manager_new()) }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_menu_manager_find_item_by_id")]
     pub fn find_item_by_id(&self, id: &str) -> (Option<gio::Menu>, u32) {
@@ -43,7 +43,7 @@ impl MenuManager {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_menu_manager_get_menu_by_id")]
     #[doc(alias = "get_menu_by_id")]
@@ -56,7 +56,7 @@ impl MenuManager {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_menu_manager_get_menu_ids")]
     #[doc(alias = "get_menu_ids")]
@@ -68,7 +68,7 @@ impl MenuManager {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_menu_manager_merge")]
     pub fn merge(&self, menu_id: &str, menu_model: &impl IsA<gio::MenuModel>) -> u32 {
@@ -81,7 +81,7 @@ impl MenuManager {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_menu_manager_remove")]
     pub fn remove(&self, merge_id: u32) {
@@ -90,7 +90,7 @@ impl MenuManager {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_menu_manager_set_attribute_string")]
     pub fn set_attribute_string(

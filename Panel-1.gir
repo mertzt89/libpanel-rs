@@ -1173,28 +1173,48 @@ completes or was cancelled.</doc>
                    version="1.4">
         <doc xml:space="preserve"
              filename="src/panel-document-workspace.c"
-             line="499">Creates a new #PanelDocumentWorkspace.</doc>
+             line="524">Creates a new #PanelDocumentWorkspace.</doc>
         <source-position filename="src/panel-document-workspace.h" line="53"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/panel-document-workspace.c"
-               line="505">a #PanelDocumentWorkspace</doc>
+               line="529">a #PanelDocumentWorkspace</doc>
           <type name="DocumentWorkspace" c:type="GtkWidget*"/>
         </return-value>
       </constructor>
-      <virtual-method name="add_widget">
+      <virtual-method name="add_widget" invoker="add_widget" version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-document-workspace.c"
+             line="635">Requests the workspace add @widget to the dock at @position.</doc>
         <source-position filename="src/panel-document-workspace.h" line="44"/>
         <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/panel-document-workspace.c"
+               line="643">%TRUE if @widget was added; otherwise %FALSE and @widget
+  will have g_object_ref_sink() called and unref'd from an idle
+  callback.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-document-workspace.c"
+                 line="637">a #PanelDocumentWorkspace</doc>
             <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
           </instance-parameter>
           <parameter name="widget" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-document-workspace.c"
+                 line="638">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </parameter>
-          <parameter name="position" transfer-ownership="none">
+          <parameter name="position"
+                     transfer-ownership="none"
+                     nullable="1"
+                     allow-none="1">
+            <doc xml:space="preserve"
+                 filename="src/panel-document-workspace.c"
+                 line="639">a #PanelPosition or %NULL</doc>
             <type name="Position" c:type="PanelPosition*"/>
           </parameter>
         </parameters>
@@ -1218,22 +1238,27 @@ completes or was cancelled.</doc>
               version="1.4">
         <doc xml:space="preserve"
              filename="src/panel-document-workspace.c"
-             line="611">Requests the workspace add @widget to the dock at @position.</doc>
+             line="635">Requests the workspace add @widget to the dock at @position.</doc>
         <source-position filename="src/panel-document-workspace.h" line="66"/>
         <return-value transfer-ownership="none">
-          <type name="none" c:type="void"/>
+          <doc xml:space="preserve"
+               filename="src/panel-document-workspace.c"
+               line="643">%TRUE if @widget was added; otherwise %FALSE and @widget
+  will have g_object_ref_sink() called and unref'd from an idle
+  callback.</doc>
+          <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-document-workspace.c"
-                 line="613">a #PanelDocumentWorkspace</doc>
+                 line="637">a #PanelDocumentWorkspace</doc>
             <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
           </instance-parameter>
           <parameter name="widget" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-document-workspace.c"
-                 line="614">a #PanelWidget</doc>
+                 line="638">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </parameter>
           <parameter name="position"
@@ -1242,7 +1267,7 @@ completes or was cancelled.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/panel-document-workspace.c"
-                 line="615">a #PanelPosition or %NULL</doc>
+                 line="639">a #PanelPosition or %NULL</doc>
             <type name="Position" c:type="PanelPosition*"/>
           </parameter>
         </parameters>
@@ -1253,19 +1278,19 @@ completes or was cancelled.</doc>
               version="1.4">
         <doc xml:space="preserve"
              filename="src/panel-document-workspace.c"
-             line="515">Get the #PanelDock for the workspace.</doc>
+             line="539">Get the #PanelDock for the workspace.</doc>
         <source-position filename="src/panel-document-workspace.h" line="55"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/panel-document-workspace.c"
-               line="521">a #PanelDock</doc>
+               line="545">a #PanelDock</doc>
           <type name="Dock" c:type="PanelDock*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-document-workspace.c"
-                 line="517">a #PanelDocumentWorkspace</doc>
+                 line="541">a #PanelDocumentWorkspace</doc>
             <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
           </instance-parameter>
         </parameters>
@@ -1276,19 +1301,19 @@ completes or was cancelled.</doc>
               version="1.4">
         <doc xml:space="preserve"
              filename="src/panel-document-workspace.c"
-             line="535">Get the document grid for the workspace.</doc>
+             line="559">Get the document grid for the workspace.</doc>
         <source-position filename="src/panel-document-workspace.h" line="57"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/panel-document-workspace.c"
-               line="541">a #PanelGrid</doc>
+               line="565">a #PanelGrid</doc>
           <type name="Grid" c:type="PanelGrid*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-document-workspace.c"
-                 line="537">a #PanelDocumentWorkspace</doc>
+                 line="561">a #PanelDocumentWorkspace</doc>
             <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
           </instance-parameter>
         </parameters>
@@ -1299,19 +1324,19 @@ completes or was cancelled.</doc>
               version="1.4">
         <doc xml:space="preserve"
              filename="src/panel-document-workspace.c"
-             line="555">Gets the statusbar for the workspace.</doc>
+             line="579">Gets the statusbar for the workspace.</doc>
         <source-position filename="src/panel-document-workspace.h" line="59"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="src/panel-document-workspace.c"
-               line="561">a #PanelStatusbar</doc>
+               line="585">a #PanelStatusbar</doc>
           <type name="Statusbar" c:type="PanelStatusbar*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-document-workspace.c"
-                 line="557">a #PanelDocumentWorkspace</doc>
+                 line="581">a #PanelDocumentWorkspace</doc>
             <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
           </instance-parameter>
         </parameters>
@@ -1321,19 +1346,19 @@ completes or was cancelled.</doc>
               version="1.4">
         <doc xml:space="preserve"
              filename="src/panel-document-workspace.c"
-             line="575">Gets the titlebar for the workspace.</doc>
+             line="599">Gets the titlebar for the workspace.</doc>
         <source-position filename="src/panel-document-workspace.h" line="61"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="src/panel-document-workspace.c"
-               line="581">a #GtkWidget or %NULL</doc>
+               line="605">a #GtkWidget or %NULL</doc>
           <type name="Gtk.Widget" c:type="GtkWidget*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-document-workspace.c"
-                 line="577">a #PanelDocumentWorkspace</doc>
+                 line="601">a #PanelDocumentWorkspace</doc>
             <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
           </instance-parameter>
         </parameters>
@@ -1367,25 +1392,48 @@ completes or was cancelled.</doc>
       <field name="parent_instance">
         <type name="Workspace" c:type="PanelWorkspace"/>
       </field>
-      <glib:signal name="add-widget" when="last">
+      <glib:signal name="add-widget" when="last" version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-document-workspace.c"
+             line="452">This signal is used to add a #PanelWidget to the document workspace,
+generally in the document grid.</doc>
         <return-value transfer-ownership="none">
+          <doc xml:space="preserve"
+               filename="src/panel-document-workspace.c"
+               line="461">%TRUE if the widget was added and no more signal handlers
+   will be notified.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
-          <parameter name="object" transfer-ownership="none">
+          <parameter name="widget" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-document-workspace.c"
+                 line="455">a #PanelWidget</doc>
             <type name="Widget"/>
           </parameter>
-          <parameter name="p0" transfer-ownership="none">
+          <parameter name="position" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-document-workspace.c"
+                 line="456">a #PanelPosition</doc>
             <type name="Position"/>
           </parameter>
         </parameters>
       </glib:signal>
-      <glib:signal name="create-frame" when="last" introspectable="0">
-        <return-value>
+      <glib:signal name="create-frame" when="last" version="1.4">
+        <doc xml:space="preserve"
+             filename="src/panel-document-workspace.c"
+             line="481">Creates a new #PanelFrame to be added to the document grid.</doc>
+        <return-value transfer-ownership="full">
+          <doc xml:space="preserve"
+               filename="src/panel-document-workspace.c"
+               line="488">a #PanelFrame</doc>
           <type name="Frame"/>
         </return-value>
         <parameters>
-          <parameter name="object" transfer-ownership="none">
+          <parameter name="position" transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-document-workspace.c"
+                 line="484">the position of the frame</doc>
             <type name="Position"/>
           </parameter>
         </parameters>
@@ -1420,16 +1468,33 @@ completes or was cancelled.</doc>
           <source-position filename="src/panel-document-workspace.h"
                            line="44"/>
           <return-value transfer-ownership="none">
+            <doc xml:space="preserve"
+                 filename="src/panel-document-workspace.c"
+                 line="643">%TRUE if @widget was added; otherwise %FALSE and @widget
+  will have g_object_ref_sink() called and unref'd from an idle
+  callback.</doc>
             <type name="gboolean" c:type="gboolean"/>
           </return-value>
           <parameters>
             <parameter name="self" transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="src/panel-document-workspace.c"
+                   line="637">a #PanelDocumentWorkspace</doc>
               <type name="DocumentWorkspace" c:type="PanelDocumentWorkspace*"/>
             </parameter>
             <parameter name="widget" transfer-ownership="none">
+              <doc xml:space="preserve"
+                   filename="src/panel-document-workspace.c"
+                   line="638">a #PanelWidget</doc>
               <type name="Widget" c:type="PanelWidget*"/>
             </parameter>
-            <parameter name="position" transfer-ownership="none">
+            <parameter name="position"
+                       transfer-ownership="none"
+                       nullable="1"
+                       allow-none="1">
+              <doc xml:space="preserve"
+                   filename="src/panel-document-workspace.c"
+                   line="639">a #PanelPosition or %NULL</doc>
               <type name="Position" c:type="PanelPosition*"/>
             </parameter>
           </parameters>
@@ -2683,19 +2748,19 @@ a #PanelFrame.</doc>
               glib:get-property="autohide">
         <doc xml:space="preserve"
              filename="src/panel-frame-tab-bar.c"
-             line="435">Gets whether the tabs automatically hide.</doc>
+             line="436">Gets whether the tabs automatically hide.</doc>
         <source-position filename="src/panel-frame-tab-bar.h" line="37"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/panel-frame-tab-bar.c"
-               line="441">the value of the autohide property.</doc>
+               line="442">the value of the autohide property.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame-tab-bar.c"
-                 line="437">a #PanelFrameTabBar</doc>
+                 line="438">a #PanelFrameTabBar</doc>
             <type name="FrameTabBar" c:type="PanelFrameTabBar*"/>
           </instance-parameter>
         </parameters>
@@ -2705,19 +2770,19 @@ a #PanelFrame.</doc>
               glib:get-property="expand-tabs">
         <doc xml:space="preserve"
              filename="src/panel-frame-tab-bar.c"
-             line="451">Gets whether tabs expand to full width.</doc>
+             line="452">Gets whether tabs expand to full width.</doc>
         <source-position filename="src/panel-frame-tab-bar.h" line="47"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/panel-frame-tab-bar.c"
-               line="457">the value of the expand_tabs property.</doc>
+               line="458">the value of the expand_tabs property.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame-tab-bar.c"
-                 line="453">a #PanelFrameTabBar</doc>
+                 line="454">a #PanelFrameTabBar</doc>
             <type name="FrameTabBar" c:type="PanelFrameTabBar*"/>
           </instance-parameter>
         </parameters>
@@ -2727,19 +2792,19 @@ a #PanelFrame.</doc>
               glib:get-property="inverted">
         <doc xml:space="preserve"
              filename="src/panel-frame-tab-bar.c"
-             line="467">Gets whether tabs use inverted layout.</doc>
+             line="468">Gets whether tabs use inverted layout.</doc>
         <source-position filename="src/panel-frame-tab-bar.h" line="42"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/panel-frame-tab-bar.c"
-               line="473">the value of the inverted property.</doc>
+               line="474">the value of the inverted property.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame-tab-bar.c"
-                 line="469">a #PanelFrameTabBar</doc>
+                 line="470">a #PanelFrameTabBar</doc>
             <type name="FrameTabBar" c:type="PanelFrameTabBar*"/>
           </instance-parameter>
         </parameters>
@@ -2749,7 +2814,7 @@ a #PanelFrame.</doc>
               glib:set-property="autohide">
         <doc xml:space="preserve"
              filename="src/panel-frame-tab-bar.c"
-             line="443">Sets whether the tabs automatically hide.</doc>
+             line="444">Sets whether the tabs automatically hide.</doc>
         <source-position filename="src/panel-frame-tab-bar.h" line="39"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -2758,13 +2823,13 @@ a #PanelFrame.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame-tab-bar.c"
-                 line="445">a #PanelFrameTabBar</doc>
+                 line="446">a #PanelFrameTabBar</doc>
             <type name="FrameTabBar" c:type="PanelFrameTabBar*"/>
           </instance-parameter>
           <parameter name="autohide" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame-tab-bar.c"
-                 line="446">the autohide value</doc>
+                 line="447">the autohide value</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -2774,7 +2839,7 @@ a #PanelFrame.</doc>
               glib:set-property="expand-tabs">
         <doc xml:space="preserve"
              filename="src/panel-frame-tab-bar.c"
-             line="459">Sets whether tabs expand to full width.</doc>
+             line="460">Sets whether tabs expand to full width.</doc>
         <source-position filename="src/panel-frame-tab-bar.h" line="49"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -2783,13 +2848,13 @@ a #PanelFrame.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame-tab-bar.c"
-                 line="461">a #PanelFrameTabBar</doc>
+                 line="462">a #PanelFrameTabBar</doc>
             <type name="FrameTabBar" c:type="PanelFrameTabBar*"/>
           </instance-parameter>
           <parameter name="expand_tabs" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame-tab-bar.c"
-                 line="462">the expand_tabs value</doc>
+                 line="463">the expand_tabs value</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -2799,7 +2864,7 @@ a #PanelFrame.</doc>
               glib:set-property="inverted">
         <doc xml:space="preserve"
              filename="src/panel-frame-tab-bar.c"
-             line="475">Sets whether tabs tabs use inverted layout.</doc>
+             line="476">Sets whether tabs tabs use inverted layout.</doc>
         <source-position filename="src/panel-frame-tab-bar.h" line="44"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -2808,13 +2873,13 @@ a #PanelFrame.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame-tab-bar.c"
-                 line="477">a #PanelFrameTabBar</doc>
+                 line="478">a #PanelFrameTabBar</doc>
             <type name="FrameTabBar" c:type="PanelFrameTabBar*"/>
           </instance-parameter>
           <parameter name="inverted" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame-tab-bar.c"
-                 line="478">the inverted value</doc>
+                 line="479">the inverted value</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -3450,7 +3515,7 @@ Consumers of this signal are required to return an unrooted
               c:identifier="panel_layered_settings_bind_with_mapping">
         <doc xml:space="preserve"
              filename="src/panel-layered-settings.c"
-             line="477">Creates a new binding similar to g_settings_bind_with_mapping() but applying
+             line="486">Creates a new binding similar to g_settings_bind_with_mapping() but applying
 from the resolved value via the layered settings.</doc>
         <source-position filename="src/panel-layered-settings.h" line="100"/>
         <return-value transfer-ownership="none">
@@ -3460,13 +3525,13 @@ from the resolved value via the layered settings.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-layered-settings.c"
-                 line="479">An #PanelLayeredSettings.</doc>
+                 line="488">An #PanelLayeredSettings.</doc>
             <type name="LayeredSettings" c:type="PanelLayeredSettings*"/>
           </instance-parameter>
           <parameter name="key" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-layered-settings.c"
-                 line="480">the settings key to bind.
+                 line="489">the settings key to bind.
 @object (type GObject.Object): the target object.</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
@@ -3479,13 +3544,13 @@ from the resolved value via the layered settings.</doc>
           <parameter name="property" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-layered-settings.c"
-                 line="482">the property on @object to apply.</doc>
+                 line="491">the property on @object to apply.</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-layered-settings.c"
-                 line="483">flags for the binding.</doc>
+                 line="492">flags for the binding.</doc>
             <type name="Gio.SettingsBindFlags" c:type="GSettingsBindFlags"/>
           </parameter>
           <parameter name="get_mapping"
@@ -3495,7 +3560,7 @@ from the resolved value via the layered settings.</doc>
                      destroy="7">
             <doc xml:space="preserve"
                  filename="src/panel-layered-settings.c"
-                 line="484">the get mapping function</doc>
+                 line="493">the get mapping function</doc>
             <type name="Gio.SettingsBindGetMapping"
                   c:type="GSettingsBindGetMapping"/>
           </parameter>
@@ -3506,7 +3571,7 @@ from the resolved value via the layered settings.</doc>
                      destroy="7">
             <doc xml:space="preserve"
                  filename="src/panel-layered-settings.c"
-                 line="485">the set mapping function</doc>
+                 line="494">the set mapping function</doc>
             <type name="Gio.SettingsBindSetMapping"
                   c:type="GSettingsBindSetMapping"/>
           </parameter>
@@ -3516,13 +3581,13 @@ from the resolved value via the layered settings.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/panel-layered-settings.c"
-                 line="486">user data for @get_mapping and @set_mapping.</doc>
+                 line="495">user data for @get_mapping and @set_mapping.</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="destroy" transfer-ownership="none" scope="async">
             <doc xml:space="preserve"
                  filename="src/panel-layered-settings.c"
-                 line="487">destroy notify for @user_data.</doc>
+                 line="496">destroy notify for @user_data.</doc>
             <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
           </parameter>
         </parameters>
@@ -3589,27 +3654,27 @@ from the resolved value via the layered settings.</doc>
       <method name="get_key" c:identifier="panel_layered_settings_get_key">
         <doc xml:space="preserve"
              filename="src/panel-layered-settings.c"
-             line="552">Gets the #GSettingsSchemaKey denoted by @key.
+             line="561">Gets the #GSettingsSchemaKey denoted by @key.
 
 It is a programming error to call this with a key that does not exist.</doc>
         <source-position filename="src/panel-layered-settings.h" line="38"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/panel-layered-settings.c"
-               line="561">a #GSettingsSchemaKey</doc>
+               line="570">a #GSettingsSchemaKey</doc>
           <type name="Gio.SettingsSchemaKey" c:type="GSettingsSchemaKey*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-layered-settings.c"
-                 line="554">a #PanelLayeredSettings</doc>
+                 line="563">a #PanelLayeredSettings</doc>
             <type name="LayeredSettings" c:type="PanelLayeredSettings*"/>
           </instance-parameter>
           <parameter name="key" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-layered-settings.c"
-                 line="555">the name of the setting</doc>
+                 line="564">the name of the setting</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -3649,20 +3714,20 @@ It is a programming error to call this with a key that does not exist.</doc>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="src/panel-layered-settings.c"
-               line="290">the user's value, if set</doc>
+               line="297">the user's value, if set</doc>
           <type name="GLib.Variant" c:type="GVariant*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-layered-settings.c"
-                 line="287">a #PanelLayeredSettings</doc>
+                 line="294">a #PanelLayeredSettings</doc>
             <type name="LayeredSettings" c:type="PanelLayeredSettings*"/>
           </instance-parameter>
           <parameter name="key" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-layered-settings.c"
-                 line="288">the key to get the user value for</doc>
+                 line="295">the key to get the user value for</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -3670,19 +3735,19 @@ It is a programming error to call this with a key that does not exist.</doc>
       <method name="get_value" c:identifier="panel_layered_settings_get_value">
         <doc xml:space="preserve"
              filename="src/panel-layered-settings.c"
-             line="312">Gets the value of @key from the first layer that is modified.</doc>
+             line="319">Gets the value of @key from the first layer that is modified.</doc>
         <source-position filename="src/panel-layered-settings.h" line="49"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/panel-layered-settings.c"
-               line="318">a #GVariant</doc>
+               line="325">a #GVariant</doc>
           <type name="GLib.Variant" c:type="GVariant*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-layered-settings.c"
-                 line="314">a #PanelLayeredSettings</doc>
+                 line="321">a #PanelLayeredSettings</doc>
             <type name="LayeredSettings" c:type="PanelLayeredSettings*"/>
           </instance-parameter>
           <parameter name="key" transfer-ownership="none">
@@ -3693,12 +3758,12 @@ It is a programming error to call this with a key that does not exist.</doc>
       <method name="list_keys" c:identifier="panel_layered_settings_list_keys">
         <doc xml:space="preserve"
              filename="src/panel-layered-settings.c"
-             line="584">Lists the available keys.</doc>
+             line="595">Lists the available keys.</doc>
         <source-position filename="src/panel-layered-settings.h" line="41"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/panel-layered-settings.c"
-               line="590">
+               line="601">
   an array of keys that can be retrieved from the #PanelLayeredSettings.</doc>
           <array c:type="char**">
             <type name="utf8"/>
@@ -3708,7 +3773,7 @@ It is a programming error to call this with a key that does not exist.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-layered-settings.c"
-                 line="586">a #PanelLayeredSettings</doc>
+                 line="597">a #PanelLayeredSettings</doc>
             <type name="LayeredSettings" c:type="PanelLayeredSettings*"/>
           </instance-parameter>
         </parameters>
@@ -3945,14 +4010,14 @@ on during the application process.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/panel-menu-manager.c"
-               line="679">the merge id</doc>
+               line="706">the merge id</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-menu-manager.c"
-                 line="677">a #PanelMenuManager</doc>
+                 line="704">a #PanelMenuManager</doc>
             <type name="MenuManager" c:type="PanelMenuManager*"/>
           </instance-parameter>
           <parameter name="resource" transfer-ownership="none">
@@ -3965,7 +4030,7 @@ on during the application process.</doc>
               version="1.4">
         <doc xml:space="preserve"
              filename="src/panel-menu-manager.c"
-             line="773">Locates a menu item that matches @id and sets the position within
+             line="803">Locates a menu item that matches @id and sets the position within
 the resulting #GMenu to @position.
 
 If no match is found, %NULL is returned.</doc>
@@ -3973,7 +4038,7 @@ If no match is found, %NULL is returned.</doc>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="src/panel-menu-manager.c"
-               line="784">a #GMenu if successful; otherwise
+               line="814">a #GMenu if successful; otherwise
   %NULL and @position is unset.</doc>
           <type name="Gio.Menu" c:type="GMenu*"/>
         </return-value>
@@ -3981,13 +4046,13 @@ If no match is found, %NULL is returned.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-menu-manager.c"
-                 line="775">a #PanelMenuManager</doc>
+                 line="805">a #PanelMenuManager</doc>
             <type name="MenuManager" c:type="PanelMenuManager*"/>
           </instance-parameter>
           <parameter name="id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-menu-manager.c"
-                 line="776">the identifier of the menu item</doc>
+                 line="806">the identifier of the menu item</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="position"
@@ -3996,7 +4061,7 @@ If no match is found, %NULL is returned.</doc>
                      transfer-ownership="full">
             <doc xml:space="preserve"
                  filename="src/panel-menu-manager.c"
-                 line="777">the position within the resulting menu</doc>
+                 line="807">the position within the resulting menu</doc>
             <type name="guint" c:type="guint*"/>
           </parameter>
         </parameters>
@@ -4008,7 +4073,7 @@ If no match is found, %NULL is returned.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/panel-menu-manager.c"
-               line="650">A #GMenu.</doc>
+               line="677">A #GMenu.</doc>
           <type name="Gio.Menu" c:type="GMenu*"/>
         </return-value>
         <parameters>
@@ -4025,7 +4090,7 @@ If no match is found, %NULL is returned.</doc>
               version="1.4">
         <doc xml:space="preserve"
              filename="src/panel-menu-manager.c"
-             line="712">Gets the known menu ids as a string array.</doc>
+             line="739">Gets the known menu ids as a string array.</doc>
         <source-position filename="src/panel-menu-manager.h" line="59"/>
         <return-value transfer-ownership="none">
           <array c:type="const char* const*">
@@ -4036,7 +4101,7 @@ If no match is found, %NULL is returned.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-menu-manager.c"
-                 line="714">a #PanelMenuManager</doc>
+                 line="741">a #PanelMenuManager</doc>
             <type name="MenuManager" c:type="PanelMenuManager*"/>
           </instance-parameter>
         </parameters>
@@ -4046,31 +4111,31 @@ If no match is found, %NULL is returned.</doc>
               version="1.4">
         <doc xml:space="preserve"
              filename="src/panel-menu-manager.c"
-             line="557">Note that @menu_model is not retained, a copy of it is made.</doc>
+             line="584">Note that @menu_model is not retained, a copy of it is made.</doc>
         <source-position filename="src/panel-menu-manager.h" line="49"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/panel-menu-manager.c"
-               line="565">the merge-id which can be used with panel_menu_manager_remove()</doc>
+               line="592">the merge-id which can be used with panel_menu_manager_remove()</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-menu-manager.c"
-                 line="559">a #PanelMenuManager</doc>
+                 line="586">a #PanelMenuManager</doc>
             <type name="MenuManager" c:type="PanelMenuManager*"/>
           </instance-parameter>
           <parameter name="menu_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-menu-manager.c"
-                 line="560">the identifier of the menu</doc>
+                 line="587">the identifier of the menu</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="menu_model" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-menu-manager.c"
-                 line="561">the menu model to merge</doc>
+                 line="588">the menu model to merge</doc>
             <type name="Gio.MenuModel" c:type="GMenuModel*"/>
           </parameter>
         </parameters>
@@ -4080,7 +4145,7 @@ If no match is found, %NULL is returned.</doc>
               version="1.4">
         <doc xml:space="preserve"
              filename="src/panel-menu-manager.c"
-             line="596">This removes items from menus that were added as part of a previous
+             line="623">This removes items from menus that were added as part of a previous
 menu merge. Use the value returned from panel_menu_manager_merge() as
 the @merge_id.</doc>
         <source-position filename="src/panel-menu-manager.h" line="53"/>
@@ -4091,13 +4156,13 @@ the @merge_id.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-menu-manager.c"
-                 line="598">a #PanelMenuManager</doc>
+                 line="625">a #PanelMenuManager</doc>
             <type name="MenuManager" c:type="PanelMenuManager*"/>
           </instance-parameter>
           <parameter name="merge_id" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-menu-manager.c"
-                 line="599">A previously registered merge id</doc>
+                 line="626">A previously registered merge id</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
         </parameters>
@@ -4107,7 +4172,7 @@ the @merge_id.</doc>
               version="1.4">
         <doc xml:space="preserve"
              filename="src/panel-menu-manager.c"
-             line="734">Overwrites an attribute for a menu that was created by
+             line="762">Overwrites an attribute for a menu that was created by
 #PanelMenuManager.
 
 This can be useful when you want to update an attribute such as
@@ -4120,31 +4185,31 @@ This can be useful when you want to update an attribute such as
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-menu-manager.c"
-                 line="736">a #PanelMenuManager</doc>
+                 line="764">a #PanelMenuManager</doc>
             <type name="MenuManager" c:type="PanelMenuManager*"/>
           </instance-parameter>
           <parameter name="menu" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-menu-manager.c"
-                 line="737">the menu that was retreived with panel_menu_manager_get_menu_by_id()</doc>
+                 line="765">the menu that was retreived with panel_menu_manager_get_menu_by_id()</doc>
             <type name="Gio.Menu" c:type="GMenu*"/>
           </parameter>
           <parameter name="position" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-menu-manager.c"
-                 line="738">the index of the item in the menu</doc>
+                 line="766">the index of the item in the menu</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
           <parameter name="attribute" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-menu-manager.c"
-                 line="739">the attribute to change</doc>
+                 line="767">the attribute to change</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="value" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-menu-manager.c"
-                 line="740">the new value for the attribute</doc>
+                 line="768">the new value for the attribute</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -6841,7 +6906,7 @@ This is generally used to tie an item to a specific workspace.</doc>
               c:identifier="panel_settings_bind_with_mapping">
         <doc xml:space="preserve"
              filename="src/panel-settings.c"
-             line="625">Like panel_settings_bind() but allows transforming to and from settings storage using
+             line="661">Like panel_settings_bind() but allows transforming to and from settings storage using
 @get_mapping and @set_mapping transformation functions.
 
 Call panel_settings_unbind() to unbind the mapping.</doc>
@@ -6853,13 +6918,13 @@ Call panel_settings_unbind() to unbind the mapping.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-settings.c"
-                 line="627">An #PanelSettings</doc>
+                 line="663">An #PanelSettings</doc>
             <type name="Settings" c:type="PanelSettings*"/>
           </instance-parameter>
           <parameter name="key" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-settings.c"
-                 line="628">The settings key</doc>
+                 line="664">The settings key</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="object"
@@ -6868,19 +6933,19 @@ Call panel_settings_unbind() to unbind the mapping.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/panel-settings.c"
-                 line="629">the object to bind to</doc>
+                 line="665">the object to bind to</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="property" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-settings.c"
-                 line="630">the property of @object to bind to</doc>
+                 line="666">the property of @object to bind to</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="flags" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-settings.c"
-                 line="631">flags for the binding</doc>
+                 line="667">flags for the binding</doc>
             <type name="Gio.SettingsBindFlags" c:type="GSettingsBindFlags"/>
           </parameter>
           <parameter name="get_mapping"
@@ -6890,7 +6955,7 @@ Call panel_settings_unbind() to unbind the mapping.</doc>
                      scope="notified">
             <doc xml:space="preserve"
                  filename="src/panel-settings.c"
-                 line="632">variant to value mapping</doc>
+                 line="668">variant to value mapping</doc>
             <type name="Gio.SettingsBindGetMapping"
                   c:type="GSettingsBindGetMapping"/>
           </parameter>
@@ -6903,7 +6968,7 @@ Call panel_settings_unbind() to unbind the mapping.</doc>
                      destroy="7">
             <doc xml:space="preserve"
                  filename="src/panel-settings.c"
-                 line="633">value to variant mapping</doc>
+                 line="669">value to variant mapping</doc>
             <type name="Gio.SettingsBindSetMapping"
                   c:type="GSettingsBindSetMapping"/>
           </parameter>
@@ -6913,13 +6978,13 @@ Call panel_settings_unbind() to unbind the mapping.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/panel-settings.c"
-                 line="634">user data for @get_mapping and @set_mapping</doc>
+                 line="670">user data for @get_mapping and @set_mapping</doc>
             <type name="gpointer" c:type="gpointer"/>
           </parameter>
           <parameter name="destroy" transfer-ownership="none" scope="async">
             <doc xml:space="preserve"
                  filename="src/panel-settings.c"
-                 line="635">destroy function to cleanup @user_data.</doc>
+                 line="671">destroy function to cleanup @user_data.</doc>
             <type name="GLib.DestroyNotify" c:type="GDestroyNotify"/>
           </parameter>
         </parameters>
@@ -7028,20 +7093,20 @@ Call panel_settings_unbind() to unbind the mapping.</doc>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="src/panel-settings.c"
-               line="472">the user's value, if set</doc>
+               line="508">the user's value, if set</doc>
           <type name="GLib.Variant" c:type="GVariant*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-settings.c"
-                 line="469">a #PanelSettings</doc>
+                 line="505">a #PanelSettings</doc>
             <type name="Settings" c:type="PanelSettings*"/>
           </instance-parameter>
           <parameter name="key" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-settings.c"
-                 line="470">the key to get the user value for</doc>
+                 line="506">the key to get the user value for</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -7183,7 +7248,7 @@ Call panel_settings_unbind() to unbind the mapping.</doc>
                 default-value="NULL">
         <doc xml:space="preserve"
              filename="src/panel-settings.c"
-             line="373">The "identifier" property is used to make unique paths.
+             line="409">The "identifier" property is used to make unique paths.
 
 This might be a unique "project-id" for example, in an IDE.</doc>
         <type name="utf8" c:type="gchar*"/>

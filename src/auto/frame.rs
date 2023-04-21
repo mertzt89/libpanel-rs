@@ -324,7 +324,7 @@ pub trait PanelFrameExt: 'static {
     #[doc(alias = "panel_frame_remove")]
     fn remove(&self, panel: &impl IsA<Widget>);
 
-    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     #[doc(alias = "panel_frame_set_child_pinned")]
     fn set_child_pinned(&self, child: &impl IsA<Widget>, pinned: bool);
@@ -341,7 +341,7 @@ pub trait PanelFrameExt: 'static {
     #[doc(alias = "panel_frame_set_visible_child")]
     fn set_visible_child(&self, widget: &impl IsA<Widget>);
 
-    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     #[doc(alias = "adopt-widget")]
     fn connect_adopt_widget<F: Fn(&Self, &Widget) -> bool + 'static>(
@@ -349,7 +349,7 @@ pub trait PanelFrameExt: 'static {
         f: F,
     ) -> SignalHandlerId;
 
-    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     #[doc(alias = "page-closed")]
     fn connect_page_closed<F: Fn(&Self, &Widget) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -452,7 +452,7 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     fn set_child_pinned(&self, child: &impl IsA<Widget>, pinned: bool) {
         unsafe {
@@ -497,7 +497,7 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     fn connect_adopt_widget<F: Fn(&Self, &Widget) -> bool + 'static>(
         &self,
@@ -531,7 +531,7 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     fn connect_page_closed<F: Fn(&Self, &Widget) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn page_closed_trampoline<P: IsA<Frame>, F: Fn(&P, &Widget) + 'static>(

@@ -3,19 +3,19 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-#[cfg(any(feature = "v1_4", docsrs))]
+#[cfg(feature = "v1_4")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
 use crate::{Inhibitor, Workbench};
-#[cfg(any(feature = "v1_4", docsrs))]
+#[cfg(feature = "v1_4")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
 use glib::signal::{connect_raw, SignalHandlerId};
 use glib::{prelude::*, translate::*};
 use std::fmt;
-#[cfg(any(feature = "v1_4", docsrs))]
+#[cfg(feature = "v1_4")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
 use std::{boxed::Box as Box_, mem::transmute};
 
-#[cfg(any(feature = "adw_v1", docsrs))]
+#[cfg(feature = "adw_v1")]
 #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1")))]
 glib::wrapper! {
     #[doc(alias = "PanelWorkspace")]
@@ -26,7 +26,7 @@ glib::wrapper! {
     }
 }
 
-#[cfg(not(any(feature = "adw_v1", docsrs)))]
+#[cfg(not(any(feature = "adw_v1")))]
 glib::wrapper! {
     #[doc(alias = "PanelWorkspace")]
     pub struct Workspace(Object<ffi::PanelWorkspace, ffi::PanelWorkspaceClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gio::ActionGroup;
@@ -47,7 +47,7 @@ impl Workspace {
         WorkspaceBuilder::new()
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_workspace_find_from_widget")]
     pub fn find_from_widget(widget: &impl IsA<gtk::Widget>) -> Option<Workspace> {
@@ -76,7 +76,7 @@ impl WorkspaceBuilder {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     pub fn id(self, id: impl Into<glib::GString>) -> Self {
         Self {
@@ -84,7 +84,7 @@ impl WorkspaceBuilder {
         }
     }
 
-    #[cfg(any(feature = "adw_v1", docsrs))]
+    #[cfg(feature = "adw_v1")]
     #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1")))]
     pub fn content(self, content: &impl IsA<gtk::Widget>) -> Self {
         Self {
@@ -292,13 +292,13 @@ pub trait WorkspaceExt: 'static {
     #[doc(alias = "get_id")]
     fn id(&self) -> glib::GString;
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_workspace_get_workbench")]
     #[doc(alias = "get_workbench")]
     fn workbench(&self) -> Option<Workbench>;
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_workspace_inhibit")]
     fn inhibit(&self, flags: gtk::ApplicationInhibitFlags, reason: &str) -> Option<Inhibitor>;
@@ -306,7 +306,7 @@ pub trait WorkspaceExt: 'static {
     #[doc(alias = "panel_workspace_set_id")]
     fn set_id(&self, id: &str);
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "id")]
     fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -327,7 +327,7 @@ impl<O: IsA<Workspace>> WorkspaceExt for O {
         unsafe { from_glib_none(ffi::panel_workspace_get_id(self.as_ref().to_glib_none().0)) }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn workbench(&self) -> Option<Workbench> {
         unsafe {
@@ -337,7 +337,7 @@ impl<O: IsA<Workspace>> WorkspaceExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn inhibit(&self, flags: gtk::ApplicationInhibitFlags, reason: &str) -> Option<Inhibitor> {
         unsafe {
@@ -355,7 +355,7 @@ impl<O: IsA<Workspace>> WorkspaceExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_id_trampoline<P: IsA<Workspace>, F: Fn(&P) + 'static>(

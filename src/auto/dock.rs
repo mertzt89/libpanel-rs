@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-#[cfg(any(feature = "v1_2", docsrs))]
+#[cfg(feature = "v1_2")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
 use crate::Position;
 use crate::{Area, Frame, Widget};
@@ -389,7 +389,7 @@ pub trait DockExt: 'static {
     #[doc(alias = "top-height")]
     fn top_height(&self) -> i32;
 
-    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     #[doc(alias = "adopt-widget")]
     fn connect_adopt_widget<F: Fn(&Self, &Widget) -> bool + 'static>(
@@ -397,7 +397,7 @@ pub trait DockExt: 'static {
         f: F,
     ) -> SignalHandlerId;
 
-    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     #[doc(alias = "create-frame")]
     fn connect_create_frame<F: Fn(&Self, &Position) -> Frame + 'static>(
@@ -641,7 +641,7 @@ impl<O: IsA<Dock>> DockExt for O {
         glib::ObjectExt::property(self.as_ref(), "top-height")
     }
 
-    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     fn connect_adopt_widget<F: Fn(&Self, &Widget) -> bool + 'static>(
         &self,
@@ -675,7 +675,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     fn connect_create_frame<F: Fn(&Self, &Position) -> Frame + 'static>(
         &self,

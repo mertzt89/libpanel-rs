@@ -136,7 +136,7 @@ impl WidgetBuilder {
         }
     }
 
-    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     pub fn tooltip(self, tooltip: impl Into<glib::GString>) -> Self {
         Self {
@@ -518,7 +518,7 @@ pub trait PanelWidgetExt: 'static {
     #[doc(alias = "title")]
     fn connect_title_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     #[doc(alias = "tooltip")]
     fn connect_tooltip_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -1143,7 +1143,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_2", docsrs))]
+    #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
     fn connect_tooltip_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_tooltip_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(

@@ -6,7 +6,7 @@
 use crate::SessionItem;
 use glib::translate::*;
 use std::fmt;
-#[cfg(any(feature = "v1_4", docsrs))]
+#[cfg(feature = "v1_4")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
 use std::ptr;
 
@@ -26,7 +26,7 @@ impl Session {
         unsafe { from_glib_full(ffi::panel_session_new()) }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_session_new_from_variant")]
     #[doc(alias = "new_from_variant")]
@@ -50,7 +50,7 @@ impl Session {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_session_get_item")]
     #[doc(alias = "get_item")]
@@ -71,7 +71,7 @@ impl Session {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_session_lookup_by_id")]
     pub fn lookup_by_id(&self, id: &str) -> Option<SessionItem> {

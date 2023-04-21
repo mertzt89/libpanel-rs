@@ -3,7 +3,10 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::{Dock, Frame, Grid, Position, Statusbar, Widget, Workspace};
+use crate::{Dock, Grid, Statusbar, Workspace};
+#[cfg(feature = "v1_4")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
+use crate::{Frame, Position, Widget};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -11,7 +14,7 @@ use glib::{
 };
 use std::{boxed::Box as Box_, fmt, mem::transmute};
 
-#[cfg(any(feature = "adw_v1", docsrs))]
+#[cfg(feature = "adw_v1")]
 #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1")))]
 glib::wrapper! {
     #[doc(alias = "PanelDocumentWorkspace")]
@@ -22,7 +25,7 @@ glib::wrapper! {
     }
 }
 
-#[cfg(not(any(feature = "adw_v1", docsrs)))]
+#[cfg(not(any(feature = "adw_v1")))]
 glib::wrapper! {
     #[doc(alias = "PanelDocumentWorkspace")]
     pub struct DocumentWorkspace(Object<ffi::PanelDocumentWorkspace, ffi::PanelDocumentWorkspaceClass>) @extends Workspace, gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gio::ActionGroup;
@@ -35,7 +38,7 @@ glib::wrapper! {
 impl DocumentWorkspace {
     pub const NONE: Option<&'static DocumentWorkspace> = None;
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_document_workspace_new")]
     pub fn new() -> DocumentWorkspace {
@@ -52,7 +55,7 @@ impl DocumentWorkspace {
     }
 }
 
-#[cfg(any(feature = "v1_4", docsrs))]
+#[cfg(feature = "v1_4")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
 impl Default for DocumentWorkspace {
     fn default() -> Self {
@@ -76,7 +79,7 @@ impl DocumentWorkspaceBuilder {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     pub fn id(self, id: impl Into<glib::GString>) -> Self {
         Self {
@@ -84,7 +87,7 @@ impl DocumentWorkspaceBuilder {
         }
     }
 
-    #[cfg(any(feature = "adw_v1", docsrs))]
+    #[cfg(feature = "adw_v1")]
     #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1")))]
     pub fn content(self, content: &impl IsA<gtk::Widget>) -> Self {
         Self {
@@ -285,30 +288,30 @@ impl DocumentWorkspaceBuilder {
 }
 
 pub trait DocumentWorkspaceExt: 'static {
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_document_workspace_add_widget")]
-    fn add_widget(&self, widget: &impl IsA<Widget>, position: Option<&Position>);
+    fn add_widget(&self, widget: &impl IsA<Widget>, position: Option<&Position>) -> bool;
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_document_workspace_get_dock")]
     #[doc(alias = "get_dock")]
     fn dock(&self) -> Dock;
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_document_workspace_get_grid")]
     #[doc(alias = "get_grid")]
     fn grid(&self) -> Grid;
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_document_workspace_get_statusbar")]
     #[doc(alias = "get_statusbar")]
     fn statusbar(&self) -> Option<Statusbar>;
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_document_workspace_get_titlebar")]
     #[doc(alias = "get_titlebar")]
@@ -323,12 +326,16 @@ pub trait DocumentWorkspaceExt: 'static {
 
     fn get_property_statusbar(&self) -> Option<Statusbar>;
 
+    #[cfg(feature = "v1_4")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "add-widget")]
     fn connect_add_widget<F: Fn(&Self, &Widget, &Position) -> bool + 'static>(
         &self,
         f: F,
     ) -> SignalHandlerId;
 
+    #[cfg(feature = "v1_4")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "create-frame")]
     fn connect_create_frame<F: Fn(&Self, &Position) -> Frame + 'static>(
         &self,
@@ -346,19 +353,19 @@ pub trait DocumentWorkspaceExt: 'static {
 }
 
 impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-    fn add_widget(&self, widget: &impl IsA<Widget>, position: Option<&Position>) {
+    fn add_widget(&self, widget: &impl IsA<Widget>, position: Option<&Position>) -> bool {
         unsafe {
-            ffi::panel_document_workspace_add_widget(
+            from_glib(ffi::panel_document_workspace_add_widget(
                 self.as_ref().to_glib_none().0,
                 widget.as_ref().to_glib_none().0,
                 position.to_glib_none().0,
-            );
+            ))
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn dock(&self) -> Dock {
         unsafe {
@@ -368,7 +375,7 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn grid(&self) -> Grid {
         unsafe {
@@ -378,7 +385,7 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn statusbar(&self) -> Option<Statusbar> {
         unsafe {
@@ -388,7 +395,7 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn titlebar(&self) -> Option<gtk::Widget> {
         unsafe {
@@ -419,6 +426,8 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         glib::ObjectExt::property(self.as_ref(), "statusbar")
     }
 
+    #[cfg(feature = "v1_4")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn connect_add_widget<F: Fn(&Self, &Widget, &Position) -> bool + 'static>(
         &self,
         f: F,
@@ -428,15 +437,15 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
             F: Fn(&P, &Widget, &Position) -> bool + 'static,
         >(
             this: *mut ffi::PanelDocumentWorkspace,
-            object: *mut ffi::PanelWidget,
-            p0: *mut ffi::PanelPosition,
+            widget: *mut ffi::PanelWidget,
+            position: *mut ffi::PanelPosition,
             f: glib::ffi::gpointer,
         ) -> glib::ffi::gboolean {
             let f: &F = &*(f as *const F);
             f(
                 DocumentWorkspace::from_glib_borrow(this).unsafe_cast_ref(),
-                &from_glib_borrow(object),
-                &from_glib_borrow(p0),
+                &from_glib_borrow(widget),
+                &from_glib_borrow(position),
             )
             .into_glib()
         }
@@ -453,6 +462,8 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         }
     }
 
+    #[cfg(feature = "v1_4")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn connect_create_frame<F: Fn(&Self, &Position) -> Frame + 'static>(
         &self,
         f: F,
@@ -462,16 +473,15 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
             F: Fn(&P, &Position) -> Frame + 'static,
         >(
             this: *mut ffi::PanelDocumentWorkspace,
-            object: *mut ffi::PanelPosition,
+            position: *mut ffi::PanelPosition,
             f: glib::ffi::gpointer,
         ) -> *mut ffi::PanelFrame {
             let f: &F = &*(f as *const F);
             f(
                 DocumentWorkspace::from_glib_borrow(this).unsafe_cast_ref(),
-                &from_glib_borrow(object),
-            ) /*Not checked*/
-            .to_glib_none()
-            .0
+                &from_glib_borrow(position),
+            )
+            .to_glib_full()
         }
         unsafe {
             let f: Box_<F> = Box_::new(f);
