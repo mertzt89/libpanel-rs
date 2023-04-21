@@ -11,7 +11,7 @@ use glib::{
 };
 use std::{boxed::Box as Box_, fmt, mem::transmute, pin::Pin, ptr};
 
-#[cfg(any(feature = "adw_v1_2", docsrs))]
+#[cfg(feature = "adw_v1_2")]
 #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
 glib::wrapper! {
     #[doc(alias = "PanelSaveDialog")]
@@ -22,7 +22,7 @@ glib::wrapper! {
     }
 }
 
-#[cfg(not(any(feature = "adw_v1_2", docsrs)))]
+#[cfg(not(any(feature = "adw_v1_2")))]
 glib::wrapper! {
     #[doc(alias = "PanelSaveDialog")]
     pub struct SaveDialog(Object<ffi::PanelSaveDialog, ffi::PanelSaveDialogClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
@@ -185,7 +185,7 @@ impl SaveDialogBuilder {
         }
     }
 
-    #[cfg(any(feature = "adw_v1_2", docsrs))]
+    #[cfg(feature = "adw_v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
     pub fn body(self, body: impl Into<glib::GString>) -> Self {
         Self {
@@ -193,7 +193,7 @@ impl SaveDialogBuilder {
         }
     }
 
-    #[cfg(any(feature = "adw_v1_2", docsrs))]
+    #[cfg(feature = "adw_v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
     pub fn body_use_markup(self, body_use_markup: bool) -> Self {
         Self {
@@ -201,7 +201,7 @@ impl SaveDialogBuilder {
         }
     }
 
-    #[cfg(any(feature = "adw_v1_2", docsrs))]
+    #[cfg(feature = "adw_v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
     pub fn close_response(self, close_response: impl Into<glib::GString>) -> Self {
         Self {
@@ -211,7 +211,7 @@ impl SaveDialogBuilder {
         }
     }
 
-    #[cfg(any(feature = "adw_v1_2", docsrs))]
+    #[cfg(feature = "adw_v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
     pub fn default_response(self, default_response: impl Into<glib::GString>) -> Self {
         Self {
@@ -221,7 +221,7 @@ impl SaveDialogBuilder {
         }
     }
 
-    #[cfg(any(feature = "adw_v1_2", docsrs))]
+    #[cfg(feature = "adw_v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
     pub fn extra_child(self, extra_child: &impl IsA<gtk::Widget>) -> Self {
         Self {
@@ -231,7 +231,7 @@ impl SaveDialogBuilder {
         }
     }
 
-    #[cfg(any(feature = "adw_v1_2", docsrs))]
+    #[cfg(feature = "adw_v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
     pub fn heading(self, heading: impl Into<glib::GString>) -> Self {
         Self {
@@ -239,7 +239,7 @@ impl SaveDialogBuilder {
         }
     }
 
-    #[cfg(any(feature = "adw_v1_2", docsrs))]
+    #[cfg(feature = "adw_v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
     pub fn heading_use_markup(self, heading_use_markup: bool) -> Self {
         Self {

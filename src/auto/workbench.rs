@@ -37,7 +37,7 @@ impl Workbench {
         WorkbenchBuilder::new()
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_workbench_find_from_widget")]
     pub fn find_from_widget(widget: &impl IsA<gtk::Widget>) -> Option<Workbench> {
@@ -72,7 +72,7 @@ impl WorkbenchBuilder {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     pub fn id(self, id: impl Into<glib::GString>) -> Self {
         Self {
@@ -98,7 +98,7 @@ pub trait WorkbenchExt: 'static {
     #[doc(alias = "panel_workbench_add_workspace")]
     fn add_workspace(&self, workspace: &impl IsA<Workspace>);
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_workbench_find_workspace_typed")]
     fn find_workspace_typed(&self, workspace_type: glib::types::Type) -> Option<Workspace>;
@@ -106,7 +106,7 @@ pub trait WorkbenchExt: 'static {
     #[doc(alias = "panel_workbench_focus_workspace")]
     fn focus_workspace(&self, workspace: &impl IsA<Workspace>);
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_workbench_foreach_workspace")]
     fn foreach_workspace<P: FnMut(&Workspace)>(&self, foreach_func: P);
@@ -124,7 +124,7 @@ pub trait WorkbenchExt: 'static {
     #[doc(alias = "activate")]
     fn connect_activate<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "id")]
     fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
@@ -156,7 +156,7 @@ impl<O: IsA<Workbench>> WorkbenchExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn find_workspace_typed(&self, workspace_type: glib::types::Type) -> Option<Workspace> {
         unsafe {
@@ -176,7 +176,7 @@ impl<O: IsA<Workbench>> WorkbenchExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn foreach_workspace<P: FnMut(&Workspace)>(&self, foreach_func: P) {
         let foreach_func_data: P = foreach_func;
@@ -239,7 +239,7 @@ impl<O: IsA<Workbench>> WorkbenchExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_id_trampoline<P: IsA<Workbench>, F: Fn(&P) + 'static>(

@@ -4,7 +4,7 @@
 // DO NOT EDIT
 
 use crate::{Dock, Grid, Statusbar, Workspace};
-#[cfg(any(feature = "v1_4", docsrs))]
+#[cfg(feature = "v1_4")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
 use crate::{Frame, Position, Widget};
 use glib::{
@@ -14,7 +14,7 @@ use glib::{
 };
 use std::{boxed::Box as Box_, fmt, mem::transmute};
 
-#[cfg(any(feature = "adw_v1", docsrs))]
+#[cfg(feature = "adw_v1")]
 #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1")))]
 glib::wrapper! {
     #[doc(alias = "PanelDocumentWorkspace")]
@@ -25,7 +25,7 @@ glib::wrapper! {
     }
 }
 
-#[cfg(not(any(feature = "adw_v1", docsrs)))]
+#[cfg(not(any(feature = "adw_v1")))]
 glib::wrapper! {
     #[doc(alias = "PanelDocumentWorkspace")]
     pub struct DocumentWorkspace(Object<ffi::PanelDocumentWorkspace, ffi::PanelDocumentWorkspaceClass>) @extends Workspace, gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gio::ActionGroup;
@@ -38,7 +38,7 @@ glib::wrapper! {
 impl DocumentWorkspace {
     pub const NONE: Option<&'static DocumentWorkspace> = None;
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_document_workspace_new")]
     pub fn new() -> DocumentWorkspace {
@@ -55,7 +55,7 @@ impl DocumentWorkspace {
     }
 }
 
-#[cfg(any(feature = "v1_4", docsrs))]
+#[cfg(feature = "v1_4")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
 impl Default for DocumentWorkspace {
     fn default() -> Self {
@@ -79,7 +79,7 @@ impl DocumentWorkspaceBuilder {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     pub fn id(self, id: impl Into<glib::GString>) -> Self {
         Self {
@@ -87,7 +87,7 @@ impl DocumentWorkspaceBuilder {
         }
     }
 
-    #[cfg(any(feature = "adw_v1", docsrs))]
+    #[cfg(feature = "adw_v1")]
     #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1")))]
     pub fn content(self, content: &impl IsA<gtk::Widget>) -> Self {
         Self {
@@ -288,30 +288,30 @@ impl DocumentWorkspaceBuilder {
 }
 
 pub trait DocumentWorkspaceExt: 'static {
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_document_workspace_add_widget")]
     fn add_widget(&self, widget: &impl IsA<Widget>, position: Option<&Position>) -> bool;
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_document_workspace_get_dock")]
     #[doc(alias = "get_dock")]
     fn dock(&self) -> Dock;
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_document_workspace_get_grid")]
     #[doc(alias = "get_grid")]
     fn grid(&self) -> Grid;
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_document_workspace_get_statusbar")]
     #[doc(alias = "get_statusbar")]
     fn statusbar(&self) -> Option<Statusbar>;
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_document_workspace_get_titlebar")]
     #[doc(alias = "get_titlebar")]
@@ -326,7 +326,7 @@ pub trait DocumentWorkspaceExt: 'static {
 
     fn get_property_statusbar(&self) -> Option<Statusbar>;
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "add-widget")]
     fn connect_add_widget<F: Fn(&Self, &Widget, &Position) -> bool + 'static>(
@@ -334,7 +334,7 @@ pub trait DocumentWorkspaceExt: 'static {
         f: F,
     ) -> SignalHandlerId;
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "create-frame")]
     fn connect_create_frame<F: Fn(&Self, &Position) -> Frame + 'static>(
@@ -353,7 +353,7 @@ pub trait DocumentWorkspaceExt: 'static {
 }
 
 impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn add_widget(&self, widget: &impl IsA<Widget>, position: Option<&Position>) -> bool {
         unsafe {
@@ -365,7 +365,7 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn dock(&self) -> Dock {
         unsafe {
@@ -375,7 +375,7 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn grid(&self) -> Grid {
         unsafe {
@@ -385,7 +385,7 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn statusbar(&self) -> Option<Statusbar> {
         unsafe {
@@ -395,7 +395,7 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn titlebar(&self) -> Option<gtk::Widget> {
         unsafe {
@@ -426,7 +426,7 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         glib::ObjectExt::property(self.as_ref(), "statusbar")
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn connect_add_widget<F: Fn(&Self, &Widget, &Position) -> bool + 'static>(
         &self,
@@ -462,7 +462,7 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         }
     }
 
-    #[cfg(any(feature = "v1_4", docsrs))]
+    #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn connect_create_frame<F: Fn(&Self, &Position) -> Frame + 'static>(
         &self,
