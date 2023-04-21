@@ -1062,7 +1062,7 @@ extern "C" {
         self_: *mut PanelDocumentWorkspace,
         widget: *mut PanelWidget,
         position: *mut PanelPosition,
-    );
+    ) -> gboolean;
     #[cfg(any(feature = "v1_4", docsrs))]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     pub fn panel_document_workspace_get_dock(self_: *mut PanelDocumentWorkspace) -> *mut PanelDock;
