@@ -6,21 +6,9 @@
 use glib::translate::*;
 use std::fmt;
 
-#[cfg(feature = "adw_v1")]
-#[cfg_attr(docsrs, doc(cfg(feature = "adw_v1")))]
 glib::wrapper! {
     #[doc(alias = "PanelApplication")]
     pub struct Application(Object<ffi::PanelApplication, ffi::PanelApplicationClass>) @extends adw::Application, @implements gio::ActionGroup;
-
-    match fn {
-        type_ => || ffi::panel_application_get_type(),
-    }
-}
-
-#[cfg(not(any(feature = "adw_v1")))]
-glib::wrapper! {
-    #[doc(alias = "PanelApplication")]
-    pub struct Application(Object<ffi::PanelApplication, ffi::PanelApplicationClass>) @implements gio::ActionGroup;
 
     match fn {
         type_ => || ffi::panel_application_get_type(),

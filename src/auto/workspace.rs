@@ -15,21 +15,9 @@ use std::fmt;
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
 use std::{boxed::Box as Box_, mem::transmute};
 
-#[cfg(feature = "adw_v1")]
-#[cfg_attr(docsrs, doc(cfg(feature = "adw_v1")))]
 glib::wrapper! {
     #[doc(alias = "PanelWorkspace")]
     pub struct Workspace(Object<ffi::PanelWorkspace, ffi::PanelWorkspaceClass>) @extends adw::ApplicationWindow, gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gio::ActionGroup;
-
-    match fn {
-        type_ => || ffi::panel_workspace_get_type(),
-    }
-}
-
-#[cfg(not(any(feature = "adw_v1")))]
-glib::wrapper! {
-    #[doc(alias = "PanelWorkspace")]
-    pub struct Workspace(Object<ffi::PanelWorkspace, ffi::PanelWorkspaceClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gio::ActionGroup;
 
     match fn {
         type_ => || ffi::panel_workspace_get_type(),
@@ -84,8 +72,6 @@ impl WorkspaceBuilder {
         }
     }
 
-    #[cfg(feature = "adw_v1")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1")))]
     pub fn content(self, content: &impl IsA<gtk::Widget>) -> Self {
         Self {
             builder: self.builder.property("content", content.clone().upcast()),

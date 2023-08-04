@@ -14,21 +14,9 @@ use glib::{
 };
 use std::{boxed::Box as Box_, fmt, mem::transmute};
 
-#[cfg(feature = "adw_v1")]
-#[cfg_attr(docsrs, doc(cfg(feature = "adw_v1")))]
 glib::wrapper! {
     #[doc(alias = "PanelDocumentWorkspace")]
     pub struct DocumentWorkspace(Object<ffi::PanelDocumentWorkspace, ffi::PanelDocumentWorkspaceClass>) @extends Workspace, adw::ApplicationWindow, gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gio::ActionGroup;
-
-    match fn {
-        type_ => || ffi::panel_document_workspace_get_type(),
-    }
-}
-
-#[cfg(not(any(feature = "adw_v1")))]
-glib::wrapper! {
-    #[doc(alias = "PanelDocumentWorkspace")]
-    pub struct DocumentWorkspace(Object<ffi::PanelDocumentWorkspace, ffi::PanelDocumentWorkspaceClass>) @extends Workspace, gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget, gio::ActionGroup;
 
     match fn {
         type_ => || ffi::panel_document_workspace_get_type(),
@@ -87,8 +75,6 @@ impl DocumentWorkspaceBuilder {
         }
     }
 
-    #[cfg(feature = "adw_v1")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1")))]
     pub fn content(self, content: &impl IsA<gtk::Widget>) -> Self {
         Self {
             builder: self.builder.property("content", content.clone().upcast()),
