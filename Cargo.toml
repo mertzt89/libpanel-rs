@@ -11,7 +11,7 @@ repository = "https://gitlab.gnome.org/World/Rust/libpanel-rs"
 documentation = "https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/stable/latest/docs/libpanel"
 categories = ["api-bindings", "gui"]
 keywords = ["gtk4-rs", "gnome", "adwaita", "panel", "GUI"]
-rust-version = "1.60"
+rust-version = "1.70"
 include = ["/src", "/examples", "/README.md", "/COPYING"]
 
 [lib]
