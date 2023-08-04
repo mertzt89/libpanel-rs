@@ -287,74 +287,15 @@ impl DocumentWorkspaceBuilder {
     }
 }
 
-pub trait DocumentWorkspaceExt: 'static {
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::DocumentWorkspace>> Sealed for T {}
+}
+
+pub trait DocumentWorkspaceExt: IsA<DocumentWorkspace> + sealed::Sealed + 'static {
     #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     #[doc(alias = "panel_document_workspace_add_widget")]
-    fn add_widget(&self, widget: &impl IsA<Widget>, position: Option<&Position>) -> bool;
-
-    #[cfg(feature = "v1_4")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-    #[doc(alias = "panel_document_workspace_get_dock")]
-    #[doc(alias = "get_dock")]
-    fn dock(&self) -> Dock;
-
-    #[cfg(feature = "v1_4")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-    #[doc(alias = "panel_document_workspace_get_grid")]
-    #[doc(alias = "get_grid")]
-    fn grid(&self) -> Grid;
-
-    #[cfg(feature = "v1_4")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-    #[doc(alias = "panel_document_workspace_get_statusbar")]
-    #[doc(alias = "get_statusbar")]
-    fn statusbar(&self) -> Option<Statusbar>;
-
-    #[cfg(feature = "v1_4")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-    #[doc(alias = "panel_document_workspace_get_titlebar")]
-    #[doc(alias = "get_titlebar")]
-    fn titlebar(&self) -> Option<gtk::Widget>;
-
-    #[doc(alias = "panel_document_workspace_set_titlebar")]
-    fn set_titlebar(&self, titlebar: &impl IsA<gtk::Widget>);
-
-    fn get_property_dock(&self) -> Option<Dock>;
-
-    fn get_property_grid(&self) -> Option<Grid>;
-
-    fn get_property_statusbar(&self) -> Option<Statusbar>;
-
-    #[cfg(feature = "v1_4")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-    #[doc(alias = "add-widget")]
-    fn connect_add_widget<F: Fn(&Self, &Widget, &Position) -> bool + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId;
-
-    #[cfg(feature = "v1_4")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-    #[doc(alias = "create-frame")]
-    fn connect_create_frame<F: Fn(&Self, &Position) -> Frame + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId;
-
-    #[doc(alias = "dock")]
-    fn connect_dock_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "grid")]
-    fn connect_grid_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "statusbar")]
-    fn connect_statusbar_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-}
-
-impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
-    #[cfg(feature = "v1_4")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
     fn add_widget(&self, widget: &impl IsA<Widget>, position: Option<&Position>) -> bool {
         unsafe {
             from_glib(ffi::panel_document_workspace_add_widget(
@@ -367,6 +308,8 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
 
     #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
+    #[doc(alias = "panel_document_workspace_get_dock")]
+    #[doc(alias = "get_dock")]
     fn dock(&self) -> Dock {
         unsafe {
             from_glib_none(ffi::panel_document_workspace_get_dock(
@@ -377,6 +320,8 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
 
     #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
+    #[doc(alias = "panel_document_workspace_get_grid")]
+    #[doc(alias = "get_grid")]
     fn grid(&self) -> Grid {
         unsafe {
             from_glib_none(ffi::panel_document_workspace_get_grid(
@@ -387,6 +332,8 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
 
     #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
+    #[doc(alias = "panel_document_workspace_get_statusbar")]
+    #[doc(alias = "get_statusbar")]
     fn statusbar(&self) -> Option<Statusbar> {
         unsafe {
             from_glib_none(ffi::panel_document_workspace_get_statusbar(
@@ -397,6 +344,8 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
 
     #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
+    #[doc(alias = "panel_document_workspace_get_titlebar")]
+    #[doc(alias = "get_titlebar")]
     fn titlebar(&self) -> Option<gtk::Widget> {
         unsafe {
             from_glib_none(ffi::panel_document_workspace_get_titlebar(
@@ -405,6 +354,7 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         }
     }
 
+    #[doc(alias = "panel_document_workspace_set_titlebar")]
     fn set_titlebar(&self, titlebar: &impl IsA<gtk::Widget>) {
         unsafe {
             ffi::panel_document_workspace_set_titlebar(
@@ -415,19 +365,20 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
     }
 
     fn get_property_dock(&self) -> Option<Dock> {
-        glib::ObjectExt::property(self.as_ref(), "dock")
+        ObjectExt::property(self.as_ref(), "dock")
     }
 
     fn get_property_grid(&self) -> Option<Grid> {
-        glib::ObjectExt::property(self.as_ref(), "grid")
+        ObjectExt::property(self.as_ref(), "grid")
     }
 
     fn get_property_statusbar(&self) -> Option<Statusbar> {
-        glib::ObjectExt::property(self.as_ref(), "statusbar")
+        ObjectExt::property(self.as_ref(), "statusbar")
     }
 
     #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
+    #[doc(alias = "add-widget")]
     fn connect_add_widget<F: Fn(&Self, &Widget, &Position) -> bool + 'static>(
         &self,
         f: F,
@@ -464,6 +415,7 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
 
     #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
+    #[doc(alias = "create-frame")]
     fn connect_create_frame<F: Fn(&Self, &Position) -> Frame + 'static>(
         &self,
         f: F,
@@ -496,6 +448,7 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         }
     }
 
+    #[doc(alias = "dock")]
     fn connect_dock_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_dock_trampoline<
             P: IsA<DocumentWorkspace>,
@@ -521,6 +474,7 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         }
     }
 
+    #[doc(alias = "grid")]
     fn connect_grid_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_grid_trampoline<
             P: IsA<DocumentWorkspace>,
@@ -546,6 +500,7 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         }
     }
 
+    #[doc(alias = "statusbar")]
     fn connect_statusbar_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_statusbar_trampoline<
             P: IsA<DocumentWorkspace>,
@@ -571,6 +526,8 @@ impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {
         }
     }
 }
+
+impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {}
 
 impl fmt::Display for DocumentWorkspace {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

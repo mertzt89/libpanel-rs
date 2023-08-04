@@ -199,26 +199,26 @@ impl Settings {
     }
 
     pub fn identifier(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self, "identifier")
+        ObjectExt::property(self, "identifier")
     }
 
     pub fn path(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self, "path")
+        ObjectExt::property(self, "path")
     }
 
     #[doc(alias = "path-prefix")]
     pub fn path_prefix(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self, "path-prefix")
+        ObjectExt::property(self, "path-prefix")
     }
 
     #[doc(alias = "path-suffix")]
     pub fn path_suffix(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self, "path-suffix")
+        ObjectExt::property(self, "path-suffix")
     }
 
     #[doc(alias = "schema-id-prefix")]
     pub fn schema_id_prefix(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self, "schema-id-prefix")
+        ObjectExt::property(self, "schema-id-prefix")
     }
 
     #[doc(alias = "panel_settings_resolve_schema_path")]

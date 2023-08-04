@@ -202,12 +202,12 @@ impl LayeredSettings {
     }
 
     pub fn path(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self, "path")
+        ObjectExt::property(self, "path")
     }
 
     #[doc(alias = "schema-id")]
     pub fn schema_id(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self, "schema-id")
+        ObjectExt::property(self, "schema-id")
     }
 
     #[doc(alias = "changed")]

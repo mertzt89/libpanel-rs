@@ -284,35 +284,13 @@ impl WorkspaceBuilder {
     }
 }
 
-pub trait WorkspaceExt: 'static {
-    #[doc(alias = "panel_workspace_action_set_enabled")]
-    fn action_set_enabled(&self, action_name: &str, enabled: bool);
-
-    #[doc(alias = "panel_workspace_get_id")]
-    #[doc(alias = "get_id")]
-    fn id(&self) -> glib::GString;
-
-    #[cfg(feature = "v1_4")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-    #[doc(alias = "panel_workspace_get_workbench")]
-    #[doc(alias = "get_workbench")]
-    fn workbench(&self) -> Option<Workbench>;
-
-    #[cfg(feature = "v1_4")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-    #[doc(alias = "panel_workspace_inhibit")]
-    fn inhibit(&self, flags: gtk::ApplicationInhibitFlags, reason: &str) -> Option<Inhibitor>;
-
-    #[doc(alias = "panel_workspace_set_id")]
-    fn set_id(&self, id: &str);
-
-    #[cfg(feature = "v1_4")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-    #[doc(alias = "id")]
-    fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::Workspace>> Sealed for T {}
 }
 
-impl<O: IsA<Workspace>> WorkspaceExt for O {
+pub trait WorkspaceExt: IsA<Workspace> + sealed::Sealed + 'static {
+    #[doc(alias = "panel_workspace_action_set_enabled")]
     fn action_set_enabled(&self, action_name: &str, enabled: bool) {
         unsafe {
             ffi::panel_workspace_action_set_enabled(
@@ -323,12 +301,16 @@ impl<O: IsA<Workspace>> WorkspaceExt for O {
         }
     }
 
+    #[doc(alias = "panel_workspace_get_id")]
+    #[doc(alias = "get_id")]
     fn id(&self) -> glib::GString {
         unsafe { from_glib_none(ffi::panel_workspace_get_id(self.as_ref().to_glib_none().0)) }
     }
 
     #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
+    #[doc(alias = "panel_workspace_get_workbench")]
+    #[doc(alias = "get_workbench")]
     fn workbench(&self) -> Option<Workbench> {
         unsafe {
             from_glib_none(ffi::panel_workspace_get_workbench(
@@ -339,6 +321,7 @@ impl<O: IsA<Workspace>> WorkspaceExt for O {
 
     #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
+    #[doc(alias = "panel_workspace_inhibit")]
     fn inhibit(&self, flags: gtk::ApplicationInhibitFlags, reason: &str) -> Option<Inhibitor> {
         unsafe {
             from_glib_full(ffi::panel_workspace_inhibit(
@@ -349,6 +332,7 @@ impl<O: IsA<Workspace>> WorkspaceExt for O {
         }
     }
 
+    #[doc(alias = "panel_workspace_set_id")]
     fn set_id(&self, id: &str) {
         unsafe {
             ffi::panel_workspace_set_id(self.as_ref().to_glib_none().0, id.to_glib_none().0);
@@ -357,6 +341,7 @@ impl<O: IsA<Workspace>> WorkspaceExt for O {
 
     #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
+    #[doc(alias = "id")]
     fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_id_trampoline<P: IsA<Workspace>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWorkspace,
@@ -379,6 +364,8 @@ impl<O: IsA<Workspace>> WorkspaceExt for O {
         }
     }
 }
+
+impl<O: IsA<Workspace>> WorkspaceExt for O {}
 
 impl fmt::Display for Workspace {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

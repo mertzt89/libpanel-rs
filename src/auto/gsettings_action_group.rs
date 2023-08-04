@@ -17,7 +17,7 @@ glib::wrapper! {
 
 impl GSettingsActionGroup {
     pub fn settings(&self) -> Option<gio::Settings> {
-        glib::ObjectExt::property(self, "settings")
+        ObjectExt::property(self, "settings")
     }
 }
 

@@ -303,152 +303,13 @@ impl DockBuilder {
     }
 }
 
-pub trait DockExt: 'static {
-    #[doc(alias = "panel_dock_foreach_frame")]
-    fn foreach_frame<P: FnMut(&Frame)>(&self, callback: P);
-
-    #[doc(alias = "panel_dock_get_can_reveal_area")]
-    #[doc(alias = "get_can_reveal_area")]
-    fn can_reveal_area(&self, area: Area) -> bool;
-
-    #[doc(alias = "panel_dock_get_can_reveal_bottom")]
-    #[doc(alias = "get_can_reveal_bottom")]
-    fn can_reveal_bottom(&self) -> bool;
-
-    #[doc(alias = "panel_dock_get_can_reveal_end")]
-    #[doc(alias = "get_can_reveal_end")]
-    fn can_reveal_end(&self) -> bool;
-
-    #[doc(alias = "panel_dock_get_can_reveal_start")]
-    #[doc(alias = "get_can_reveal_start")]
-    fn can_reveal_start(&self) -> bool;
-
-    #[doc(alias = "panel_dock_get_can_reveal_top")]
-    #[doc(alias = "get_can_reveal_top")]
-    fn can_reveal_top(&self) -> bool;
-
-    #[doc(alias = "panel_dock_get_reveal_area")]
-    #[doc(alias = "get_reveal_area")]
-    fn reveals_area(&self, area: Area) -> bool;
-
-    #[doc(alias = "panel_dock_get_reveal_bottom")]
-    #[doc(alias = "get_reveal_bottom")]
-    fn reveals_bottom(&self) -> bool;
-
-    #[doc(alias = "panel_dock_get_reveal_end")]
-    #[doc(alias = "get_reveal_end")]
-    fn reveals_end(&self) -> bool;
-
-    #[doc(alias = "panel_dock_get_reveal_start")]
-    #[doc(alias = "get_reveal_start")]
-    fn reveals_start(&self) -> bool;
-
-    #[doc(alias = "panel_dock_get_reveal_top")]
-    #[doc(alias = "get_reveal_top")]
-    fn reveals_top(&self) -> bool;
-
-    #[doc(alias = "panel_dock_remove")]
-    fn remove(&self, widget: &impl IsA<gtk::Widget>);
-
-    #[doc(alias = "panel_dock_set_bottom_height")]
-    fn set_bottom_height(&self, height: i32);
-
-    #[doc(alias = "panel_dock_set_end_width")]
-    fn set_end_width(&self, width: i32);
-
-    #[doc(alias = "panel_dock_set_reveal_area")]
-    fn set_reveal_area(&self, area: Area, reveal: bool);
-
-    #[doc(alias = "panel_dock_set_reveal_bottom")]
-    fn set_reveal_bottom(&self, reveal_bottom: bool);
-
-    #[doc(alias = "panel_dock_set_reveal_end")]
-    fn set_reveal_end(&self, reveal_end: bool);
-
-    #[doc(alias = "panel_dock_set_reveal_start")]
-    fn set_reveal_start(&self, reveal_start: bool);
-
-    #[doc(alias = "panel_dock_set_reveal_top")]
-    fn set_reveal_top(&self, reveal_top: bool);
-
-    #[doc(alias = "panel_dock_set_start_width")]
-    fn set_start_width(&self, width: i32);
-
-    #[doc(alias = "panel_dock_set_top_height")]
-    fn set_top_height(&self, height: i32);
-
-    #[doc(alias = "bottom-height")]
-    fn bottom_height(&self) -> i32;
-
-    #[doc(alias = "end-width")]
-    fn end_width(&self) -> i32;
-
-    #[doc(alias = "start-width")]
-    fn start_width(&self) -> i32;
-
-    #[doc(alias = "top-height")]
-    fn top_height(&self) -> i32;
-
-    #[cfg(feature = "v1_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
-    #[doc(alias = "adopt-widget")]
-    fn connect_adopt_widget<F: Fn(&Self, &Widget) -> bool + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId;
-
-    #[cfg(feature = "v1_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
-    #[doc(alias = "create-frame")]
-    fn connect_create_frame<F: Fn(&Self, &Position) -> Frame + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId;
-
-    #[doc(alias = "panel-drag-begin")]
-    fn connect_panel_drag_begin<F: Fn(&Self, &Widget) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "panel-drag-end")]
-    fn connect_panel_drag_end<F: Fn(&Self, &Widget) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "bottom-height")]
-    fn connect_bottom_height_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "can-reveal-bottom")]
-    fn connect_can_reveal_bottom_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "can-reveal-end")]
-    fn connect_can_reveal_end_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "can-reveal-start")]
-    fn connect_can_reveal_start_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "can-reveal-top")]
-    fn connect_can_reveal_top_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "end-width")]
-    fn connect_end_width_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "reveal-bottom")]
-    fn connect_reveal_bottom_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "reveal-end")]
-    fn connect_reveal_end_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "reveal-start")]
-    fn connect_reveal_start_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "reveal-top")]
-    fn connect_reveal_top_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "start-width")]
-    fn connect_start_width_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "top-height")]
-    fn connect_top_height_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::Dock>> Sealed for T {}
 }
 
-impl<O: IsA<Dock>> DockExt for O {
+pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
+    #[doc(alias = "panel_dock_foreach_frame")]
     fn foreach_frame<P: FnMut(&Frame)>(&self, callback: P) {
         let callback_data: P = callback;
         unsafe extern "C" fn callback_func<P: FnMut(&Frame)>(
@@ -470,6 +331,8 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel_dock_get_can_reveal_area")]
+    #[doc(alias = "get_can_reveal_area")]
     fn can_reveal_area(&self, area: Area) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_can_reveal_area(
@@ -479,6 +342,8 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel_dock_get_can_reveal_bottom")]
+    #[doc(alias = "get_can_reveal_bottom")]
     fn can_reveal_bottom(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_can_reveal_bottom(
@@ -487,6 +352,8 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel_dock_get_can_reveal_end")]
+    #[doc(alias = "get_can_reveal_end")]
     fn can_reveal_end(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_can_reveal_end(
@@ -495,6 +362,8 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel_dock_get_can_reveal_start")]
+    #[doc(alias = "get_can_reveal_start")]
     fn can_reveal_start(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_can_reveal_start(
@@ -503,6 +372,8 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel_dock_get_can_reveal_top")]
+    #[doc(alias = "get_can_reveal_top")]
     fn can_reveal_top(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_can_reveal_top(
@@ -511,6 +382,8 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel_dock_get_reveal_area")]
+    #[doc(alias = "get_reveal_area")]
     fn reveals_area(&self, area: Area) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_reveal_area(
@@ -520,6 +393,8 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel_dock_get_reveal_bottom")]
+    #[doc(alias = "get_reveal_bottom")]
     fn reveals_bottom(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_reveal_bottom(
@@ -528,6 +403,8 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel_dock_get_reveal_end")]
+    #[doc(alias = "get_reveal_end")]
     fn reveals_end(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_reveal_end(
@@ -536,6 +413,8 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel_dock_get_reveal_start")]
+    #[doc(alias = "get_reveal_start")]
     fn reveals_start(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_reveal_start(
@@ -544,6 +423,8 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel_dock_get_reveal_top")]
+    #[doc(alias = "get_reveal_top")]
     fn reveals_top(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_reveal_top(
@@ -552,6 +433,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel_dock_remove")]
     fn remove(&self, widget: &impl IsA<gtk::Widget>) {
         unsafe {
             ffi::panel_dock_remove(
@@ -561,18 +443,21 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel_dock_set_bottom_height")]
     fn set_bottom_height(&self, height: i32) {
         unsafe {
             ffi::panel_dock_set_bottom_height(self.as_ref().to_glib_none().0, height);
         }
     }
 
+    #[doc(alias = "panel_dock_set_end_width")]
     fn set_end_width(&self, width: i32) {
         unsafe {
             ffi::panel_dock_set_end_width(self.as_ref().to_glib_none().0, width);
         }
     }
 
+    #[doc(alias = "panel_dock_set_reveal_area")]
     fn set_reveal_area(&self, area: Area, reveal: bool) {
         unsafe {
             ffi::panel_dock_set_reveal_area(
@@ -583,6 +468,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel_dock_set_reveal_bottom")]
     fn set_reveal_bottom(&self, reveal_bottom: bool) {
         unsafe {
             ffi::panel_dock_set_reveal_bottom(
@@ -592,12 +478,14 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel_dock_set_reveal_end")]
     fn set_reveal_end(&self, reveal_end: bool) {
         unsafe {
             ffi::panel_dock_set_reveal_end(self.as_ref().to_glib_none().0, reveal_end.into_glib());
         }
     }
 
+    #[doc(alias = "panel_dock_set_reveal_start")]
     fn set_reveal_start(&self, reveal_start: bool) {
         unsafe {
             ffi::panel_dock_set_reveal_start(
@@ -607,42 +495,50 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel_dock_set_reveal_top")]
     fn set_reveal_top(&self, reveal_top: bool) {
         unsafe {
             ffi::panel_dock_set_reveal_top(self.as_ref().to_glib_none().0, reveal_top.into_glib());
         }
     }
 
+    #[doc(alias = "panel_dock_set_start_width")]
     fn set_start_width(&self, width: i32) {
         unsafe {
             ffi::panel_dock_set_start_width(self.as_ref().to_glib_none().0, width);
         }
     }
 
+    #[doc(alias = "panel_dock_set_top_height")]
     fn set_top_height(&self, height: i32) {
         unsafe {
             ffi::panel_dock_set_top_height(self.as_ref().to_glib_none().0, height);
         }
     }
 
+    #[doc(alias = "bottom-height")]
     fn bottom_height(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "bottom-height")
+        ObjectExt::property(self.as_ref(), "bottom-height")
     }
 
+    #[doc(alias = "end-width")]
     fn end_width(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "end-width")
+        ObjectExt::property(self.as_ref(), "end-width")
     }
 
+    #[doc(alias = "start-width")]
     fn start_width(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "start-width")
+        ObjectExt::property(self.as_ref(), "start-width")
     }
 
+    #[doc(alias = "top-height")]
     fn top_height(&self) -> i32 {
-        glib::ObjectExt::property(self.as_ref(), "top-height")
+        ObjectExt::property(self.as_ref(), "top-height")
     }
 
     #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
+    #[doc(alias = "adopt-widget")]
     fn connect_adopt_widget<F: Fn(&Self, &Widget) -> bool + 'static>(
         &self,
         f: F,
@@ -677,6 +573,7 @@ impl<O: IsA<Dock>> DockExt for O {
 
     #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
+    #[doc(alias = "create-frame")]
     fn connect_create_frame<F: Fn(&Self, &Position) -> Frame + 'static>(
         &self,
         f: F,
@@ -709,6 +606,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel-drag-begin")]
     fn connect_panel_drag_begin<F: Fn(&Self, &Widget) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn panel_drag_begin_trampoline<
             P: IsA<Dock>,
@@ -737,6 +635,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "panel-drag-end")]
     fn connect_panel_drag_end<F: Fn(&Self, &Widget) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn panel_drag_end_trampoline<
             P: IsA<Dock>,
@@ -765,6 +664,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "bottom-height")]
     fn connect_bottom_height_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_bottom_height_trampoline<P: IsA<Dock>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelDock,
@@ -787,6 +687,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "can-reveal-bottom")]
     fn connect_can_reveal_bottom_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_can_reveal_bottom_trampoline<
             P: IsA<Dock>,
@@ -812,6 +713,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "can-reveal-end")]
     fn connect_can_reveal_end_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_can_reveal_end_trampoline<P: IsA<Dock>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelDock,
@@ -834,6 +736,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "can-reveal-start")]
     fn connect_can_reveal_start_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_can_reveal_start_trampoline<
             P: IsA<Dock>,
@@ -859,6 +762,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "can-reveal-top")]
     fn connect_can_reveal_top_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_can_reveal_top_trampoline<P: IsA<Dock>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelDock,
@@ -881,6 +785,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "end-width")]
     fn connect_end_width_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_end_width_trampoline<P: IsA<Dock>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelDock,
@@ -903,6 +808,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "reveal-bottom")]
     fn connect_reveal_bottom_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_reveal_bottom_trampoline<P: IsA<Dock>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelDock,
@@ -925,6 +831,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "reveal-end")]
     fn connect_reveal_end_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_reveal_end_trampoline<P: IsA<Dock>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelDock,
@@ -947,6 +854,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "reveal-start")]
     fn connect_reveal_start_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_reveal_start_trampoline<P: IsA<Dock>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelDock,
@@ -969,6 +877,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "reveal-top")]
     fn connect_reveal_top_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_reveal_top_trampoline<P: IsA<Dock>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelDock,
@@ -991,6 +900,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "start-width")]
     fn connect_start_width_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_start_width_trampoline<P: IsA<Dock>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelDock,
@@ -1013,6 +923,7 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 
+    #[doc(alias = "top-height")]
     fn connect_top_height_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_top_height_trampoline<P: IsA<Dock>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelDock,
@@ -1035,6 +946,8 @@ impl<O: IsA<Dock>> DockExt for O {
         }
     }
 }
+
+impl<O: IsA<Dock>> DockExt for O {}
 
 impl fmt::Display for Dock {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

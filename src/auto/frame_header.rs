@@ -24,31 +24,13 @@ impl FrameHeader {
     pub const NONE: Option<&'static FrameHeader> = None;
 }
 
-pub trait FrameHeaderExt: 'static {
-    #[doc(alias = "panel_frame_header_add_prefix")]
-    fn add_prefix(&self, priority: i32, child: &impl IsA<gtk::Widget>);
-
-    #[doc(alias = "panel_frame_header_add_suffix")]
-    fn add_suffix(&self, priority: i32, child: &impl IsA<gtk::Widget>);
-
-    #[doc(alias = "panel_frame_header_can_drop")]
-    fn can_drop(&self, widget: &impl IsA<Widget>) -> bool;
-
-    #[doc(alias = "panel_frame_header_get_frame")]
-    #[doc(alias = "get_frame")]
-    fn frame(&self) -> Option<Frame>;
-
-    #[doc(alias = "panel_frame_header_page_changed")]
-    fn page_changed(&self, widget: Option<&impl IsA<Widget>>);
-
-    #[doc(alias = "panel_frame_header_set_frame")]
-    fn set_frame(&self, frame: Option<&impl IsA<Frame>>);
-
-    #[doc(alias = "frame")]
-    fn connect_frame_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::FrameHeader>> Sealed for T {}
 }
 
-impl<O: IsA<FrameHeader>> FrameHeaderExt for O {
+pub trait FrameHeaderExt: IsA<FrameHeader> + sealed::Sealed + 'static {
+    #[doc(alias = "panel_frame_header_add_prefix")]
     fn add_prefix(&self, priority: i32, child: &impl IsA<gtk::Widget>) {
         unsafe {
             ffi::panel_frame_header_add_prefix(
@@ -59,6 +41,7 @@ impl<O: IsA<FrameHeader>> FrameHeaderExt for O {
         }
     }
 
+    #[doc(alias = "panel_frame_header_add_suffix")]
     fn add_suffix(&self, priority: i32, child: &impl IsA<gtk::Widget>) {
         unsafe {
             ffi::panel_frame_header_add_suffix(
@@ -69,6 +52,7 @@ impl<O: IsA<FrameHeader>> FrameHeaderExt for O {
         }
     }
 
+    #[doc(alias = "panel_frame_header_can_drop")]
     fn can_drop(&self, widget: &impl IsA<Widget>) -> bool {
         unsafe {
             from_glib(ffi::panel_frame_header_can_drop(
@@ -78,6 +62,8 @@ impl<O: IsA<FrameHeader>> FrameHeaderExt for O {
         }
     }
 
+    #[doc(alias = "panel_frame_header_get_frame")]
+    #[doc(alias = "get_frame")]
     fn frame(&self) -> Option<Frame> {
         unsafe {
             from_glib_none(ffi::panel_frame_header_get_frame(
@@ -86,6 +72,7 @@ impl<O: IsA<FrameHeader>> FrameHeaderExt for O {
         }
     }
 
+    #[doc(alias = "panel_frame_header_page_changed")]
     fn page_changed(&self, widget: Option<&impl IsA<Widget>>) {
         unsafe {
             ffi::panel_frame_header_page_changed(
@@ -95,6 +82,7 @@ impl<O: IsA<FrameHeader>> FrameHeaderExt for O {
         }
     }
 
+    #[doc(alias = "panel_frame_header_set_frame")]
     fn set_frame(&self, frame: Option<&impl IsA<Frame>>) {
         unsafe {
             ffi::panel_frame_header_set_frame(
@@ -104,6 +92,7 @@ impl<O: IsA<FrameHeader>> FrameHeaderExt for O {
         }
     }
 
+    #[doc(alias = "frame")]
     fn connect_frame_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_frame_trampoline<P: IsA<FrameHeader>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelFrameHeader,
@@ -126,6 +115,8 @@ impl<O: IsA<FrameHeader>> FrameHeaderExt for O {
         }
     }
 }
+
+impl<O: IsA<FrameHeader>> FrameHeaderExt for O {}
 
 impl fmt::Display for FrameHeader {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

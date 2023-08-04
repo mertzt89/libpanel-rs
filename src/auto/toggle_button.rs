@@ -42,15 +42,15 @@ impl ToggleButton {
     }
 
     pub fn area(&self) -> Area {
-        glib::ObjectExt::property(self, "area")
+        ObjectExt::property(self, "area")
     }
 
     pub fn dock(&self) -> Option<Dock> {
-        glib::ObjectExt::property(self, "dock")
+        ObjectExt::property(self, "dock")
     }
 
     pub fn set_dock<P: IsA<Dock>>(&self, dock: Option<&P>) {
-        glib::ObjectExt::set_property(self, "dock", dock)
+        ObjectExt::set_property(self, "dock", dock)
     }
 
     #[doc(alias = "dock")]

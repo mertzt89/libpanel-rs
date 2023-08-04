@@ -285,71 +285,13 @@ impl OmniBarBuilder {
     }
 }
 
-pub trait OmniBarExt: 'static {
-    #[doc(alias = "panel_omni_bar_add_prefix")]
-    fn add_prefix(&self, priority: i32, widget: &impl IsA<gtk::Widget>);
-
-    #[doc(alias = "panel_omni_bar_add_suffix")]
-    fn add_suffix(&self, priority: i32, widget: &impl IsA<gtk::Widget>);
-
-    #[doc(alias = "panel_omni_bar_get_popover")]
-    #[doc(alias = "get_popover")]
-    fn popover(&self) -> Option<gtk::Popover>;
-
-    #[doc(alias = "panel_omni_bar_get_progress")]
-    #[doc(alias = "get_progress")]
-    fn progress(&self) -> f64;
-
-    #[doc(alias = "panel_omni_bar_remove")]
-    fn remove(&self, widget: &impl IsA<gtk::Widget>);
-
-    #[doc(alias = "panel_omni_bar_set_popover")]
-    fn set_popover(&self, popover: Option<&impl IsA<gtk::Popover>>);
-
-    #[doc(alias = "panel_omni_bar_set_progress")]
-    fn set_progress(&self, progress: f64);
-
-    #[doc(alias = "panel_omni_bar_start_pulsing")]
-    fn start_pulsing(&self);
-
-    #[doc(alias = "panel_omni_bar_stop_pulsing")]
-    fn stop_pulsing(&self);
-
-    #[doc(alias = "action-tooltip")]
-    fn action_tooltip(&self) -> Option<glib::GString>;
-
-    #[doc(alias = "action-tooltip")]
-    fn set_action_tooltip(&self, action_tooltip: Option<&str>);
-
-    #[doc(alias = "icon-name")]
-    fn icon_name(&self) -> Option<glib::GString>;
-
-    #[doc(alias = "icon-name")]
-    fn set_icon_name(&self, icon_name: Option<&str>);
-
-    #[doc(alias = "menu-model")]
-    fn menu_model(&self) -> Option<gio::MenuModel>;
-
-    #[doc(alias = "menu-model")]
-    fn set_menu_model<P: IsA<gio::MenuModel>>(&self, menu_model: Option<&P>);
-
-    #[doc(alias = "action-tooltip")]
-    fn connect_action_tooltip_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "icon-name")]
-    fn connect_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "menu-model")]
-    fn connect_menu_model_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "popover")]
-    fn connect_popover_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "progress")]
-    fn connect_progress_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::OmniBar>> Sealed for T {}
 }
 
-impl<O: IsA<OmniBar>> OmniBarExt for O {
+pub trait OmniBarExt: IsA<OmniBar> + sealed::Sealed + 'static {
+    #[doc(alias = "panel_omni_bar_add_prefix")]
     fn add_prefix(&self, priority: i32, widget: &impl IsA<gtk::Widget>) {
         unsafe {
             ffi::panel_omni_bar_add_prefix(
@@ -360,6 +302,7 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
         }
     }
 
+    #[doc(alias = "panel_omni_bar_add_suffix")]
     fn add_suffix(&self, priority: i32, widget: &impl IsA<gtk::Widget>) {
         unsafe {
             ffi::panel_omni_bar_add_suffix(
@@ -370,6 +313,8 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
         }
     }
 
+    #[doc(alias = "panel_omni_bar_get_popover")]
+    #[doc(alias = "get_popover")]
     fn popover(&self) -> Option<gtk::Popover> {
         unsafe {
             from_glib_none(ffi::panel_omni_bar_get_popover(
@@ -378,10 +323,13 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
         }
     }
 
+    #[doc(alias = "panel_omni_bar_get_progress")]
+    #[doc(alias = "get_progress")]
     fn progress(&self) -> f64 {
         unsafe { ffi::panel_omni_bar_get_progress(self.as_ref().to_glib_none().0) }
     }
 
+    #[doc(alias = "panel_omni_bar_remove")]
     fn remove(&self, widget: &impl IsA<gtk::Widget>) {
         unsafe {
             ffi::panel_omni_bar_remove(
@@ -391,6 +339,7 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
         }
     }
 
+    #[doc(alias = "panel_omni_bar_set_popover")]
     fn set_popover(&self, popover: Option<&impl IsA<gtk::Popover>>) {
         unsafe {
             ffi::panel_omni_bar_set_popover(
@@ -400,48 +349,58 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
         }
     }
 
+    #[doc(alias = "panel_omni_bar_set_progress")]
     fn set_progress(&self, progress: f64) {
         unsafe {
             ffi::panel_omni_bar_set_progress(self.as_ref().to_glib_none().0, progress);
         }
     }
 
+    #[doc(alias = "panel_omni_bar_start_pulsing")]
     fn start_pulsing(&self) {
         unsafe {
             ffi::panel_omni_bar_start_pulsing(self.as_ref().to_glib_none().0);
         }
     }
 
+    #[doc(alias = "panel_omni_bar_stop_pulsing")]
     fn stop_pulsing(&self) {
         unsafe {
             ffi::panel_omni_bar_stop_pulsing(self.as_ref().to_glib_none().0);
         }
     }
 
+    #[doc(alias = "action-tooltip")]
     fn action_tooltip(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "action-tooltip")
+        ObjectExt::property(self.as_ref(), "action-tooltip")
     }
 
+    #[doc(alias = "action-tooltip")]
     fn set_action_tooltip(&self, action_tooltip: Option<&str>) {
-        glib::ObjectExt::set_property(self.as_ref(), "action-tooltip", action_tooltip)
+        ObjectExt::set_property(self.as_ref(), "action-tooltip", action_tooltip)
     }
 
+    #[doc(alias = "icon-name")]
     fn icon_name(&self) -> Option<glib::GString> {
-        glib::ObjectExt::property(self.as_ref(), "icon-name")
+        ObjectExt::property(self.as_ref(), "icon-name")
     }
 
+    #[doc(alias = "icon-name")]
     fn set_icon_name(&self, icon_name: Option<&str>) {
-        glib::ObjectExt::set_property(self.as_ref(), "icon-name", icon_name)
+        ObjectExt::set_property(self.as_ref(), "icon-name", icon_name)
     }
 
+    #[doc(alias = "menu-model")]
     fn menu_model(&self) -> Option<gio::MenuModel> {
-        glib::ObjectExt::property(self.as_ref(), "menu-model")
+        ObjectExt::property(self.as_ref(), "menu-model")
     }
 
+    #[doc(alias = "menu-model")]
     fn set_menu_model<P: IsA<gio::MenuModel>>(&self, menu_model: Option<&P>) {
-        glib::ObjectExt::set_property(self.as_ref(), "menu-model", menu_model)
+        ObjectExt::set_property(self.as_ref(), "menu-model", menu_model)
     }
 
+    #[doc(alias = "action-tooltip")]
     fn connect_action_tooltip_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_action_tooltip_trampoline<
             P: IsA<OmniBar>,
@@ -467,6 +426,7 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
         }
     }
 
+    #[doc(alias = "icon-name")]
     fn connect_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_icon_name_trampoline<P: IsA<OmniBar>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelOmniBar,
@@ -489,6 +449,7 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
         }
     }
 
+    #[doc(alias = "menu-model")]
     fn connect_menu_model_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_menu_model_trampoline<P: IsA<OmniBar>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelOmniBar,
@@ -511,6 +472,7 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
         }
     }
 
+    #[doc(alias = "popover")]
     fn connect_popover_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_popover_trampoline<P: IsA<OmniBar>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelOmniBar,
@@ -533,6 +495,7 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
         }
     }
 
+    #[doc(alias = "progress")]
     fn connect_progress_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_progress_trampoline<P: IsA<OmniBar>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelOmniBar,
@@ -555,6 +518,8 @@ impl<O: IsA<OmniBar>> OmniBarExt for O {
         }
     }
 }
+
+impl<O: IsA<OmniBar>> OmniBarExt for O {}
 
 impl fmt::Display for OmniBar {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

@@ -274,100 +274,13 @@ impl FrameBuilder {
     }
 }
 
-pub trait PanelFrameExt: 'static {
-    #[doc(alias = "panel_frame_add")]
-    fn add(&self, panel: &impl IsA<Widget>);
-
-    #[doc(alias = "panel_frame_add_before")]
-    fn add_before(&self, panel: &impl IsA<Widget>, sibling: &impl IsA<Widget>);
-
-    #[doc(alias = "panel_frame_get_closeable")]
-    #[doc(alias = "get_closeable")]
-    fn is_closeable(&self) -> bool;
-
-    #[doc(alias = "panel_frame_get_empty")]
-    #[doc(alias = "get_empty")]
-    fn is_empty(&self) -> bool;
-
-    #[doc(alias = "panel_frame_get_header")]
-    #[doc(alias = "get_header")]
-    fn header(&self) -> Option<FrameHeader>;
-
-    #[doc(alias = "panel_frame_get_n_pages")]
-    #[doc(alias = "get_n_pages")]
-    fn n_pages(&self) -> u32;
-
-    #[doc(alias = "panel_frame_get_page")]
-    #[doc(alias = "get_page")]
-    fn page(&self, n: u32) -> Option<Widget>;
-
-    #[doc(alias = "panel_frame_get_pages")]
-    #[doc(alias = "get_pages")]
-    fn pages(&self) -> gtk::SelectionModel;
-
-    #[doc(alias = "panel_frame_get_placeholder")]
-    #[doc(alias = "get_placeholder")]
-    fn placeholder(&self) -> Option<gtk::Widget>;
-
-    #[doc(alias = "panel_frame_get_position")]
-    #[doc(alias = "get_position")]
-    fn position(&self) -> Position;
-
-    #[doc(alias = "panel_frame_get_requested_size")]
-    #[doc(alias = "get_requested_size")]
-    fn requested_size(&self) -> i32;
-
-    #[doc(alias = "panel_frame_get_visible_child")]
-    #[doc(alias = "get_visible_child")]
-    fn visible_child(&self) -> Option<Widget>;
-
-    #[doc(alias = "panel_frame_remove")]
-    fn remove(&self, panel: &impl IsA<Widget>);
-
-    #[cfg(feature = "v1_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
-    #[doc(alias = "panel_frame_set_child_pinned")]
-    fn set_child_pinned(&self, child: &impl IsA<Widget>, pinned: bool);
-
-    #[doc(alias = "panel_frame_set_header")]
-    fn set_header(&self, header: Option<&impl IsA<FrameHeader>>);
-
-    #[doc(alias = "panel_frame_set_placeholder")]
-    fn set_placeholder(&self, placeholder: Option<&impl IsA<gtk::Widget>>);
-
-    #[doc(alias = "panel_frame_set_requested_size")]
-    fn set_requested_size(&self, requested_size: i32);
-
-    #[doc(alias = "panel_frame_set_visible_child")]
-    fn set_visible_child(&self, widget: &impl IsA<Widget>);
-
-    #[cfg(feature = "v1_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
-    #[doc(alias = "adopt-widget")]
-    fn connect_adopt_widget<F: Fn(&Self, &Widget) -> bool + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId;
-
-    #[cfg(feature = "v1_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
-    #[doc(alias = "page-closed")]
-    fn connect_page_closed<F: Fn(&Self, &Widget) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "closeable")]
-    fn connect_closeable_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "empty")]
-    fn connect_empty_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "placeholder")]
-    fn connect_placeholder_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "visible-child")]
-    fn connect_visible_child_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::Frame>> Sealed for T {}
 }
 
-impl<O: IsA<Frame>> PanelFrameExt for O {
+pub trait PanelFrameExt: IsA<Frame> + sealed::Sealed + 'static {
+    #[doc(alias = "panel_frame_add")]
     fn add(&self, panel: &impl IsA<Widget>) {
         unsafe {
             ffi::panel_frame_add(
@@ -377,6 +290,7 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
+    #[doc(alias = "panel_frame_add_before")]
     fn add_before(&self, panel: &impl IsA<Widget>, sibling: &impl IsA<Widget>) {
         unsafe {
             ffi::panel_frame_add_before(
@@ -387,6 +301,8 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
+    #[doc(alias = "panel_frame_get_closeable")]
+    #[doc(alias = "get_closeable")]
     fn is_closeable(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_frame_get_closeable(
@@ -395,26 +311,38 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
+    #[doc(alias = "panel_frame_get_empty")]
+    #[doc(alias = "get_empty")]
     fn is_empty(&self) -> bool {
         unsafe { from_glib(ffi::panel_frame_get_empty(self.as_ref().to_glib_none().0)) }
     }
 
+    #[doc(alias = "panel_frame_get_header")]
+    #[doc(alias = "get_header")]
     fn header(&self) -> Option<FrameHeader> {
         unsafe { from_glib_none(ffi::panel_frame_get_header(self.as_ref().to_glib_none().0)) }
     }
 
+    #[doc(alias = "panel_frame_get_n_pages")]
+    #[doc(alias = "get_n_pages")]
     fn n_pages(&self) -> u32 {
         unsafe { ffi::panel_frame_get_n_pages(self.as_ref().to_glib_none().0) }
     }
 
+    #[doc(alias = "panel_frame_get_page")]
+    #[doc(alias = "get_page")]
     fn page(&self, n: u32) -> Option<Widget> {
         unsafe { from_glib_none(ffi::panel_frame_get_page(self.as_ref().to_glib_none().0, n)) }
     }
 
+    #[doc(alias = "panel_frame_get_pages")]
+    #[doc(alias = "get_pages")]
     fn pages(&self) -> gtk::SelectionModel {
         unsafe { from_glib_full(ffi::panel_frame_get_pages(self.as_ref().to_glib_none().0)) }
     }
 
+    #[doc(alias = "panel_frame_get_placeholder")]
+    #[doc(alias = "get_placeholder")]
     fn placeholder(&self) -> Option<gtk::Widget> {
         unsafe {
             from_glib_none(ffi::panel_frame_get_placeholder(
@@ -423,6 +351,8 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
+    #[doc(alias = "panel_frame_get_position")]
+    #[doc(alias = "get_position")]
     fn position(&self) -> Position {
         unsafe {
             from_glib_full(ffi::panel_frame_get_position(
@@ -431,10 +361,14 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
+    #[doc(alias = "panel_frame_get_requested_size")]
+    #[doc(alias = "get_requested_size")]
     fn requested_size(&self) -> i32 {
         unsafe { ffi::panel_frame_get_requested_size(self.as_ref().to_glib_none().0) }
     }
 
+    #[doc(alias = "panel_frame_get_visible_child")]
+    #[doc(alias = "get_visible_child")]
     fn visible_child(&self) -> Option<Widget> {
         unsafe {
             from_glib_none(ffi::panel_frame_get_visible_child(
@@ -443,6 +377,7 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
+    #[doc(alias = "panel_frame_remove")]
     fn remove(&self, panel: &impl IsA<Widget>) {
         unsafe {
             ffi::panel_frame_remove(
@@ -454,6 +389,7 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
 
     #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
+    #[doc(alias = "panel_frame_set_child_pinned")]
     fn set_child_pinned(&self, child: &impl IsA<Widget>, pinned: bool) {
         unsafe {
             ffi::panel_frame_set_child_pinned(
@@ -464,6 +400,7 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
+    #[doc(alias = "panel_frame_set_header")]
     fn set_header(&self, header: Option<&impl IsA<FrameHeader>>) {
         unsafe {
             ffi::panel_frame_set_header(
@@ -473,6 +410,7 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
+    #[doc(alias = "panel_frame_set_placeholder")]
     fn set_placeholder(&self, placeholder: Option<&impl IsA<gtk::Widget>>) {
         unsafe {
             ffi::panel_frame_set_placeholder(
@@ -482,12 +420,14 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
+    #[doc(alias = "panel_frame_set_requested_size")]
     fn set_requested_size(&self, requested_size: i32) {
         unsafe {
             ffi::panel_frame_set_requested_size(self.as_ref().to_glib_none().0, requested_size);
         }
     }
 
+    #[doc(alias = "panel_frame_set_visible_child")]
     fn set_visible_child(&self, widget: &impl IsA<Widget>) {
         unsafe {
             ffi::panel_frame_set_visible_child(
@@ -499,6 +439,7 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
 
     #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
+    #[doc(alias = "adopt-widget")]
     fn connect_adopt_widget<F: Fn(&Self, &Widget) -> bool + 'static>(
         &self,
         f: F,
@@ -533,6 +474,7 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
 
     #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
+    #[doc(alias = "page-closed")]
     fn connect_page_closed<F: Fn(&Self, &Widget) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn page_closed_trampoline<P: IsA<Frame>, F: Fn(&P, &Widget) + 'static>(
             this: *mut ffi::PanelFrame,
@@ -558,6 +500,7 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
+    #[doc(alias = "closeable")]
     fn connect_closeable_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_closeable_trampoline<P: IsA<Frame>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelFrame,
@@ -580,6 +523,7 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
+    #[doc(alias = "empty")]
     fn connect_empty_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_empty_trampoline<P: IsA<Frame>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelFrame,
@@ -602,6 +546,7 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
+    #[doc(alias = "placeholder")]
     fn connect_placeholder_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_placeholder_trampoline<P: IsA<Frame>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelFrame,
@@ -624,6 +569,7 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 
+    #[doc(alias = "visible-child")]
     fn connect_visible_child_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_visible_child_trampoline<P: IsA<Frame>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelFrame,
@@ -646,6 +592,8 @@ impl<O: IsA<Frame>> PanelFrameExt for O {
         }
     }
 }
+
+impl<O: IsA<Frame>> PanelFrameExt for O {}
 
 impl fmt::Display for Frame {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

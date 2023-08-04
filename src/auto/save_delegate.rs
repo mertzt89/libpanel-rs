@@ -103,104 +103,28 @@ impl SaveDelegateBuilder {
     }
 }
 
-pub trait SaveDelegateExt: 'static {
-    #[doc(alias = "panel_save_delegate_close")]
-    fn close(&self);
-
-    #[doc(alias = "panel_save_delegate_discard")]
-    fn discard(&self);
-
-    #[doc(alias = "panel_save_delegate_get_icon")]
-    #[doc(alias = "get_icon")]
-    fn icon(&self) -> Option<gio::Icon>;
-
-    #[doc(alias = "panel_save_delegate_get_icon_name")]
-    #[doc(alias = "get_icon_name")]
-    fn icon_name(&self) -> Option<glib::GString>;
-
-    #[doc(alias = "panel_save_delegate_get_is_draft")]
-    #[doc(alias = "get_is_draft")]
-    fn is_draft(&self) -> bool;
-
-    #[doc(alias = "panel_save_delegate_get_progress")]
-    #[doc(alias = "get_progress")]
-    fn progress(&self) -> f64;
-
-    #[doc(alias = "panel_save_delegate_get_subtitle")]
-    #[doc(alias = "get_subtitle")]
-    fn subtitle(&self) -> Option<glib::GString>;
-
-    #[doc(alias = "panel_save_delegate_get_title")]
-    #[doc(alias = "get_title")]
-    fn title(&self) -> Option<glib::GString>;
-
-    #[doc(alias = "panel_save_delegate_save_async")]
-    fn save_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
-        &self,
-        cancellable: Option<&impl IsA<gio::Cancellable>>,
-        callback: P,
-    );
-
-    fn save_future(
-        &self,
-    ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
-
-    #[doc(alias = "panel_save_delegate_set_icon")]
-    fn set_icon(&self, icon: Option<&impl IsA<gio::Icon>>);
-
-    #[doc(alias = "panel_save_delegate_set_icon_name")]
-    fn set_icon_name(&self, icon: Option<&str>);
-
-    #[doc(alias = "panel_save_delegate_set_is_draft")]
-    fn set_is_draft(&self, is_draft: bool);
-
-    #[doc(alias = "panel_save_delegate_set_progress")]
-    fn set_progress(&self, progress: f64);
-
-    #[doc(alias = "panel_save_delegate_set_subtitle")]
-    fn set_subtitle(&self, subtitle: Option<&str>);
-
-    #[doc(alias = "panel_save_delegate_set_title")]
-    fn set_title(&self, title: Option<&str>);
-
-    #[doc(alias = "close")]
-    fn connect_close<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "discard")]
-    fn connect_discard<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "icon")]
-    fn connect_icon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "icon-name")]
-    fn connect_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "is-draft")]
-    fn connect_is_draft_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "progress")]
-    fn connect_progress_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "subtitle")]
-    fn connect_subtitle_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "title")]
-    fn connect_title_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::SaveDelegate>> Sealed for T {}
 }
 
-impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
+pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
+    #[doc(alias = "panel_save_delegate_close")]
     fn close(&self) {
         unsafe {
             ffi::panel_save_delegate_close(self.as_ref().to_glib_none().0);
         }
     }
 
+    #[doc(alias = "panel_save_delegate_discard")]
     fn discard(&self) {
         unsafe {
             ffi::panel_save_delegate_discard(self.as_ref().to_glib_none().0);
         }
     }
 
+    #[doc(alias = "panel_save_delegate_get_icon")]
+    #[doc(alias = "get_icon")]
     fn icon(&self) -> Option<gio::Icon> {
         unsafe {
             from_glib_none(ffi::panel_save_delegate_get_icon(
@@ -209,6 +133,8 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "panel_save_delegate_get_icon_name")]
+    #[doc(alias = "get_icon_name")]
     fn icon_name(&self) -> Option<glib::GString> {
         unsafe {
             from_glib_none(ffi::panel_save_delegate_get_icon_name(
@@ -217,6 +143,8 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "panel_save_delegate_get_is_draft")]
+    #[doc(alias = "get_is_draft")]
     fn is_draft(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_save_delegate_get_is_draft(
@@ -225,10 +153,14 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "panel_save_delegate_get_progress")]
+    #[doc(alias = "get_progress")]
     fn progress(&self) -> f64 {
         unsafe { ffi::panel_save_delegate_get_progress(self.as_ref().to_glib_none().0) }
     }
 
+    #[doc(alias = "panel_save_delegate_get_subtitle")]
+    #[doc(alias = "get_subtitle")]
     fn subtitle(&self) -> Option<glib::GString> {
         unsafe {
             from_glib_none(ffi::panel_save_delegate_get_subtitle(
@@ -237,6 +169,8 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "panel_save_delegate_get_title")]
+    #[doc(alias = "get_title")]
     fn title(&self) -> Option<glib::GString> {
         unsafe {
             from_glib_none(ffi::panel_save_delegate_get_title(
@@ -245,6 +179,7 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "panel_save_delegate_save_async")]
     fn save_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
@@ -300,6 +235,7 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }))
     }
 
+    #[doc(alias = "panel_save_delegate_set_icon")]
     fn set_icon(&self, icon: Option<&impl IsA<gio::Icon>>) {
         unsafe {
             ffi::panel_save_delegate_set_icon(
@@ -309,6 +245,7 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "panel_save_delegate_set_icon_name")]
     fn set_icon_name(&self, icon: Option<&str>) {
         unsafe {
             ffi::panel_save_delegate_set_icon_name(
@@ -318,6 +255,7 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "panel_save_delegate_set_is_draft")]
     fn set_is_draft(&self, is_draft: bool) {
         unsafe {
             ffi::panel_save_delegate_set_is_draft(
@@ -327,12 +265,14 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "panel_save_delegate_set_progress")]
     fn set_progress(&self, progress: f64) {
         unsafe {
             ffi::panel_save_delegate_set_progress(self.as_ref().to_glib_none().0, progress);
         }
     }
 
+    #[doc(alias = "panel_save_delegate_set_subtitle")]
     fn set_subtitle(&self, subtitle: Option<&str>) {
         unsafe {
             ffi::panel_save_delegate_set_subtitle(
@@ -342,6 +282,7 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "panel_save_delegate_set_title")]
     fn set_title(&self, title: Option<&str>) {
         unsafe {
             ffi::panel_save_delegate_set_title(
@@ -351,6 +292,7 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "close")]
     fn connect_close<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn close_trampoline<P: IsA<SaveDelegate>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelSaveDelegate,
@@ -372,6 +314,7 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "discard")]
     fn connect_discard<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn discard_trampoline<P: IsA<SaveDelegate>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelSaveDelegate,
@@ -393,6 +336,7 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "icon")]
     fn connect_icon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_icon_trampoline<P: IsA<SaveDelegate>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelSaveDelegate,
@@ -415,6 +359,7 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "icon-name")]
     fn connect_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_icon_name_trampoline<
             P: IsA<SaveDelegate>,
@@ -440,6 +385,7 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "is-draft")]
     fn connect_is_draft_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_is_draft_trampoline<
             P: IsA<SaveDelegate>,
@@ -465,6 +411,7 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "progress")]
     fn connect_progress_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_progress_trampoline<
             P: IsA<SaveDelegate>,
@@ -490,6 +437,7 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "subtitle")]
     fn connect_subtitle_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_subtitle_trampoline<
             P: IsA<SaveDelegate>,
@@ -515,6 +463,7 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 
+    #[doc(alias = "title")]
     fn connect_title_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_title_trampoline<P: IsA<SaveDelegate>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelSaveDelegate,
@@ -537,6 +486,8 @@ impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {
         }
     }
 }
+
+impl<O: IsA<SaveDelegate>> SaveDelegateExt for O {}
 
 impl fmt::Display for SaveDelegate {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

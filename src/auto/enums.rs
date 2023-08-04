@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use glib::{translate::*, value::FromValue, value::ToValue, StaticType, Type};
+use glib::{prelude::*, translate::*};
 use std::fmt;
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
@@ -77,7 +77,7 @@ impl FromGlib<ffi::PanelArea> for Area {
 
 impl StaticType for Area {
     #[inline]
-    fn static_type() -> Type {
+    fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::panel_area_get_type()) }
     }
 }
@@ -96,7 +96,7 @@ impl glib::value::ValueType for Area {
     type Type = Self;
 }
 
-unsafe impl<'a> FromValue<'a> for Area {
+unsafe impl<'a> glib::value::FromValue<'a> for Area {
     type Checker = glib::value::GenericValueTypeChecker<Self>;
 
     #[inline]

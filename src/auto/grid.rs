@@ -252,48 +252,13 @@ impl GridBuilder {
     }
 }
 
-pub trait PanelGridExt: 'static {
-    #[doc(alias = "panel_grid_add")]
-    fn add(&self, widget: &impl IsA<Widget>);
-
-    #[doc(alias = "panel_grid_agree_to_close_async")]
-    fn agree_to_close_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
-        &self,
-        cancellable: Option<&impl IsA<gio::Cancellable>>,
-        callback: P,
-    );
-
-    fn agree_to_close_future(
-        &self,
-    ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>>;
-
-    #[doc(alias = "panel_grid_foreach_frame")]
-    fn foreach_frame<P: FnMut(&Frame)>(&self, callback: P);
-
-    #[doc(alias = "panel_grid_get_column")]
-    #[doc(alias = "get_column")]
-    fn column(&self, column: u32) -> GridColumn;
-
-    #[doc(alias = "panel_grid_get_most_recent_column")]
-    #[doc(alias = "get_most_recent_column")]
-    fn most_recent_column(&self) -> GridColumn;
-
-    #[doc(alias = "panel_grid_get_most_recent_frame")]
-    #[doc(alias = "get_most_recent_frame")]
-    fn most_recent_frame(&self) -> Frame;
-
-    #[doc(alias = "panel_grid_get_n_columns")]
-    #[doc(alias = "get_n_columns")]
-    fn n_columns(&self) -> u32;
-
-    #[doc(alias = "panel_grid_insert_column")]
-    fn insert_column(&self, position: u32);
-
-    #[doc(alias = "create-frame")]
-    fn connect_create_frame<F: Fn(&Self) -> Frame + 'static>(&self, f: F) -> SignalHandlerId;
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::Grid>> Sealed for T {}
 }
 
-impl<O: IsA<Grid>> PanelGridExt for O {
+pub trait PanelGridExt: IsA<Grid> + sealed::Sealed + 'static {
+    #[doc(alias = "panel_grid_add")]
     fn add(&self, widget: &impl IsA<Widget>) {
         unsafe {
             ffi::panel_grid_add(
@@ -303,6 +268,7 @@ impl<O: IsA<Grid>> PanelGridExt for O {
         }
     }
 
+    #[doc(alias = "panel_grid_agree_to_close_async")]
     fn agree_to_close_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
@@ -361,6 +327,7 @@ impl<O: IsA<Grid>> PanelGridExt for O {
         }))
     }
 
+    #[doc(alias = "panel_grid_foreach_frame")]
     fn foreach_frame<P: FnMut(&Frame)>(&self, callback: P) {
         let callback_data: P = callback;
         unsafe extern "C" fn callback_func<P: FnMut(&Frame)>(
@@ -382,6 +349,8 @@ impl<O: IsA<Grid>> PanelGridExt for O {
         }
     }
 
+    #[doc(alias = "panel_grid_get_column")]
+    #[doc(alias = "get_column")]
     fn column(&self, column: u32) -> GridColumn {
         unsafe {
             from_glib_none(ffi::panel_grid_get_column(
@@ -391,6 +360,8 @@ impl<O: IsA<Grid>> PanelGridExt for O {
         }
     }
 
+    #[doc(alias = "panel_grid_get_most_recent_column")]
+    #[doc(alias = "get_most_recent_column")]
     fn most_recent_column(&self) -> GridColumn {
         unsafe {
             from_glib_none(ffi::panel_grid_get_most_recent_column(
@@ -399,6 +370,8 @@ impl<O: IsA<Grid>> PanelGridExt for O {
         }
     }
 
+    #[doc(alias = "panel_grid_get_most_recent_frame")]
+    #[doc(alias = "get_most_recent_frame")]
     fn most_recent_frame(&self) -> Frame {
         unsafe {
             from_glib_none(ffi::panel_grid_get_most_recent_frame(
@@ -407,16 +380,20 @@ impl<O: IsA<Grid>> PanelGridExt for O {
         }
     }
 
+    #[doc(alias = "panel_grid_get_n_columns")]
+    #[doc(alias = "get_n_columns")]
     fn n_columns(&self) -> u32 {
         unsafe { ffi::panel_grid_get_n_columns(self.as_ref().to_glib_none().0) }
     }
 
+    #[doc(alias = "panel_grid_insert_column")]
     fn insert_column(&self, position: u32) {
         unsafe {
             ffi::panel_grid_insert_column(self.as_ref().to_glib_none().0, position);
         }
     }
 
+    #[doc(alias = "create-frame")]
     fn connect_create_frame<F: Fn(&Self) -> Frame + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn create_frame_trampoline<P: IsA<Grid>, F: Fn(&P) -> Frame + 'static>(
             this: *mut ffi::PanelGrid,
@@ -438,6 +415,8 @@ impl<O: IsA<Grid>> PanelGridExt for O {
         }
     }
 }
+
+impl<O: IsA<Grid>> PanelGridExt for O {}
 
 impl fmt::Display for Grid {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

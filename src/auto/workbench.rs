@@ -88,49 +88,13 @@ impl WorkbenchBuilder {
     }
 }
 
-pub trait WorkbenchExt: 'static {
-    #[doc(alias = "panel_workbench_action_set_enabled")]
-    fn action_set_enabled(&self, action_name: &str, enabled: bool);
-
-    #[doc(alias = "panel_workbench_activate")]
-    fn activate(&self);
-
-    #[doc(alias = "panel_workbench_add_workspace")]
-    fn add_workspace(&self, workspace: &impl IsA<Workspace>);
-
-    #[cfg(feature = "v1_4")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-    #[doc(alias = "panel_workbench_find_workspace_typed")]
-    fn find_workspace_typed(&self, workspace_type: glib::types::Type) -> Option<Workspace>;
-
-    #[doc(alias = "panel_workbench_focus_workspace")]
-    fn focus_workspace(&self, workspace: &impl IsA<Workspace>);
-
-    #[cfg(feature = "v1_4")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-    #[doc(alias = "panel_workbench_foreach_workspace")]
-    fn foreach_workspace<P: FnMut(&Workspace)>(&self, foreach_func: P);
-
-    #[doc(alias = "panel_workbench_get_id")]
-    #[doc(alias = "get_id")]
-    fn id(&self) -> glib::GString;
-
-    #[doc(alias = "panel_workbench_remove_workspace")]
-    fn remove_workspace(&self, workspace: &impl IsA<Workspace>);
-
-    #[doc(alias = "panel_workbench_set_id")]
-    fn set_id(&self, id: &str);
-
-    #[doc(alias = "activate")]
-    fn connect_activate<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[cfg(feature = "v1_4")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-    #[doc(alias = "id")]
-    fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::Workbench>> Sealed for T {}
 }
 
-impl<O: IsA<Workbench>> WorkbenchExt for O {
+pub trait WorkbenchExt: IsA<Workbench> + sealed::Sealed + 'static {
+    #[doc(alias = "panel_workbench_action_set_enabled")]
     fn action_set_enabled(&self, action_name: &str, enabled: bool) {
         unsafe {
             ffi::panel_workbench_action_set_enabled(
@@ -141,12 +105,14 @@ impl<O: IsA<Workbench>> WorkbenchExt for O {
         }
     }
 
+    #[doc(alias = "panel_workbench_activate")]
     fn activate(&self) {
         unsafe {
             ffi::panel_workbench_activate(self.as_ref().to_glib_none().0);
         }
     }
 
+    #[doc(alias = "panel_workbench_add_workspace")]
     fn add_workspace(&self, workspace: &impl IsA<Workspace>) {
         unsafe {
             ffi::panel_workbench_add_workspace(
@@ -158,6 +124,7 @@ impl<O: IsA<Workbench>> WorkbenchExt for O {
 
     #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
+    #[doc(alias = "panel_workbench_find_workspace_typed")]
     fn find_workspace_typed(&self, workspace_type: glib::types::Type) -> Option<Workspace> {
         unsafe {
             from_glib_none(ffi::panel_workbench_find_workspace_typed(
@@ -167,6 +134,7 @@ impl<O: IsA<Workbench>> WorkbenchExt for O {
         }
     }
 
+    #[doc(alias = "panel_workbench_focus_workspace")]
     fn focus_workspace(&self, workspace: &impl IsA<Workspace>) {
         unsafe {
             ffi::panel_workbench_focus_workspace(
@@ -178,6 +146,7 @@ impl<O: IsA<Workbench>> WorkbenchExt for O {
 
     #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
+    #[doc(alias = "panel_workbench_foreach_workspace")]
     fn foreach_workspace<P: FnMut(&Workspace)>(&self, foreach_func: P) {
         let foreach_func_data: P = foreach_func;
         unsafe extern "C" fn foreach_func_func<P: FnMut(&Workspace)>(
@@ -199,10 +168,13 @@ impl<O: IsA<Workbench>> WorkbenchExt for O {
         }
     }
 
+    #[doc(alias = "panel_workbench_get_id")]
+    #[doc(alias = "get_id")]
     fn id(&self) -> glib::GString {
         unsafe { from_glib_none(ffi::panel_workbench_get_id(self.as_ref().to_glib_none().0)) }
     }
 
+    #[doc(alias = "panel_workbench_remove_workspace")]
     fn remove_workspace(&self, workspace: &impl IsA<Workspace>) {
         unsafe {
             ffi::panel_workbench_remove_workspace(
@@ -212,12 +184,14 @@ impl<O: IsA<Workbench>> WorkbenchExt for O {
         }
     }
 
+    #[doc(alias = "panel_workbench_set_id")]
     fn set_id(&self, id: &str) {
         unsafe {
             ffi::panel_workbench_set_id(self.as_ref().to_glib_none().0, id.to_glib_none().0);
         }
     }
 
+    #[doc(alias = "activate")]
     fn connect_activate<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn activate_trampoline<P: IsA<Workbench>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWorkbench,
@@ -241,6 +215,7 @@ impl<O: IsA<Workbench>> WorkbenchExt for O {
 
     #[cfg(feature = "v1_4")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
+    #[doc(alias = "id")]
     fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_id_trampoline<P: IsA<Workbench>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWorkbench,
@@ -263,6 +238,8 @@ impl<O: IsA<Workbench>> WorkbenchExt for O {
         }
     }
 }
+
+impl<O: IsA<Workbench>> WorkbenchExt for O {}
 
 impl fmt::Display for Workbench {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {

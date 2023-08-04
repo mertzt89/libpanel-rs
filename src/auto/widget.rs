@@ -336,195 +336,13 @@ impl WidgetBuilder {
     }
 }
 
-pub trait PanelWidgetExt: 'static {
-    #[doc(alias = "panel_widget_action_set_enabled")]
-    fn action_set_enabled(&self, action_name: &str, enabled: bool);
-
-    #[doc(alias = "panel_widget_close")]
-    fn close(&self);
-
-    #[doc(alias = "panel_widget_focus_default")]
-    fn focus_default(&self) -> bool;
-
-    #[doc(alias = "panel_widget_force_close")]
-    fn force_close(&self);
-
-    #[doc(alias = "panel_widget_get_busy")]
-    #[doc(alias = "get_busy")]
-    fn is_busy(&self) -> bool;
-
-    #[doc(alias = "panel_widget_get_can_maximize")]
-    #[doc(alias = "get_can_maximize")]
-    fn can_maximize(&self) -> bool;
-
-    #[doc(alias = "panel_widget_get_child")]
-    #[doc(alias = "get_child")]
-    fn child(&self) -> Option<gtk::Widget>;
-
-    #[doc(alias = "panel_widget_get_default_focus")]
-    #[doc(alias = "get_default_focus")]
-    fn default_focus(&self) -> Option<gtk::Widget>;
-
-    #[doc(alias = "panel_widget_get_icon")]
-    #[doc(alias = "get_icon")]
-    fn icon(&self) -> Option<gio::Icon>;
-
-    #[doc(alias = "panel_widget_get_icon_name")]
-    #[doc(alias = "get_icon_name")]
-    fn icon_name(&self) -> Option<glib::GString>;
-
-    #[doc(alias = "panel_widget_get_id")]
-    #[doc(alias = "get_id")]
-    fn id(&self) -> glib::GString;
-
-    #[doc(alias = "panel_widget_get_kind")]
-    #[doc(alias = "get_kind")]
-    fn kind(&self) -> glib::GString;
-
-    #[doc(alias = "panel_widget_get_menu_model")]
-    #[doc(alias = "get_menu_model")]
-    fn menu_model(&self) -> Option<gio::MenuModel>;
-
-    #[doc(alias = "panel_widget_get_modified")]
-    #[doc(alias = "get_modified")]
-    fn is_modified(&self) -> bool;
-
-    #[doc(alias = "panel_widget_get_needs_attention")]
-    #[doc(alias = "get_needs_attention")]
-    fn needs_attention(&self) -> bool;
-
-    #[doc(alias = "panel_widget_get_position")]
-    #[doc(alias = "get_position")]
-    fn position(&self) -> Option<Position>;
-
-    #[doc(alias = "panel_widget_get_reorderable")]
-    #[doc(alias = "get_reorderable")]
-    fn is_reorderable(&self) -> bool;
-
-    #[doc(alias = "panel_widget_get_save_delegate")]
-    #[doc(alias = "get_save_delegate")]
-    fn save_delegate(&self) -> Option<SaveDelegate>;
-
-    #[doc(alias = "panel_widget_get_title")]
-    #[doc(alias = "get_title")]
-    fn title(&self) -> Option<glib::GString>;
-
-    #[doc(alias = "panel_widget_get_tooltip")]
-    #[doc(alias = "get_tooltip")]
-    fn tooltip(&self) -> Option<glib::GString>;
-
-    #[doc(alias = "panel_widget_insert_action_group")]
-    fn insert_action_group(&self, prefix: &str, group: &impl IsA<gio::ActionGroup>);
-
-    #[doc(alias = "panel_widget_mark_busy")]
-    fn mark_busy(&self);
-
-    #[doc(alias = "panel_widget_maximize")]
-    fn maximize(&self);
-
-    #[doc(alias = "panel_widget_raise")]
-    fn raise(&self);
-
-    #[doc(alias = "panel_widget_set_can_maximize")]
-    fn set_can_maximize(&self, can_maximize: bool);
-
-    #[doc(alias = "panel_widget_set_child")]
-    fn set_child(&self, child: Option<&impl IsA<gtk::Widget>>);
-
-    #[doc(alias = "panel_widget_set_icon")]
-    fn set_icon(&self, icon: Option<&impl IsA<gio::Icon>>);
-
-    #[doc(alias = "panel_widget_set_icon_name")]
-    fn set_icon_name(&self, icon_name: Option<&str>);
-
-    #[doc(alias = "panel_widget_set_id")]
-    fn set_id(&self, id: &str);
-
-    #[doc(alias = "panel_widget_set_kind")]
-    fn set_kind(&self, kind: Option<&str>);
-
-    #[doc(alias = "panel_widget_set_menu_model")]
-    fn set_menu_model(&self, menu_model: Option<&impl IsA<gio::MenuModel>>);
-
-    #[doc(alias = "panel_widget_set_modified")]
-    fn set_modified(&self, modified: bool);
-
-    #[doc(alias = "panel_widget_set_needs_attention")]
-    fn set_needs_attention(&self, needs_attention: bool);
-
-    #[doc(alias = "panel_widget_set_reorderable")]
-    fn set_reorderable(&self, reorderable: bool);
-
-    #[doc(alias = "panel_widget_set_save_delegate")]
-    fn set_save_delegate(&self, save_delegate: Option<&impl IsA<SaveDelegate>>);
-
-    #[doc(alias = "panel_widget_set_title")]
-    fn set_title(&self, title: Option<&str>);
-
-    #[doc(alias = "panel_widget_set_tooltip")]
-    fn set_tooltip(&self, tooltip: Option<&str>);
-
-    #[doc(alias = "panel_widget_unmark_busy")]
-    fn unmark_busy(&self);
-
-    #[doc(alias = "panel_widget_unmaximize")]
-    fn unmaximize(&self);
-
-    #[doc(alias = "get-default-focus")]
-    fn connect_get_default_focus<F: Fn(&Self) -> Option<gtk::Widget> + 'static>(
-        &self,
-        f: F,
-    ) -> SignalHandlerId;
-
-    #[doc(alias = "presented")]
-    fn connect_presented<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "busy")]
-    fn connect_busy_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "can-maximize")]
-    fn connect_can_maximize_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "child")]
-    fn connect_child_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "icon")]
-    fn connect_icon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "icon-name")]
-    fn connect_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "id")]
-    fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "kind")]
-    fn connect_kind_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "menu-model")]
-    fn connect_menu_model_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "modified")]
-    fn connect_modified_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "needs-attention")]
-    fn connect_needs_attention_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "reorderable")]
-    fn connect_reorderable_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "save-delegate")]
-    fn connect_save_delegate_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[doc(alias = "title")]
-    fn connect_title_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
-
-    #[cfg(feature = "v1_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
-    #[doc(alias = "tooltip")]
-    fn connect_tooltip_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId;
+mod sealed {
+    pub trait Sealed {}
+    impl<T: super::IsA<super::Widget>> Sealed for T {}
 }
 
-impl<O: IsA<Widget>> PanelWidgetExt for O {
+pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
+    #[doc(alias = "panel_widget_action_set_enabled")]
     fn action_set_enabled(&self, action_name: &str, enabled: bool) {
         unsafe {
             ffi::panel_widget_action_set_enabled(
@@ -535,12 +353,14 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_close")]
     fn close(&self) {
         unsafe {
             ffi::panel_widget_close(self.as_ref().to_glib_none().0);
         }
     }
 
+    #[doc(alias = "panel_widget_focus_default")]
     fn focus_default(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_widget_focus_default(
@@ -549,16 +369,21 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_force_close")]
     fn force_close(&self) {
         unsafe {
             ffi::panel_widget_force_close(self.as_ref().to_glib_none().0);
         }
     }
 
+    #[doc(alias = "panel_widget_get_busy")]
+    #[doc(alias = "get_busy")]
     fn is_busy(&self) -> bool {
         unsafe { from_glib(ffi::panel_widget_get_busy(self.as_ref().to_glib_none().0)) }
     }
 
+    #[doc(alias = "panel_widget_get_can_maximize")]
+    #[doc(alias = "get_can_maximize")]
     fn can_maximize(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_widget_get_can_maximize(
@@ -567,10 +392,14 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_get_child")]
+    #[doc(alias = "get_child")]
     fn child(&self) -> Option<gtk::Widget> {
         unsafe { from_glib_none(ffi::panel_widget_get_child(self.as_ref().to_glib_none().0)) }
     }
 
+    #[doc(alias = "panel_widget_get_default_focus")]
+    #[doc(alias = "get_default_focus")]
     fn default_focus(&self) -> Option<gtk::Widget> {
         unsafe {
             from_glib_none(ffi::panel_widget_get_default_focus(
@@ -579,10 +408,14 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_get_icon")]
+    #[doc(alias = "get_icon")]
     fn icon(&self) -> Option<gio::Icon> {
         unsafe { from_glib_none(ffi::panel_widget_get_icon(self.as_ref().to_glib_none().0)) }
     }
 
+    #[doc(alias = "panel_widget_get_icon_name")]
+    #[doc(alias = "get_icon_name")]
     fn icon_name(&self) -> Option<glib::GString> {
         unsafe {
             from_glib_none(ffi::panel_widget_get_icon_name(
@@ -591,14 +424,20 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_get_id")]
+    #[doc(alias = "get_id")]
     fn id(&self) -> glib::GString {
         unsafe { from_glib_none(ffi::panel_widget_get_id(self.as_ref().to_glib_none().0)) }
     }
 
+    #[doc(alias = "panel_widget_get_kind")]
+    #[doc(alias = "get_kind")]
     fn kind(&self) -> glib::GString {
         unsafe { from_glib_none(ffi::panel_widget_get_kind(self.as_ref().to_glib_none().0)) }
     }
 
+    #[doc(alias = "panel_widget_get_menu_model")]
+    #[doc(alias = "get_menu_model")]
     fn menu_model(&self) -> Option<gio::MenuModel> {
         unsafe {
             from_glib_none(ffi::panel_widget_get_menu_model(
@@ -607,6 +446,8 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_get_modified")]
+    #[doc(alias = "get_modified")]
     fn is_modified(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_widget_get_modified(
@@ -615,6 +456,8 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_get_needs_attention")]
+    #[doc(alias = "get_needs_attention")]
     fn needs_attention(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_widget_get_needs_attention(
@@ -623,6 +466,8 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_get_position")]
+    #[doc(alias = "get_position")]
     fn position(&self) -> Option<Position> {
         unsafe {
             from_glib_full(ffi::panel_widget_get_position(
@@ -631,6 +476,8 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_get_reorderable")]
+    #[doc(alias = "get_reorderable")]
     fn is_reorderable(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_widget_get_reorderable(
@@ -639,6 +486,8 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_get_save_delegate")]
+    #[doc(alias = "get_save_delegate")]
     fn save_delegate(&self) -> Option<SaveDelegate> {
         unsafe {
             from_glib_none(ffi::panel_widget_get_save_delegate(
@@ -647,10 +496,14 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_get_title")]
+    #[doc(alias = "get_title")]
     fn title(&self) -> Option<glib::GString> {
         unsafe { from_glib_none(ffi::panel_widget_get_title(self.as_ref().to_glib_none().0)) }
     }
 
+    #[doc(alias = "panel_widget_get_tooltip")]
+    #[doc(alias = "get_tooltip")]
     fn tooltip(&self) -> Option<glib::GString> {
         unsafe {
             from_glib_none(ffi::panel_widget_get_tooltip(
@@ -659,6 +512,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_insert_action_group")]
     fn insert_action_group(&self, prefix: &str, group: &impl IsA<gio::ActionGroup>) {
         unsafe {
             ffi::panel_widget_insert_action_group(
@@ -669,24 +523,28 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_mark_busy")]
     fn mark_busy(&self) {
         unsafe {
             ffi::panel_widget_mark_busy(self.as_ref().to_glib_none().0);
         }
     }
 
+    #[doc(alias = "panel_widget_maximize")]
     fn maximize(&self) {
         unsafe {
             ffi::panel_widget_maximize(self.as_ref().to_glib_none().0);
         }
     }
 
+    #[doc(alias = "panel_widget_raise")]
     fn raise(&self) {
         unsafe {
             ffi::panel_widget_raise(self.as_ref().to_glib_none().0);
         }
     }
 
+    #[doc(alias = "panel_widget_set_can_maximize")]
     fn set_can_maximize(&self, can_maximize: bool) {
         unsafe {
             ffi::panel_widget_set_can_maximize(
@@ -696,6 +554,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_set_child")]
     fn set_child(&self, child: Option<&impl IsA<gtk::Widget>>) {
         unsafe {
             ffi::panel_widget_set_child(
@@ -705,6 +564,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_set_icon")]
     fn set_icon(&self, icon: Option<&impl IsA<gio::Icon>>) {
         unsafe {
             ffi::panel_widget_set_icon(
@@ -714,6 +574,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_set_icon_name")]
     fn set_icon_name(&self, icon_name: Option<&str>) {
         unsafe {
             ffi::panel_widget_set_icon_name(
@@ -723,18 +584,21 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_set_id")]
     fn set_id(&self, id: &str) {
         unsafe {
             ffi::panel_widget_set_id(self.as_ref().to_glib_none().0, id.to_glib_none().0);
         }
     }
 
+    #[doc(alias = "panel_widget_set_kind")]
     fn set_kind(&self, kind: Option<&str>) {
         unsafe {
             ffi::panel_widget_set_kind(self.as_ref().to_glib_none().0, kind.to_glib_none().0);
         }
     }
 
+    #[doc(alias = "panel_widget_set_menu_model")]
     fn set_menu_model(&self, menu_model: Option<&impl IsA<gio::MenuModel>>) {
         unsafe {
             ffi::panel_widget_set_menu_model(
@@ -744,12 +608,14 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_set_modified")]
     fn set_modified(&self, modified: bool) {
         unsafe {
             ffi::panel_widget_set_modified(self.as_ref().to_glib_none().0, modified.into_glib());
         }
     }
 
+    #[doc(alias = "panel_widget_set_needs_attention")]
     fn set_needs_attention(&self, needs_attention: bool) {
         unsafe {
             ffi::panel_widget_set_needs_attention(
@@ -759,6 +625,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_set_reorderable")]
     fn set_reorderable(&self, reorderable: bool) {
         unsafe {
             ffi::panel_widget_set_reorderable(
@@ -768,6 +635,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_set_save_delegate")]
     fn set_save_delegate(&self, save_delegate: Option<&impl IsA<SaveDelegate>>) {
         unsafe {
             ffi::panel_widget_set_save_delegate(
@@ -777,30 +645,35 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "panel_widget_set_title")]
     fn set_title(&self, title: Option<&str>) {
         unsafe {
             ffi::panel_widget_set_title(self.as_ref().to_glib_none().0, title.to_glib_none().0);
         }
     }
 
+    #[doc(alias = "panel_widget_set_tooltip")]
     fn set_tooltip(&self, tooltip: Option<&str>) {
         unsafe {
             ffi::panel_widget_set_tooltip(self.as_ref().to_glib_none().0, tooltip.to_glib_none().0);
         }
     }
 
+    #[doc(alias = "panel_widget_unmark_busy")]
     fn unmark_busy(&self) {
         unsafe {
             ffi::panel_widget_unmark_busy(self.as_ref().to_glib_none().0);
         }
     }
 
+    #[doc(alias = "panel_widget_unmaximize")]
     fn unmaximize(&self) {
         unsafe {
             ffi::panel_widget_unmaximize(self.as_ref().to_glib_none().0);
         }
     }
 
+    #[doc(alias = "get-default-focus")]
     fn connect_get_default_focus<F: Fn(&Self) -> Option<gtk::Widget> + 'static>(
         &self,
         f: F,
@@ -830,6 +703,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "presented")]
     fn connect_presented<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn presented_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWidget,
@@ -851,6 +725,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "busy")]
     fn connect_busy_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_busy_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWidget,
@@ -873,6 +748,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "can-maximize")]
     fn connect_can_maximize_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_can_maximize_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWidget,
@@ -895,6 +771,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "child")]
     fn connect_child_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_child_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWidget,
@@ -917,6 +794,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "icon")]
     fn connect_icon_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_icon_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWidget,
@@ -939,6 +817,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "icon-name")]
     fn connect_icon_name_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_icon_name_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWidget,
@@ -961,6 +840,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "id")]
     fn connect_id_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_id_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWidget,
@@ -983,6 +863,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "kind")]
     fn connect_kind_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_kind_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWidget,
@@ -1005,6 +886,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "menu-model")]
     fn connect_menu_model_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_menu_model_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWidget,
@@ -1027,6 +909,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "modified")]
     fn connect_modified_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_modified_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWidget,
@@ -1049,6 +932,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "needs-attention")]
     fn connect_needs_attention_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_needs_attention_trampoline<
             P: IsA<Widget>,
@@ -1074,6 +958,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "reorderable")]
     fn connect_reorderable_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_reorderable_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWidget,
@@ -1096,6 +981,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "save-delegate")]
     fn connect_save_delegate_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_save_delegate_trampoline<
             P: IsA<Widget>,
@@ -1121,6 +1007,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 
+    #[doc(alias = "title")]
     fn connect_title_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_title_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWidget,
@@ -1145,6 +1032,7 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
 
     #[cfg(feature = "v1_2")]
     #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
+    #[doc(alias = "tooltip")]
     fn connect_tooltip_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
         unsafe extern "C" fn notify_tooltip_trampoline<P: IsA<Widget>, F: Fn(&P) + 'static>(
             this: *mut ffi::PanelWidget,
@@ -1167,6 +1055,8 @@ impl<O: IsA<Widget>> PanelWidgetExt for O {
         }
     }
 }
+
+impl<O: IsA<Widget>> PanelWidgetExt for O {}
 
 impl fmt::Display for Widget {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
