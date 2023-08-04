@@ -18,14 +18,10 @@ include = ["/src", "/examples", "/README.md", "/COPYING"]
 name = "libpanel"
 
 [features]
-default = ["adw_v1"]
+default = []
 v1_2 = ["ffi/v1_2"]
 v1_4 = ["v1_2", "ffi/v1_4"]
-gtk_v4_2 = ["gtk/v4_2", "adw?/gtk_v4_2"]
-gtk_v4_4 = ["gtk_v4_2", "gtk/v4_4", "adw?/gtk_v4_4"]
-gtk_v4_6 = ["gtk_v4_4", "gtk/v4_6", "adw?/gtk_v4_6"]
-adw_v1 = ["dep:adw"]
-adw_v1_2 = ["adw_v1", "adw?/v1_2"]
+adw_v1_2 = ["adw/v1_2"]
 
 [package.metadata.docs.rs]
 rustdoc-args = ["--cfg", "docsrs"]
@@ -37,7 +33,7 @@ glib = { git = "https://github.com/gtk-rs/gtk-rs-core" }
 gio = { git = "https://github.com/gtk-rs/gtk-rs-core" }
 gdk = { git = "https://github.com/gtk-rs/gtk4-rs", package = "gdk4" }
 gtk = { git = "https://github.com/gtk-rs/gtk4-rs", package = "gtk4" }
-adw = { git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs", package = "libadwaita", optional = true }
+adw = { git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs", package = "libadwaita" }
 once_cell = "1.0"
 libc = "0.2.140"
 
