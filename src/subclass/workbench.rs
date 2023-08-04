@@ -108,7 +108,7 @@ unsafe impl<T: WorkbenchImpl> IsSubclassable<T> for Workbench {
         let klass = class.as_mut();
         klass.activate = Some(panel_workbench_activate::<T>);
         klass.unload_async = Some(panel_workbench_unload_async::<T>);
-        klass.unload_finish = Some(panel_workbench_unload_finish::<T>);
+        klass.unload_finish = Some(panel_workbench_unload_finish);
     }
 }
 
@@ -150,7 +150,7 @@ unsafe extern "C" fn panel_workbench_unload_async<T: WorkbenchImpl>(
     });
 }
 
-unsafe extern "C" fn panel_workbench_unload_finish<T: WorkbenchImpl>(
+unsafe extern "C" fn panel_workbench_unload_finish(
     workbench: *mut ffi::PanelWorkbench,
     res: *mut gio::ffi::GAsyncResult,
     error: *mut *mut glib::ffi::GError,

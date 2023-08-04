@@ -18,9 +18,9 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+use glib::once_cell::sync::Lazy;
 use gtk::{glib, prelude::*};
 use libpanel::{self as panel, prelude::*, subclass::prelude::*};
-use glib::once_cell::sync::Lazy;
 use std::{cell::RefCell, time::Duration};
 
 glib::wrapper! {
@@ -122,8 +122,8 @@ impl PanelWidgetImpl for ExamplePagePrivate {
     }
 }
 
-impl ExamplePage {
-    pub fn new() -> Self {
+impl Default for ExamplePage {
+    fn default() -> Self {
         glib::Object::new()
     }
 }

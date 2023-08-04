@@ -111,9 +111,9 @@ impl ExampleWindow {
         imp.document_count.set(count);
         let title = format!("Untitled Document {}", count);
 
-        let widget = ExamplePage::new();
+        let widget = ExamplePage::default();
         widget.set_title(Some(&title));
-        widget.set_kind(Some(&panel::WIDGET_KIND_DOCUMENT));
+        widget.set_kind(Some(panel::WIDGET_KIND_DOCUMENT));
         widget.set_icon_name(Some("text-x-generic-symbolic"));
         widget.set_menu_model(Some(&*imp.page_menu));
         widget.set_can_maximize(true);

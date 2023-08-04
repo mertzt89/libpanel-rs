@@ -79,7 +79,7 @@ unsafe impl<T: SaveDelegateImpl> IsSubclassable<T> for SaveDelegate {
         Self::parent_class_init::<T>(class);
         let klass = class.as_mut();
         klass.save_async = Some(panel_save_delegate_save_async::<T>);
-        klass.save_finish = Some(panel_save_delegate_save_finish::<T>);
+        klass.save_finish = Some(panel_save_delegate_save_finish);
     }
 }
 
@@ -114,7 +114,7 @@ unsafe extern "C" fn panel_save_delegate_save_async<T: SaveDelegateImpl>(
     });
 }
 
-unsafe extern "C" fn panel_save_delegate_save_finish<T: SaveDelegateImpl>(
+unsafe extern "C" fn panel_save_delegate_save_finish(
     delegate: *mut ffi::PanelSaveDelegate,
     res: *mut gio::ffi::GAsyncResult,
     error: *mut *mut glib::ffi::GError,

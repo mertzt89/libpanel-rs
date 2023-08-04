@@ -26,8 +26,6 @@ macro_rules! skip_assert_initialized {
 }
 
 #[allow(unused_imports)]
-#[allow(clippy::let_and_return)]
-#[allow(clippy::type_complexity)]
 mod auto;
 
 pub use auto::functions::*;
