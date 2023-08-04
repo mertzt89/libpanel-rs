@@ -29,15 +29,12 @@ rustdoc-args = ["--cfg", "docsrs"]
 [dependencies]
 futures-core = { version = "0.3", default-features = false }
 ffi = { package = "libpanel-sys", path = "./sys", version = "0.3.0" }
-glib = { git = "https://github.com/gtk-rs/gtk-rs-core" }
-gio = { git = "https://github.com/gtk-rs/gtk-rs-core" }
-gdk = { git = "https://github.com/gtk-rs/gtk4-rs", package = "gdk4" }
-gtk = { git = "https://github.com/gtk-rs/gtk4-rs", package = "gtk4" }
-adw = { git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs", package = "libadwaita" }
+glib = { git = "https://github.com/gtk-rs/gtk-rs-core", version = "0.19", branch = "master" }
+gio = { git = "https://github.com/gtk-rs/gtk-rs-core", version = "0.19", branch = "master"  }
+gdk = { git = "https://github.com/gtk-rs/gtk4-rs", package = "gdk4", version = "0.8", branch = "master"  }
+gtk = { git = "https://github.com/gtk-rs/gtk4-rs", package = "gtk4", version = "0.8", branch = "master"  }
+adw = { git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs", package = "libadwaita", version = "0.6", branch = "master"  }
 libc = "0.2.140"
-
-[dev-dependencies]
-adw = { git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs", package = "libadwaita" }
 
 [workspace]
 members = ["sys"]
