@@ -20,7 +20,7 @@
 
 use gtk::{glib, prelude::*};
 use libpanel::{self as panel, prelude::*, subclass::prelude::*};
-use once_cell::sync::Lazy;
+use glib::once_cell::sync::Lazy;
 use std::{cell::RefCell, time::Duration};
 
 glib::wrapper! {
