@@ -58,14 +58,14 @@ and/or use gtk-doc annotations.  -->
               c:identifier="panel_action_muxer_get_action_group">
         <doc xml:space="preserve"
              filename="src/panel-action-muxer.c"
-             line="390">Locates the #GActionGroup inserted as @prefix.
+             line="391">Locates the #GActionGroup inserted as @prefix.
 
 If no group was found matching @group, %NULL is returned.</doc>
         <source-position filename="src/panel-action-muxer.h" line="54"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="src/panel-action-muxer.c"
-               line="399">a #GActionGroup matching @prefix if
+               line="400">a #GActionGroup matching @prefix if
   found, otherwise %NULL.</doc>
           <type name="Gio.ActionGroup" c:type="GActionGroup*"/>
         </return-value>
@@ -73,13 +73,13 @@ If no group was found matching @group, %NULL is returned.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-action-muxer.c"
-                 line="392">a #PanelActionMuxer</doc>
+                 line="393">a #PanelActionMuxer</doc>
             <type name="ActionMuxer" c:type="PanelActionMuxer*"/>
           </instance-parameter>
           <parameter name="prefix" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-action-muxer.c"
-                 line="393">the name of the inserted action group</doc>
+                 line="394">the name of the inserted action group</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
         </parameters>
@@ -105,12 +105,12 @@ If no group was found matching @group, %NULL is returned.</doc>
       <method name="list_groups" c:identifier="panel_action_muxer_list_groups">
         <doc xml:space="preserve"
              filename="src/panel-action-muxer.c"
-             line="157">Gets a list of group names in the muxer.</doc>
+             line="158">Gets a list of group names in the muxer.</doc>
         <source-position filename="src/panel-action-muxer.h" line="52"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/panel-action-muxer.c"
-               line="163">
+               line="164">
   an array containing the names of groups within the muxer</doc>
           <array c:type="char**">
             <type name="utf8"/>
@@ -120,7 +120,7 @@ If no group was found matching @group, %NULL is returned.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-action-muxer.c"
-                 line="159">a #PanelActionMuxer</doc>
+                 line="160">a #PanelActionMuxer</doc>
             <type name="ActionMuxer" c:type="PanelActionMuxer*"/>
           </instance-parameter>
         </parameters>
@@ -1582,7 +1582,7 @@ above the panels.</doc>
       <method name="add" c:identifier="panel_frame_add">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1169">Adds a widget to the frame.</doc>
+             line="1170">Adds a widget to the frame.</doc>
         <source-position filename="src/panel-frame.h" line="59"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1591,13 +1591,13 @@ above the panels.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1171">a #PanelFrame</doc>
+                 line="1172">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="panel" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1172">a #PanelWidget to add</doc>
+                 line="1173">a #PanelWidget to add</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </parameter>
         </parameters>
@@ -1605,7 +1605,7 @@ above the panels.</doc>
       <method name="add_before" c:identifier="panel_frame_add_before">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1085">Add @panel before @sibling in the #PanelFrame.</doc>
+             line="1086">Add @panel before @sibling in the #PanelFrame.</doc>
         <source-position filename="src/panel-frame.h" line="62"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1614,19 +1614,19 @@ above the panels.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1087">a #PanelFrame</doc>
+                 line="1088">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="panel" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1088">the #PanelWidget to add.</doc>
+                 line="1089">the #PanelWidget to add.</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </parameter>
           <parameter name="sibling" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1089">the sibling #PanelWidget to add the panel before.</doc>
+                 line="1090">the sibling #PanelWidget to add the panel before.</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </parameter>
         </parameters>
@@ -1636,19 +1636,19 @@ above the panels.</doc>
               glib:get-property="closeable">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1636">Tells if the panel frame is closeable.</doc>
+             line="1637">Tells if the panel frame is closeable.</doc>
         <source-position filename="src/panel-frame.h" line="50"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/panel-frame.c"
-               line="1642">%TRUE if the panel frame is closeable.</doc>
+               line="1643">%TRUE if the panel frame is closeable.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1638">a #PanelFrame</doc>
+                 line="1639">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
         </parameters>
@@ -1658,19 +1658,19 @@ above the panels.</doc>
               glib:get-property="empty">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1231">Tells if the panel frame is empty.</doc>
+             line="1232">Tells if the panel frame is empty.</doc>
         <source-position filename="src/panel-frame.h" line="57"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/panel-frame.c"
-               line="1237">%TRUE if the panel is empty.</doc>
+               line="1238">%TRUE if the panel is empty.</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1233">a #PanelFrame</doc>
+                 line="1234">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
         </parameters>
@@ -1678,19 +1678,19 @@ above the panels.</doc>
       <method name="get_header" c:identifier="panel_frame_get_header">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1326">Gets the header for the frame.</doc>
+             line="1327">Gets the header for the frame.</doc>
         <source-position filename="src/panel-frame.h" line="52"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="src/panel-frame.c"
-               line="1332">a #PanelFrameHeader or %NULL</doc>
+               line="1333">a #PanelFrameHeader or %NULL</doc>
           <type name="FrameHeader" c:type="PanelFrameHeader*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1328">a #PanelFrame</doc>
+                 line="1329">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
         </parameters>
@@ -1698,19 +1698,19 @@ above the panels.</doc>
       <method name="get_n_pages" c:identifier="panel_frame_get_n_pages">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1450">Gets the number of pages in the panel frame.</doc>
+             line="1451">Gets the number of pages in the panel frame.</doc>
         <source-position filename="src/panel-frame.h" line="83"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/panel-frame.c"
-               line="1456">The number of pages.</doc>
+               line="1457">The number of pages.</doc>
           <type name="guint" c:type="guint"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1452">a #PanelFrame</doc>
+                 line="1453">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
         </parameters>
@@ -1718,25 +1718,25 @@ above the panels.</doc>
       <method name="get_page" c:identifier="panel_frame_get_page">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1468">Gets the page with the given index, if any.</doc>
+             line="1469">Gets the page with the given index, if any.</doc>
         <source-position filename="src/panel-frame.h" line="78"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="src/panel-frame.c"
-               line="1475">a #PanelWidget or %NULL</doc>
+               line="1476">a #PanelWidget or %NULL</doc>
           <type name="Widget" c:type="PanelWidget*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1470">a #PanelFrame</doc>
+                 line="1471">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="n" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1471">the index of the page</doc>
+                 line="1472">the index of the page</doc>
             <type name="guint" c:type="guint"/>
           </parameter>
         </parameters>
@@ -1744,19 +1744,19 @@ above the panels.</doc>
       <method name="get_pages" c:identifier="panel_frame_get_pages">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1392">Get the pages for the frame.</doc>
+             line="1393">Get the pages for the frame.</doc>
         <source-position filename="src/panel-frame.h" line="81"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/panel-frame.c"
-               line="1398">a #GtkSelectionModel</doc>
+               line="1399">a #GtkSelectionModel</doc>
           <type name="Gtk.SelectionModel" c:type="GtkSelectionModel*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1394">a #PanelFrame</doc>
+                 line="1395">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
         </parameters>
@@ -1766,19 +1766,19 @@ above the panels.</doc>
               glib:get-property="placeholder">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1493">Gets the placeholder widget, if any.</doc>
+             line="1494">Gets the placeholder widget, if any.</doc>
         <source-position filename="src/panel-frame.h" line="85"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="src/panel-frame.c"
-               line="1499">a #GtkWidget or %NULL</doc>
+               line="1500">a #GtkWidget or %NULL</doc>
           <type name="Gtk.Widget" c:type="GtkWidget*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1495">a #PanelFrame</doc>
+                 line="1496">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
         </parameters>
@@ -1786,19 +1786,19 @@ above the panels.</doc>
       <method name="get_position" c:identifier="panel_frame_get_position">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1654">Gets the #PanelPosition for the frame.</doc>
+             line="1655">Gets the #PanelPosition for the frame.</doc>
         <source-position filename="src/panel-frame.h" line="90"/>
         <return-value transfer-ownership="full">
           <doc xml:space="preserve"
                filename="src/panel-frame.c"
-               line="1660">a #PanelPosition</doc>
+               line="1661">a #PanelPosition</doc>
           <type name="Position" c:type="PanelPosition*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1656">a #PanelFrame</doc>
+                 line="1657">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
         </parameters>
@@ -1807,19 +1807,19 @@ above the panels.</doc>
               c:identifier="panel_frame_get_requested_size">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1709">Gets the requested size for the panel frame.</doc>
+             line="1710">Gets the requested size for the panel frame.</doc>
         <source-position filename="src/panel-frame.h" line="92"/>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/panel-frame.c"
-               line="1715">the requested size.</doc>
+               line="1716">the requested size.</doc>
           <type name="gint" c:type="int"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1711">a %PanelFrame</doc>
+                 line="1712">a %PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
         </parameters>
@@ -1829,19 +1829,19 @@ above the panels.</doc>
               glib:get-property="visible-child">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1249">Gets the widget of the currently visible child.</doc>
+             line="1250">Gets the widget of the currently visible child.</doc>
         <source-position filename="src/panel-frame.h" line="72"/>
         <return-value transfer-ownership="none" nullable="1">
           <doc xml:space="preserve"
                filename="src/panel-frame.c"
-               line="1255">a #PanelWidget or %NULL</doc>
+               line="1256">a #PanelWidget or %NULL</doc>
           <type name="Widget" c:type="PanelWidget*"/>
         </return-value>
         <parameters>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1251">a #PanelFrame</doc>
+                 line="1252">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
         </parameters>
@@ -1849,7 +1849,7 @@ above the panels.</doc>
       <method name="remove" c:identifier="panel_frame_remove">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1183">Removes a widget from the frame.</doc>
+             line="1184">Removes a widget from the frame.</doc>
         <source-position filename="src/panel-frame.h" line="66"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1858,13 +1858,13 @@ above the panels.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1185">a #PanelFrame</doc>
+                 line="1186">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="panel" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1186">a #PanelWidget to remove.</doc>
+                 line="1187">a #PanelWidget to remove.</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </parameter>
         </parameters>
@@ -1874,7 +1874,7 @@ above the panels.</doc>
               version="1.2">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1291">Set pinned state of @child.</doc>
+             line="1292">Set pinned state of @child.</doc>
         <source-position filename="src/panel-frame.h" line="74"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1883,19 +1883,19 @@ above the panels.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1293">a #PanelFrame</doc>
+                 line="1294">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="child" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1294">a #PanelWidget</doc>
+                 line="1295">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </parameter>
           <parameter name="pinned" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1295">if @widget should be pinned</doc>
+                 line="1296">if @widget should be pinned</doc>
             <type name="gboolean" c:type="gboolean"/>
           </parameter>
         </parameters>
@@ -1903,7 +1903,7 @@ above the panels.</doc>
       <method name="set_header" c:identifier="panel_frame_set_header">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1345">Sets the header for the frame, such as a #PanelFrameSwitcher.</doc>
+             line="1346">Sets the header for the frame, such as a #PanelFrameSwitcher.</doc>
         <source-position filename="src/panel-frame.h" line="54"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1912,7 +1912,7 @@ above the panels.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1347">a #PanelFrame</doc>
+                 line="1348">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="header"
@@ -1921,7 +1921,7 @@ above the panels.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1348">a #PanelFrameHeader</doc>
+                 line="1349">a #PanelFrameHeader</doc>
             <type name="FrameHeader" c:type="PanelFrameHeader*"/>
           </parameter>
         </parameters>
@@ -1931,7 +1931,7 @@ above the panels.</doc>
               glib:set-property="placeholder">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1511">Sets the placeholder widget for the frame.
+             line="1512">Sets the placeholder widget for the frame.
 
 The placeholder widget is displayed when there are no pages
 to display in the frame.</doc>
@@ -1943,7 +1943,7 @@ to display in the frame.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1513">a #PanelFrame</doc>
+                 line="1514">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="placeholder"
@@ -1952,7 +1952,7 @@ to display in the frame.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1514">a #GtkWidget or %NULL</doc>
+                 line="1515">a #GtkWidget or %NULL</doc>
             <type name="Gtk.Widget" c:type="GtkWidget*"/>
           </parameter>
         </parameters>
@@ -1961,7 +1961,7 @@ to display in the frame.</doc>
               c:identifier="panel_frame_set_requested_size">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1730">Sets the requested size for the panel frame.</doc>
+             line="1731">Sets the requested size for the panel frame.</doc>
         <source-position filename="src/panel-frame.h" line="94"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1970,13 +1970,13 @@ to display in the frame.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1732">a %PanelFrame.</doc>
+                 line="1733">a %PanelFrame.</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="requested_size" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1733">the requested size.</doc>
+                 line="1734">the requested size.</doc>
             <type name="gint" c:type="int"/>
           </parameter>
         </parameters>
@@ -1986,7 +1986,7 @@ to display in the frame.</doc>
               glib:set-property="visible-child">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="1270">Sets the current page to the child specified in @widget.</doc>
+             line="1271">Sets the current page to the child specified in @widget.</doc>
         <source-position filename="src/panel-frame.h" line="69"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -1995,13 +1995,13 @@ to display in the frame.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1272">a #PanelFrame</doc>
+                 line="1273">a #PanelFrame</doc>
             <type name="Frame" c:type="PanelFrame*"/>
           </instance-parameter>
           <parameter name="widget" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="1273">a #PanelWidget</doc>
+                 line="1274">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </parameter>
         </parameters>
@@ -2038,21 +2038,21 @@ to display in the frame.</doc>
       <glib:signal name="adopt-widget" when="last" version="1.2">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="944">This signal is emitted when the frame should decide if it can adopt
+             line="945">This signal is emitted when the frame should decide if it can adopt
 a #PanelWidget dropped on the frame.
 
 If @GDK_EVENT_STOP is returned, then the widget will not be adopted.</doc>
         <return-value transfer-ownership="none">
           <doc xml:space="preserve"
                filename="src/panel-frame.c"
-               line="954">%GDK_EVENT_STOP or %GDK_EVENT_PROPAGATE</doc>
+               line="955">%GDK_EVENT_STOP or %GDK_EVENT_PROPAGATE</doc>
           <type name="gboolean" c:type="gboolean"/>
         </return-value>
         <parameters>
           <parameter name="widget" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="947">a #PanelWidget</doc>
+                 line="948">a #PanelWidget</doc>
             <type name="Widget"/>
           </parameter>
         </parameters>
@@ -2060,7 +2060,7 @@ If @GDK_EVENT_STOP is returned, then the widget will not be adopted.</doc>
       <glib:signal name="page-closed" when="last" version="1.2">
         <doc xml:space="preserve"
              filename="src/panel-frame.c"
-             line="969">This signal is emitted when the page widget will be closed.</doc>
+             line="970">This signal is emitted when the page widget will be closed.</doc>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
         </return-value>
@@ -2068,7 +2068,7 @@ If @GDK_EVENT_STOP is returned, then the widget will not be adopted.</doc>
           <parameter name="widget" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-frame.c"
-                 line="972">a #PanelWidget</doc>
+                 line="973">a #PanelWidget</doc>
             <type name="Widget"/>
           </parameter>
         </parameters>
@@ -7751,7 +7751,7 @@ return the #GtkTextView inside your widgetry.</doc>
       <method name="force_close" c:identifier="panel_widget_force_close">
         <doc xml:space="preserve"
              filename="src/panel-widget.c"
-             line="1458">Closes the widget without any save dialogs.</doc>
+             line="1508">Closes the widget without any save dialogs.</doc>
         <source-position filename="src/panel-widget.h" line="138"/>
         <return-value transfer-ownership="none">
           <type name="none" c:type="void"/>
@@ -7760,7 +7760,7 @@ return the #GtkTextView inside your widgetry.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-widget.c"
-                 line="1460">a #PanelWidget</doc>
+                 line="1510">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
         </parameters>
@@ -7981,12 +7981,12 @@ for the page to the user via menus.</doc>
       <method name="get_position" c:identifier="panel_widget_get_position">
         <doc xml:space="preserve"
              filename="src/panel-widget.c"
-             line="1686">Gets teh position of the widget within the dock.</doc>
+             line="1736">Gets teh position of the widget within the dock.</doc>
         <source-position filename="src/panel-widget.h" line="123"/>
         <return-value transfer-ownership="full" nullable="1">
           <doc xml:space="preserve"
                filename="src/panel-widget.c"
-               line="1692">a #PanelPosition or %NULL if the
+               line="1742">a #PanelPosition or %NULL if the
   widget isn't within a #PanelFrame.</doc>
           <type name="Position" c:type="PanelPosition*"/>
         </return-value>
@@ -7994,7 +7994,7 @@ for the page to the user via menus.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-widget.c"
-                 line="1688">a #PanelWidget</doc>
+                 line="1738">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
         </parameters>
@@ -8380,7 +8380,7 @@ for the page to the user via menus.</doc>
               glib:set-property="save-delegate">
         <doc xml:space="preserve"
              filename="src/panel-widget.c"
-             line="1412">Sets the #PanelWidget:save-delegate property.
+             line="1423">Sets the #PanelWidget:save-delegate property.
 
 The save delegate may be used to perform save operations on the
 content within the widget.
@@ -8394,7 +8394,7 @@ Document editors might use this to save the file to disk.</doc>
           <instance-parameter name="self" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-widget.c"
-                 line="1414">a #PanelWidget</doc>
+                 line="1425">a #PanelWidget</doc>
             <type name="Widget" c:type="PanelWidget*"/>
           </instance-parameter>
           <parameter name="save_delegate"
@@ -8403,7 +8403,7 @@ Document editors might use this to save the file to disk.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/panel-widget.c"
-                 line="1415">a #PanelSaveDelegate or %NULL</doc>
+                 line="1426">a #PanelSaveDelegate or %NULL</doc>
             <type name="SaveDelegate" c:type="PanelSaveDelegate*"/>
           </parameter>
         </parameters>
@@ -8691,7 +8691,7 @@ to the front of a frame.</doc>
               c:identifier="panel_widget_class_install_action">
         <doc xml:space="preserve"
              filename="src/panel-widget.c"
-             line="1532">This should be called at class initialization time to specify
+             line="1582">This should be called at class initialization time to specify
 actions to be added for all instances of this class.
 
 Actions installed by this function are stateless. The only state
@@ -8704,13 +8704,13 @@ they have is whether they are enabled or not.</doc>
           <instance-parameter name="widget_class" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-widget.c"
-                 line="1534">a `PanelWidgetClass`</doc>
+                 line="1584">a `PanelWidgetClass`</doc>
             <type name="WidgetClass" c:type="PanelWidgetClass*"/>
           </instance-parameter>
           <parameter name="action_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-widget.c"
-                 line="1535">a prefixed action name, such as "clipboard.paste"</doc>
+                 line="1585">a prefixed action name, such as "clipboard.paste"</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="parameter_type"
@@ -8719,7 +8719,7 @@ they have is whether they are enabled or not.</doc>
                      allow-none="1">
             <doc xml:space="preserve"
                  filename="src/panel-widget.c"
-                 line="1536">the parameter type</doc>
+                 line="1586">the parameter type</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="activate"
@@ -8727,7 +8727,7 @@ they have is whether they are enabled or not.</doc>
                      scope="notified">
             <doc xml:space="preserve"
                  filename="src/panel-widget.c"
-                 line="1537">callback to use when the action is activated</doc>
+                 line="1587">callback to use when the action is activated</doc>
             <type name="Gtk.WidgetActionActivateFunc"
                   c:type="GtkWidgetActionActivateFunc"/>
           </parameter>
@@ -8737,7 +8737,7 @@ they have is whether they are enabled or not.</doc>
               c:identifier="panel_widget_class_install_property_action">
         <doc xml:space="preserve"
              filename="src/panel-widget.c"
-             line="1598">Installs an action called @action_name on @widget_class and
+             line="1648">Installs an action called @action_name on @widget_class and
 binds its state to the value of the @property_name property.
 
 This function will perform a few santity checks on the property selected
@@ -8760,19 +8760,19 @@ of the same type as the property.</doc>
           <instance-parameter name="widget_class" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-widget.c"
-                 line="1600">a `GtkWidgetClass`</doc>
+                 line="1650">a `GtkWidgetClass`</doc>
             <type name="WidgetClass" c:type="PanelWidgetClass*"/>
           </instance-parameter>
           <parameter name="action_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-widget.c"
-                 line="1601">name of the action</doc>
+                 line="1651">name of the action</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
           <parameter name="property_name" transfer-ownership="none">
             <doc xml:space="preserve"
                  filename="src/panel-widget.c"
-                 line="1602">name of the property in instances of @widget_class
+                 line="1652">name of the property in instances of @widget_class
   or any parent class.</doc>
             <type name="utf8" c:type="const char*"/>
           </parameter>
