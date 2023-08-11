@@ -15,7 +15,9 @@ documentation = "https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/stable/la
 include = ["/src", "/tests", "/build.rs", "/COPYING"]
 
 [package.metadata.docs.rs]
-features = []
+all-features = true
+rustc-args = ["--cfg", "docsrs"]
+rustdoc-args = ["--cfg", "docsrs"]
 
 [package.metadata.system-deps.libpanel_1]
 name = "libpanel-1"
