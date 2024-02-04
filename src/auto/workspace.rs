@@ -10,10 +10,9 @@ use crate::{Inhibitor, Workbench};
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
 use glib::signal::{connect_raw, SignalHandlerId};
 use glib::{prelude::*, translate::*};
-use std::fmt;
 #[cfg(feature = "v1_4")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-use std::{boxed::Box as Box_, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     #[doc(alias = "PanelWorkspace")]
@@ -342,7 +341,7 @@ pub trait WorkspaceExt: IsA<Workspace> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -352,9 +351,3 @@ pub trait WorkspaceExt: IsA<Workspace> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<Workspace>> WorkspaceExt for O {}
-
-impl fmt::Display for Workspace {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("Workspace")
-    }
-}

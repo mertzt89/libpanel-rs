@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::{prelude::*, translate::*};
-use std::fmt;
 
 #[derive(Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Clone, Copy)]
 #[non_exhaustive]
@@ -22,23 +21,6 @@ pub enum Area {
     Center,
     #[doc(hidden)]
     __Unknown(i32),
-}
-
-impl fmt::Display for Area {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(
-            f,
-            "Area::{}",
-            match *self {
-                Self::Start => "Start",
-                Self::End => "End",
-                Self::Top => "Top",
-                Self::Bottom => "Bottom",
-                Self::Center => "Center",
-                _ => "Unknown",
-            }
-        )
-    }
 }
 
 #[doc(hidden)]
@@ -77,6 +59,7 @@ impl FromGlib<ffi::PanelArea> for Area {
 
 impl StaticType for Area {
     #[inline]
+    #[doc(alias = "panel_area_get_type")]
     fn static_type() -> glib::Type {
         unsafe { from_glib(ffi::panel_area_get_type()) }
     }
@@ -88,7 +71,7 @@ impl glib::HasParamSpec for Area {
     type BuilderFn = fn(&str, Self) -> glib::ParamSpecEnumBuilder<Self>;
 
     fn param_spec_builder() -> Self::BuilderFn {
-        |name, default_value| Self::ParamSpec::builder_with_default(name, default_value)
+        Self::ParamSpec::builder_with_default
     }
 }
 

@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::{prelude::*, translate::*};
-use std::fmt;
 
 glib::wrapper! {
     #[doc(alias = "PanelGSettingsActionGroup")]
@@ -18,11 +17,5 @@ glib::wrapper! {
 impl GSettingsActionGroup {
     pub fn settings(&self) -> Option<gio::Settings> {
         ObjectExt::property(self, "settings")
-    }
-}
-
-impl fmt::Display for GSettingsActionGroup {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("GSettingsActionGroup")
     }
 }

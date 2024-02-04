@@ -7,10 +7,6 @@
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
 use glib::prelude::*;
 use glib::translate::*;
-use std::fmt;
-#[cfg(feature = "v1_4")]
-#[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-use std::mem;
 
 glib::wrapper! {
     #[doc(alias = "PanelMenuManager")]
@@ -33,7 +29,7 @@ impl MenuManager {
     #[doc(alias = "panel_menu_manager_find_item_by_id")]
     pub fn find_item_by_id(&self, id: &str) -> (Option<gio::Menu>, u32) {
         unsafe {
-            let mut position = mem::MaybeUninit::uninit();
+            let mut position = std::mem::MaybeUninit::uninit();
             let ret = from_glib_none(ffi::panel_menu_manager_find_item_by_id(
                 self.to_glib_none().0,
                 id.to_glib_none().0,
@@ -115,11 +111,5 @@ impl MenuManager {
 impl Default for MenuManager {
     fn default() -> Self {
         Self::new()
-    }
-}
-
-impl fmt::Display for MenuManager {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("MenuManager")
     }
 }

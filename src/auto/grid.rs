@@ -9,7 +9,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute, pin::Pin, ptr};
+use std::{boxed::Box as Box_, pin::Pin};
 
 glib::wrapper! {
     #[doc(alias = "PanelGrid")]
@@ -293,7 +293,7 @@ pub trait PanelGridExt: IsA<Grid> + sealed::Sealed + 'static {
             res: *mut gio::ffi::GAsyncResult,
             user_data: glib::ffi::gpointer,
         ) {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let _ =
                 ffi::panel_grid_agree_to_close_finish(_source_object as *mut _, res, &mut error);
             let result = if error.is_null() {
@@ -335,7 +335,7 @@ pub trait PanelGridExt: IsA<Grid> + sealed::Sealed + 'static {
             user_data: glib::ffi::gpointer,
         ) {
             let frame = from_glib_borrow(frame);
-            let callback: *mut P = user_data as *const _ as usize as *mut P;
+            let callback = user_data as *mut P;
             (*callback)(&frame)
         }
         let callback = Some(callback_func::<P> as _);
@@ -344,7 +344,7 @@ pub trait PanelGridExt: IsA<Grid> + sealed::Sealed + 'static {
             ffi::panel_grid_foreach_frame(
                 self.as_ref().to_glib_none().0,
                 callback,
-                super_callback0 as *const _ as usize as *mut _,
+                super_callback0 as *const _ as *mut _,
             );
         }
     }
@@ -407,7 +407,7 @@ pub trait PanelGridExt: IsA<Grid> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"create-frame\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     create_frame_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -417,9 +417,3 @@ pub trait PanelGridExt: IsA<Grid> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<Grid>> PanelGridExt for O {}
-
-impl fmt::Display for Grid {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("Grid")
-    }
-}

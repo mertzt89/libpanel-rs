@@ -5,10 +5,6 @@
 
 use crate::SessionItem;
 use glib::translate::*;
-use std::fmt;
-#[cfg(feature = "v1_4")]
-#[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
-use std::ptr;
 
 glib::wrapper! {
     #[doc(alias = "PanelSession")]
@@ -33,7 +29,7 @@ impl Session {
     pub fn from_variant(variant: &glib::Variant) -> Result<Session, glib::Error> {
         assert_initialized_main_thread!();
         unsafe {
-            let mut error = ptr::null_mut();
+            let mut error = std::ptr::null_mut();
             let ret = ffi::panel_session_new_from_variant(variant.to_glib_none().0, &mut error);
             if error.is_null() {
                 Ok(from_glib_full(ret))
@@ -113,11 +109,5 @@ impl Session {
 impl Default for Session {
     fn default() -> Self {
         Self::new()
-    }
-}
-
-impl fmt::Display for Session {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("Session")
     }
 }

@@ -9,7 +9,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     #[doc(alias = "PanelSessionItem")]
@@ -166,7 +166,7 @@ impl SessionItem {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_id_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -189,7 +189,7 @@ impl SessionItem {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::module-name\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_module_name_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -212,7 +212,7 @@ impl SessionItem {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::position\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_position_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -235,7 +235,7 @@ impl SessionItem {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::type-hint\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_type_hint_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -258,7 +258,7 @@ impl SessionItem {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::workspace\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_workspace_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -324,11 +324,5 @@ impl SessionItemBuilder {
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> SessionItem {
         self.builder.build()
-    }
-}
-
-impl fmt::Display for SessionItem {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("SessionItem")
     }
 }

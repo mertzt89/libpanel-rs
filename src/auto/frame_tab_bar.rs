@@ -9,7 +9,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     #[doc(alias = "PanelFrameTabBar")]
@@ -96,7 +96,7 @@ impl FrameTabBar {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::autohide\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_autohide_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -119,7 +119,7 @@ impl FrameTabBar {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::expand-tabs\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_expand_tabs_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -142,7 +142,7 @@ impl FrameTabBar {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::inverted\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_inverted_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -386,11 +386,5 @@ impl FrameTabBarBuilder {
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> FrameTabBar {
         self.builder.build()
-    }
-}
-
-impl fmt::Display for FrameTabBar {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("FrameTabBar")
     }
 }

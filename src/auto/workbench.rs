@@ -9,7 +9,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     #[doc(alias = "PanelWorkbench")]
@@ -154,7 +154,7 @@ pub trait WorkbenchExt: IsA<Workbench> + sealed::Sealed + 'static {
             user_data: glib::ffi::gpointer,
         ) {
             let workspace = from_glib_borrow(workspace);
-            let callback: *mut P = user_data as *const _ as usize as *mut P;
+            let callback = user_data as *mut P;
             (*callback)(&workspace)
         }
         let foreach_func = Some(foreach_func_func::<P> as _);
@@ -163,7 +163,7 @@ pub trait WorkbenchExt: IsA<Workbench> + sealed::Sealed + 'static {
             ffi::panel_workbench_foreach_workspace(
                 self.as_ref().to_glib_none().0,
                 foreach_func,
-                super_callback0 as *const _ as usize as *mut _,
+                super_callback0 as *const _ as *mut _,
             );
         }
     }
@@ -205,7 +205,7 @@ pub trait WorkbenchExt: IsA<Workbench> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"activate\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     activate_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -230,7 +230,7 @@ pub trait WorkbenchExt: IsA<Workbench> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::id\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -240,9 +240,3 @@ pub trait WorkbenchExt: IsA<Workbench> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<Workbench>> WorkbenchExt for O {}
-
-impl fmt::Display for Workbench {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("Workbench")
-    }
-}

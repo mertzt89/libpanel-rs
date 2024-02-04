@@ -93,7 +93,7 @@ pub use self::workspace::Workspace;
 mod enums;
 pub use self::enums::Area;
 
-pub mod functions;
+pub(crate) mod functions;
 
 mod constants;
 pub use self::constants::VERSION_S;
@@ -102,8 +102,7 @@ pub use self::constants::WIDGET_KIND_DOCUMENT;
 pub use self::constants::WIDGET_KIND_UNKNOWN;
 pub use self::constants::WIDGET_KIND_UTILITY;
 
-#[doc(hidden)]
-pub mod traits {
+pub(crate) mod traits {
     pub use super::dock::DockExt;
     pub use super::document_workspace::DocumentWorkspaceExt;
     pub use super::frame::PanelFrameExt;
@@ -115,8 +114,7 @@ pub mod traits {
     pub use super::workbench::WorkbenchExt;
     pub use super::workspace::WorkspaceExt;
 }
-#[doc(hidden)]
-pub mod builders {
+pub(crate) mod builders {
     pub use super::dock::DockBuilder;
     pub use super::document_workspace::DocumentWorkspaceBuilder;
     pub use super::frame::FrameBuilder;

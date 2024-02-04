@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::{prelude::*, translate::*};
-use std::fmt;
 
 glib::wrapper! {
     #[doc(alias = "PanelActionMuxer")]
@@ -74,11 +73,5 @@ impl ActionMuxer {
 impl Default for ActionMuxer {
     fn default() -> Self {
         Self::new()
-    }
-}
-
-impl fmt::Display for ActionMuxer {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("ActionMuxer")
     }
 }

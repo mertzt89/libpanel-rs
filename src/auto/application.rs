@@ -4,7 +4,6 @@
 // DO NOT EDIT
 
 use glib::translate::*;
-use std::fmt;
 
 glib::wrapper! {
     #[doc(alias = "PanelApplication")]
@@ -27,11 +26,5 @@ impl Application {
                 flags.into_glib(),
             ))
         }
-    }
-}
-
-impl fmt::Display for Application {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("Application")
     }
 }

@@ -12,7 +12,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     #[doc(alias = "PanelDocumentWorkspace")]
@@ -391,7 +391,7 @@ pub trait DocumentWorkspaceExt: IsA<DocumentWorkspace> + sealed::Sealed + 'stati
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"add-widget\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     add_widget_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -426,7 +426,7 @@ pub trait DocumentWorkspaceExt: IsA<DocumentWorkspace> + sealed::Sealed + 'stati
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"create-frame\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     create_frame_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -452,7 +452,7 @@ pub trait DocumentWorkspaceExt: IsA<DocumentWorkspace> + sealed::Sealed + 'stati
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dock\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_dock_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -478,7 +478,7 @@ pub trait DocumentWorkspaceExt: IsA<DocumentWorkspace> + sealed::Sealed + 'stati
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::grid\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_grid_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -504,7 +504,7 @@ pub trait DocumentWorkspaceExt: IsA<DocumentWorkspace> + sealed::Sealed + 'stati
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::statusbar\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_statusbar_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -514,9 +514,3 @@ pub trait DocumentWorkspaceExt: IsA<DocumentWorkspace> + sealed::Sealed + 'stati
 }
 
 impl<O: IsA<DocumentWorkspace>> DocumentWorkspaceExt for O {}
-
-impl fmt::Display for DocumentWorkspace {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("DocumentWorkspace")
-    }
-}

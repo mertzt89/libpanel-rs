@@ -5,7 +5,6 @@
 
 use crate::Frame;
 use glib::{prelude::*, translate::*};
-use std::fmt;
 
 glib::wrapper! {
     #[doc(alias = "PanelGridColumn")]
@@ -39,7 +38,7 @@ impl GridColumn {
             user_data: glib::ffi::gpointer,
         ) {
             let frame = from_glib_borrow(frame);
-            let callback: *mut P = user_data as *const _ as usize as *mut P;
+            let callback = user_data as *mut P;
             (*callback)(&frame)
         }
         let callback = Some(callback_func::<P> as _);
@@ -48,7 +47,7 @@ impl GridColumn {
             ffi::panel_grid_column_foreach_frame(
                 self.to_glib_none().0,
                 callback,
-                super_callback0 as *const _ as usize as *mut _,
+                super_callback0 as *const _ as *mut _,
             );
         }
     }
@@ -293,11 +292,5 @@ impl GridColumnBuilder {
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> GridColumn {
         self.builder.build()
-    }
-}
-
-impl fmt::Display for GridColumn {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("GridColumn")
     }
 }

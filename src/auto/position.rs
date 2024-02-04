@@ -9,7 +9,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     #[doc(alias = "PanelPosition")]
@@ -185,7 +185,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::area\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_area_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -208,7 +208,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::area-set\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_area_set_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -231,7 +231,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::column\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_column_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -254,7 +254,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::column-set\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_column_set_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -277,7 +277,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::depth\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_depth_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -300,7 +300,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::depth-set\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_depth_set_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -323,7 +323,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::row\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_row_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -346,7 +346,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::row-set\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_row_set_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -430,11 +430,5 @@ impl PositionBuilder {
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
     pub fn build(self) -> Position {
         self.builder.build()
-    }
-}
-
-impl fmt::Display for Position {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("Position")
     }
 }

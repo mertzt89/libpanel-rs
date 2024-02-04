@@ -12,7 +12,7 @@ use glib::{
     signal::{connect_raw, SignalHandlerId},
     translate::*,
 };
-use std::{boxed::Box as Box_, fmt, mem::transmute};
+use std::boxed::Box as Box_;
 
 glib::wrapper! {
     #[doc(alias = "PanelDock")]
@@ -317,7 +317,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             user_data: glib::ffi::gpointer,
         ) {
             let frame = from_glib_borrow(frame);
-            let callback: *mut P = user_data as *const _ as usize as *mut P;
+            let callback = user_data as *mut P;
             (*callback)(&frame)
         }
         let callback = Some(callback_func::<P> as _);
@@ -326,7 +326,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             ffi::panel_dock_foreach_frame(
                 self.as_ref().to_glib_none().0,
                 callback,
-                super_callback0 as *const _ as usize as *mut _,
+                super_callback0 as *const _ as *mut _,
             );
         }
     }
@@ -563,7 +563,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"adopt-widget\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     adopt_widget_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -598,7 +598,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"create-frame\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     create_frame_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -627,7 +627,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"panel-drag-begin\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     panel_drag_begin_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -656,7 +656,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"panel-drag-end\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     panel_drag_end_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -679,7 +679,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::bottom-height\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_bottom_height_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -705,7 +705,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::can-reveal-bottom\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_can_reveal_bottom_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -728,7 +728,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::can-reveal-end\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_can_reveal_end_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -754,7 +754,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::can-reveal-start\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_can_reveal_start_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -777,7 +777,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::can-reveal-top\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_can_reveal_top_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -800,7 +800,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::end-width\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_end_width_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -823,7 +823,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::reveal-bottom\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_reveal_bottom_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -846,7 +846,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::reveal-end\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_reveal_end_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -869,7 +869,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::reveal-start\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_reveal_start_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -892,7 +892,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::reveal-top\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_reveal_top_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -915,7 +915,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::start-width\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_start_width_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -938,7 +938,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::top-height\0".as_ptr() as *const _,
-                Some(transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
                     notify_top_height_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -948,9 +948,3 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
 }
 
 impl<O: IsA<Dock>> DockExt for O {}
-
-impl fmt::Display for Dock {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        f.write_str("Dock")
-    }
-}
