@@ -1,6 +1,6 @@
 [package]
 name = "libpanel-sys"
-version = "0.3.0"
+version = "0.5.0"
 authors = ["Jason Francis <jafrancis999@gmail.com>"]
 edition = "2021"
 build = "build.rs"
