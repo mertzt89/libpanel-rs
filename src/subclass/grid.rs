@@ -1,7 +1,5 @@
-use crate::Frame;
-use crate::Grid;
+use crate::{prelude::*, Frame, Grid};
 use glib::translate::*;
-use glib::Cast;
 use gtk::subclass::prelude::*;
 
 pub trait PanelGridImpl: WidgetImpl {

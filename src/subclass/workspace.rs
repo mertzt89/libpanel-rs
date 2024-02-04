@@ -1,7 +1,6 @@
-use crate::Workspace;
+use crate::{prelude::*, Workspace};
 use adw::subclass::prelude::*;
 use glib::translate::*;
-use glib::Cast;
 use glib::GString;
 use glib::Variant;
 use std::collections::HashMap;

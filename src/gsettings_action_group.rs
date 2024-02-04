@@ -1,5 +1,5 @@
-use crate::GSettingsActionGroup;
-use glib::{translate::*, Cast, IsA};
+use crate::{prelude::*, GSettingsActionGroup};
+use glib::translate::*;
 
 impl GSettingsActionGroup {
     #[doc(alias = "panel_gsettings_action_group_new")]

@@ -1,4 +1,4 @@
-use crate::SessionItem;
+use crate::{prelude::*, SessionItem};
 use glib::translate::*;
 use std::ptr;
 
@@ -6,7 +6,7 @@ impl SessionItem {
     #[doc(alias = "panel_session_item_get_metadata")]
     #[doc(alias = "get_metadata")]
     #[inline]
-    pub fn metadata<T: glib::FromVariant>(&self, key: &str) -> Option<T> {
+    pub fn metadata<T: FromVariant>(&self, key: &str) -> Option<T> {
         self.metadata_value(key, Some(&*T::static_variant_type()))
             .and_then(|t| t.get())
     }
@@ -41,7 +41,7 @@ impl SessionItem {
 
     #[doc(alias = "panel_session_item_set_metadata")]
     #[inline]
-    pub fn set_metadata<T: glib::ToVariant>(&self, key: &str, value: Option<T>) {
+    pub fn set_metadata<T: ToVariant>(&self, key: &str, value: Option<T>) {
         self.set_metadata_value(key, value.map(|v| v.to_variant()).as_ref())
     }
 }

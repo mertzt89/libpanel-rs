@@ -18,7 +18,6 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-use glib::once_cell::sync::Lazy;
 use gtk::{glib, prelude::*};
 use libpanel::{self as panel, prelude::*, subclass::prelude::*};
 use std::{cell::RefCell, time::Duration};
@@ -56,7 +55,9 @@ fn tick(delegate: &panel::SaveDelegate, task: &gio::Task<bool>) -> Result<bool, 
 
 impl ObjectImpl for ExamplePagePrivate {
     fn properties() -> &'static [glib::ParamSpec] {
-        static PROPERTIES: Lazy<Vec<glib::ParamSpec>> = Lazy::new(|| {
+        use std::sync::OnceLock;
+        static PROPERTIES: OnceLock<Vec<glib::ParamSpec>> = OnceLock::new();
+        PROPERTIES.get_or_init(|| {
             vec![
                 glib::ParamSpecString::builder("command-text")
                     .read_only()
@@ -65,8 +66,7 @@ impl ObjectImpl for ExamplePagePrivate {
                     .read_only()
                     .build(),
             ]
-        });
-        PROPERTIES.as_ref()
+        })
     }
     fn property(&self, _id: usize, pspec: &glib::ParamSpec) -> glib::Value {
         match pspec.name() {

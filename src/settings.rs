@@ -1,5 +1,5 @@
-use crate::Settings;
-use glib::{translate::*, Cast, IsA};
+use crate::{prelude::*, Settings};
+use glib::translate::*;
 use std::ffi::c_void;
 
 impl Settings {

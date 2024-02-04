@@ -71,10 +71,10 @@ impl ObjectSubclass for ExampleWindowPrivate {
         });
         klass.install_action("project.build", None, |_obj, _name, _args| {});
         use gdk::ModifierType as mods;
-        klass.add_binding_action(gdk::Key::n, mods::CONTROL_MASK, "document.new", None);
-        klass.add_binding_action(gdk::Key::F9, mods::empty(), "win.reveal-start", None);
-        klass.add_binding_action(gdk::Key::F9, mods::CONTROL_MASK, "win.reveal-bottom", None);
-        klass.add_binding_action(gdk::Key::F9, mods::SHIFT_MASK, "win.reveal-end", None);
+        klass.add_binding_action(gdk::Key::n, mods::CONTROL_MASK, "document.new");
+        klass.add_binding_action(gdk::Key::F9, mods::empty(), "win.reveal-start");
+        klass.add_binding_action(gdk::Key::F9, mods::CONTROL_MASK, "win.reveal-bottom");
+        klass.add_binding_action(gdk::Key::F9, mods::SHIFT_MASK, "win.reveal-end");
     }
 
     fn instance_init(obj: &glib::subclass::InitializingObject<Self>) {
@@ -84,7 +84,7 @@ impl ObjectSubclass for ExampleWindowPrivate {
 
 #[gtk::template_callbacks]
 impl ExampleWindow {
-    pub fn new<P: glib::IsA<gtk::Application>>(app: &P) -> Self {
+    pub fn new<P: IsA<gtk::Application>>(app: &P) -> Self {
         glib::Object::builder().property("application", app).build()
     }
     fn notify_theme_cb(&self, style_manager: &adw::StyleManager) {

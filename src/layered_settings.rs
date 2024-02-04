@@ -1,5 +1,5 @@
-use crate::LayeredSettings;
-use glib::{translate::*, Cast, IsA};
+use crate::{prelude::*, LayeredSettings};
+use glib::translate::*;
 use std::ffi::c_void;
 
 impl LayeredSettings {

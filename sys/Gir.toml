@@ -9,7 +9,6 @@ external_libraries = [
     "GLib",
     "GObject",
     "Gio",
-    "Gdk",
     "Gtk",
     "Adw",
 ]

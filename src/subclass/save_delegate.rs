@@ -1,8 +1,7 @@
-use crate::SaveDelegate;
+use crate::{prelude::*, SaveDelegate};
 use glib::subclass::prelude::*;
 use glib::thread_guard::ThreadGuard;
 use glib::translate::*;
-use glib::Cast;
 use std::{future::Future, pin::Pin};
 
 pub trait SaveDelegateImpl: ObjectImpl {

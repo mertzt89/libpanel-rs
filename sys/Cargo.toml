@@ -39,35 +39,32 @@ v1_4 = ["v1_2"]
 [dependencies]
 libc = "0.2"
 
-[dependencies.gio]
+[dependencies.gio-sys]
 git = "https://github.com/gtk-rs/gtk-rs-core"
-package = "gio-sys"
-version = "0.19"
+version = "0.20"
+branch = "master"
 
-[dependencies.glib]
+[dependencies.glib-sys]
 git = "https://github.com/gtk-rs/gtk-rs-core"
-package = "glib-sys"
-version = "0.19"
+version = "0.20"
+branch = "master"
 
-[dependencies.gobject]
+[dependencies.gobject-sys]
 git = "https://github.com/gtk-rs/gtk-rs-core"
-package = "gobject-sys"
-version = "0.19"
+version = "0.20"
+branch = "master"
 
-[dependencies.gdk]
-git = "https://github.com/gtk-rs/gtk4-rs"
-package = "gdk4-sys"
-version = "0.8"
-
-[dependencies.gtk]
+[dependencies.gtk-sys]
 git = "https://github.com/gtk-rs/gtk4-rs"
 package = "gtk4-sys"
-version = "0.8"
+version = "0.9"
+branch = "master"
 
-[dependencies.adw]
+[dependencies.adw-sys]
 git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs"
 package = "libadwaita-sys"
-version = "0.6"
+version = "0.7"
+branch = "master"
 
 [build-dependencies]
 system-deps = "6"

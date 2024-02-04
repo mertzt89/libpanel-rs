@@ -1,6 +1,5 @@
-use crate::Widget;
+use crate::{prelude::*, Widget};
 use glib::translate::*;
-use glib::Cast;
 use glib::GString;
 use glib::Variant;
 use gtk::subclass::prelude::*;

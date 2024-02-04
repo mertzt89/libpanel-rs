@@ -1,7 +1,6 @@
 use super::workspace::WorkspaceImpl;
-use crate::{DocumentWorkspace, Frame, Position, Widget};
+use crate::{prelude::*, DocumentWorkspace, Frame, Position, Widget};
 use glib::translate::*;
-use glib::Cast;
 use gtk::subclass::prelude::*;
 
 pub trait DocumentWorkspaceImpl: WorkspaceImpl {

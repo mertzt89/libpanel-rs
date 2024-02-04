@@ -1,7 +1,5 @@
-use crate::Dock;
-use crate::Widget;
+use crate::{prelude::*, Dock, Widget};
 use glib::translate::*;
-use glib::Cast;
 use gtk::subclass::prelude::*;
 
 pub trait DockImpl: WidgetImpl {

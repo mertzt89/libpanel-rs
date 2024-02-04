@@ -1,7 +1,6 @@
-use crate::Workbench;
+use crate::{prelude::*, Workbench};
 use glib::thread_guard::ThreadGuard;
 use glib::translate::*;
-use glib::Cast;
 use glib::GString;
 use glib::Variant;
 use gtk::subclass::prelude::*;

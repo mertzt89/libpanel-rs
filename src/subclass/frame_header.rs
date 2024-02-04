@@ -1,7 +1,6 @@
-use crate::FrameHeader;
 use crate::Widget;
+use crate::{prelude::*, FrameHeader};
 use glib::translate::*;
-use glib::Cast;
 use gtk::subclass::prelude::*;
 
 pub trait FrameHeaderImpl: WidgetImpl {

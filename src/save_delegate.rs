@@ -1,6 +1,6 @@
-use crate::SaveDelegate;
+use crate::{prelude::*, SaveDelegate};
 use futures_core::future::Future;
-use glib::{signal::connect_raw, translate::*, Cast, IsA, SignalHandlerId};
+use glib::{signal::connect_raw, translate::*, SignalHandlerId};
 use std::mem::transmute;
 
 pub trait SaveDelegateExtManual {
