@@ -3,6 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
+use crate::ffi;
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -135,6 +136,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_save_delegate_get_icon_name")]
     #[doc(alias = "get_icon_name")]
+    #[doc(alias = "icon-name")]
     fn icon_name(&self) -> Option<glib::GString> {
         unsafe {
             from_glib_none(ffi::panel_save_delegate_get_icon_name(
@@ -145,6 +147,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_save_delegate_get_is_draft")]
     #[doc(alias = "get_is_draft")]
+    #[doc(alias = "is-draft")]
     fn is_draft(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_save_delegate_get_is_draft(
@@ -236,6 +239,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_save_delegate_set_icon")]
+    #[doc(alias = "icon")]
     fn set_icon(&self, icon: Option<&impl IsA<gio::Icon>>) {
         unsafe {
             ffi::panel_save_delegate_set_icon(
@@ -246,6 +250,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_save_delegate_set_icon_name")]
+    #[doc(alias = "icon-name")]
     fn set_icon_name(&self, icon: Option<&str>) {
         unsafe {
             ffi::panel_save_delegate_set_icon_name(
@@ -256,6 +261,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_save_delegate_set_is_draft")]
+    #[doc(alias = "is-draft")]
     fn set_is_draft(&self, is_draft: bool) {
         unsafe {
             ffi::panel_save_delegate_set_is_draft(
@@ -266,6 +272,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_save_delegate_set_progress")]
+    #[doc(alias = "progress")]
     fn set_progress(&self, progress: f64) {
         unsafe {
             ffi::panel_save_delegate_set_progress(self.as_ref().to_glib_none().0, progress);
@@ -273,6 +280,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_save_delegate_set_subtitle")]
+    #[doc(alias = "subtitle")]
     fn set_subtitle(&self, subtitle: Option<&str>) {
         unsafe {
             ffi::panel_save_delegate_set_subtitle(
@@ -283,6 +291,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_save_delegate_set_title")]
+    #[doc(alias = "title")]
     fn set_title(&self, title: Option<&str>) {
         unsafe {
             ffi::panel_save_delegate_set_title(
@@ -306,7 +315,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"close\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     close_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -328,7 +337,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"discard\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     discard_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -351,7 +360,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::icon\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_icon_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -377,7 +386,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::icon-name\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_icon_name_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -403,7 +412,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::is-draft\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_is_draft_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -429,7 +438,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::progress\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_progress_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -455,7 +464,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::subtitle\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_subtitle_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -478,7 +487,7 @@ pub trait SaveDelegateExt: IsA<SaveDelegate> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::title\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_title_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

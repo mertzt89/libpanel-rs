@@ -6,7 +6,7 @@
 #[cfg(feature = "v1_2")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_2")))]
 use crate::Position;
-use crate::{Area, Frame, Widget};
+use crate::{ffi, Area, Frame, Widget};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -344,6 +344,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_dock_get_can_reveal_bottom")]
     #[doc(alias = "get_can_reveal_bottom")]
+    #[doc(alias = "can-reveal-bottom")]
     fn can_reveal_bottom(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_can_reveal_bottom(
@@ -354,6 +355,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_dock_get_can_reveal_end")]
     #[doc(alias = "get_can_reveal_end")]
+    #[doc(alias = "can-reveal-end")]
     fn can_reveal_end(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_can_reveal_end(
@@ -364,6 +366,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_dock_get_can_reveal_start")]
     #[doc(alias = "get_can_reveal_start")]
+    #[doc(alias = "can-reveal-start")]
     fn can_reveal_start(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_can_reveal_start(
@@ -374,6 +377,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_dock_get_can_reveal_top")]
     #[doc(alias = "get_can_reveal_top")]
+    #[doc(alias = "can-reveal-top")]
     fn can_reveal_top(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_can_reveal_top(
@@ -395,6 +399,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_dock_get_reveal_bottom")]
     #[doc(alias = "get_reveal_bottom")]
+    #[doc(alias = "reveal-bottom")]
     fn reveals_bottom(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_reveal_bottom(
@@ -405,6 +410,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_dock_get_reveal_end")]
     #[doc(alias = "get_reveal_end")]
+    #[doc(alias = "reveal-end")]
     fn reveals_end(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_reveal_end(
@@ -415,6 +421,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_dock_get_reveal_start")]
     #[doc(alias = "get_reveal_start")]
+    #[doc(alias = "reveal-start")]
     fn reveals_start(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_reveal_start(
@@ -425,6 +432,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_dock_get_reveal_top")]
     #[doc(alias = "get_reveal_top")]
+    #[doc(alias = "reveal-top")]
     fn reveals_top(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_dock_get_reveal_top(
@@ -444,6 +452,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_dock_set_bottom_height")]
+    #[doc(alias = "bottom-height")]
     fn set_bottom_height(&self, height: i32) {
         unsafe {
             ffi::panel_dock_set_bottom_height(self.as_ref().to_glib_none().0, height);
@@ -451,6 +460,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_dock_set_end_width")]
+    #[doc(alias = "end-width")]
     fn set_end_width(&self, width: i32) {
         unsafe {
             ffi::panel_dock_set_end_width(self.as_ref().to_glib_none().0, width);
@@ -469,6 +479,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_dock_set_reveal_bottom")]
+    #[doc(alias = "reveal-bottom")]
     fn set_reveal_bottom(&self, reveal_bottom: bool) {
         unsafe {
             ffi::panel_dock_set_reveal_bottom(
@@ -479,6 +490,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_dock_set_reveal_end")]
+    #[doc(alias = "reveal-end")]
     fn set_reveal_end(&self, reveal_end: bool) {
         unsafe {
             ffi::panel_dock_set_reveal_end(self.as_ref().to_glib_none().0, reveal_end.into_glib());
@@ -486,6 +498,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_dock_set_reveal_start")]
+    #[doc(alias = "reveal-start")]
     fn set_reveal_start(&self, reveal_start: bool) {
         unsafe {
             ffi::panel_dock_set_reveal_start(
@@ -496,6 +509,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_dock_set_reveal_top")]
+    #[doc(alias = "reveal-top")]
     fn set_reveal_top(&self, reveal_top: bool) {
         unsafe {
             ffi::panel_dock_set_reveal_top(self.as_ref().to_glib_none().0, reveal_top.into_glib());
@@ -503,6 +517,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_dock_set_start_width")]
+    #[doc(alias = "start-width")]
     fn set_start_width(&self, width: i32) {
         unsafe {
             ffi::panel_dock_set_start_width(self.as_ref().to_glib_none().0, width);
@@ -510,6 +525,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_dock_set_top_height")]
+    #[doc(alias = "top-height")]
     fn set_top_height(&self, height: i32) {
         unsafe {
             ffi::panel_dock_set_top_height(self.as_ref().to_glib_none().0, height);
@@ -563,7 +579,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"adopt-widget\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     adopt_widget_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -598,7 +614,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"create-frame\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     create_frame_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -627,7 +643,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"panel-drag-begin\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     panel_drag_begin_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -656,7 +672,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"panel-drag-end\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     panel_drag_end_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -679,7 +695,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::bottom-height\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_bottom_height_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -705,7 +721,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::can-reveal-bottom\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_can_reveal_bottom_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -728,7 +744,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::can-reveal-end\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_can_reveal_end_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -754,7 +770,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::can-reveal-start\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_can_reveal_start_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -777,7 +793,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::can-reveal-top\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_can_reveal_top_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -800,7 +816,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::end-width\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_end_width_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -823,7 +839,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::reveal-bottom\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_reveal_bottom_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -846,7 +862,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::reveal-end\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_reveal_end_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -869,7 +885,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::reveal-start\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_reveal_start_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -892,7 +908,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::reveal-top\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_reveal_top_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -915,7 +931,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::start-width\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_start_width_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -938,7 +954,7 @@ pub trait DockExt: IsA<Dock> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::top-height\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_top_height_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

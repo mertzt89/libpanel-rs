@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::SaveDelegate;
+use crate::{ffi, SaveDelegate};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -59,6 +59,7 @@ impl SaveDialog {
 
     #[doc(alias = "panel_save_dialog_get_close_after_save")]
     #[doc(alias = "get_close_after_save")]
+    #[doc(alias = "close-after-save")]
     pub fn closes_after_save(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_save_dialog_get_close_after_save(
@@ -124,6 +125,7 @@ impl SaveDialog {
     }
 
     #[doc(alias = "panel_save_dialog_set_close_after_save")]
+    #[doc(alias = "close-after-save")]
     pub fn set_close_after_save(&self, close_after_save: bool) {
         unsafe {
             ffi::panel_save_dialog_set_close_after_save(
@@ -148,7 +150,7 @@ impl SaveDialog {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::close-after-save\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_close_after_save_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),

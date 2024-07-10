@@ -3,6 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
+use crate::ffi;
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -340,6 +341,7 @@ pub trait OmniBarExt: IsA<OmniBar> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_omni_bar_set_popover")]
+    #[doc(alias = "popover")]
     fn set_popover(&self, popover: Option<&impl IsA<gtk::Popover>>) {
         unsafe {
             ffi::panel_omni_bar_set_popover(
@@ -350,6 +352,7 @@ pub trait OmniBarExt: IsA<OmniBar> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_omni_bar_set_progress")]
+    #[doc(alias = "progress")]
     fn set_progress(&self, progress: f64) {
         unsafe {
             ffi::panel_omni_bar_set_progress(self.as_ref().to_glib_none().0, progress);
@@ -418,7 +421,7 @@ pub trait OmniBarExt: IsA<OmniBar> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::action-tooltip\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_action_tooltip_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -441,7 +444,7 @@ pub trait OmniBarExt: IsA<OmniBar> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::icon-name\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_icon_name_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -464,7 +467,7 @@ pub trait OmniBarExt: IsA<OmniBar> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::menu-model\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_menu_model_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -487,7 +490,7 @@ pub trait OmniBarExt: IsA<OmniBar> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::popover\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_popover_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -510,7 +513,7 @@ pub trait OmniBarExt: IsA<OmniBar> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::progress\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_progress_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

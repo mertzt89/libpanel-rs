@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::{Frame, FrameHeader};
+use crate::{ffi, Frame, FrameHeader};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -47,6 +47,7 @@ impl FrameHeaderBar {
 
     #[doc(alias = "panel_frame_header_bar_get_show_icon")]
     #[doc(alias = "get_show_icon")]
+    #[doc(alias = "show-icon")]
     pub fn shows_icon(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_frame_header_bar_get_show_icon(
@@ -56,6 +57,7 @@ impl FrameHeaderBar {
     }
 
     #[doc(alias = "panel_frame_header_bar_set_show_icon")]
+    #[doc(alias = "show-icon")]
     pub fn set_show_icon(&self, show_icon: bool) {
         unsafe {
             ffi::panel_frame_header_bar_set_show_icon(self.to_glib_none().0, show_icon.into_glib());
@@ -77,7 +79,7 @@ impl FrameHeaderBar {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::show-icon\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_show_icon_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),

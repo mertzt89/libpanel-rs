@@ -3,6 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
+use crate::ffi;
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -36,6 +37,7 @@ impl ThemeSelector {
 
     #[doc(alias = "panel_theme_selector_get_action_name")]
     #[doc(alias = "get_action_name")]
+    #[doc(alias = "action-name")]
     pub fn action_name(&self) -> glib::GString {
         unsafe {
             from_glib_none(ffi::panel_theme_selector_get_action_name(
@@ -45,6 +47,7 @@ impl ThemeSelector {
     }
 
     #[doc(alias = "panel_theme_selector_set_action_name")]
+    #[doc(alias = "action-name")]
     pub fn set_action_name(&self, action_name: &str) {
         unsafe {
             ffi::panel_theme_selector_set_action_name(
@@ -69,7 +72,7 @@ impl ThemeSelector {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::action-name\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_action_name_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),

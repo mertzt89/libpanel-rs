@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::Position;
+use crate::{ffi, Position};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -59,6 +59,7 @@ impl SessionItem {
 
     #[doc(alias = "panel_session_item_get_module_name")]
     #[doc(alias = "get_module_name")]
+    #[doc(alias = "module-name")]
     pub fn module_name(&self) -> Option<glib::GString> {
         unsafe {
             from_glib_none(ffi::panel_session_item_get_module_name(
@@ -75,6 +76,7 @@ impl SessionItem {
 
     #[doc(alias = "panel_session_item_get_type_hint")]
     #[doc(alias = "get_type_hint")]
+    #[doc(alias = "type-hint")]
     pub fn type_hint(&self) -> Option<glib::GString> {
         unsafe { from_glib_none(ffi::panel_session_item_get_type_hint(self.to_glib_none().0)) }
     }
@@ -97,6 +99,7 @@ impl SessionItem {
     }
 
     #[doc(alias = "panel_session_item_set_id")]
+    #[doc(alias = "id")]
     pub fn set_id(&self, id: Option<&str>) {
         unsafe {
             ffi::panel_session_item_set_id(self.to_glib_none().0, id.to_glib_none().0);
@@ -115,6 +118,7 @@ impl SessionItem {
     }
 
     #[doc(alias = "panel_session_item_set_module_name")]
+    #[doc(alias = "module-name")]
     pub fn set_module_name(&self, module_name: Option<&str>) {
         unsafe {
             ffi::panel_session_item_set_module_name(
@@ -125,6 +129,7 @@ impl SessionItem {
     }
 
     #[doc(alias = "panel_session_item_set_position")]
+    #[doc(alias = "position")]
     pub fn set_position(&self, position: Option<&Position>) {
         unsafe {
             ffi::panel_session_item_set_position(self.to_glib_none().0, position.to_glib_none().0);
@@ -132,6 +137,7 @@ impl SessionItem {
     }
 
     #[doc(alias = "panel_session_item_set_type_hint")]
+    #[doc(alias = "type-hint")]
     pub fn set_type_hint(&self, type_hint: Option<&str>) {
         unsafe {
             ffi::panel_session_item_set_type_hint(
@@ -142,6 +148,7 @@ impl SessionItem {
     }
 
     #[doc(alias = "panel_session_item_set_workspace")]
+    #[doc(alias = "workspace")]
     pub fn set_workspace(&self, workspace: Option<&str>) {
         unsafe {
             ffi::panel_session_item_set_workspace(
@@ -166,7 +173,7 @@ impl SessionItem {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::id\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_id_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -189,7 +196,7 @@ impl SessionItem {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::module-name\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_module_name_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -212,7 +219,7 @@ impl SessionItem {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::position\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_position_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -235,7 +242,7 @@ impl SessionItem {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::type-hint\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_type_hint_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -258,7 +265,7 @@ impl SessionItem {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::workspace\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_workspace_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),

@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::Area;
+use crate::{ffi, Area};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -64,6 +64,7 @@ impl Position {
 
     #[doc(alias = "panel_position_get_area_set")]
     #[doc(alias = "get_area_set")]
+    #[doc(alias = "area-set")]
     pub fn is_area_set(&self) -> bool {
         unsafe { from_glib(ffi::panel_position_get_area_set(self.to_glib_none().0)) }
     }
@@ -76,6 +77,7 @@ impl Position {
 
     #[doc(alias = "panel_position_get_column_set")]
     #[doc(alias = "get_column_set")]
+    #[doc(alias = "column-set")]
     pub fn is_column_set(&self) -> bool {
         unsafe { from_glib(ffi::panel_position_get_column_set(self.to_glib_none().0)) }
     }
@@ -88,6 +90,7 @@ impl Position {
 
     #[doc(alias = "panel_position_get_depth_set")]
     #[doc(alias = "get_depth_set")]
+    #[doc(alias = "depth-set")]
     pub fn is_depth_set(&self) -> bool {
         unsafe { from_glib(ffi::panel_position_get_depth_set(self.to_glib_none().0)) }
     }
@@ -100,6 +103,7 @@ impl Position {
 
     #[doc(alias = "panel_position_get_row_set")]
     #[doc(alias = "get_row_set")]
+    #[doc(alias = "row-set")]
     pub fn is_row_set(&self) -> bool {
         unsafe { from_glib(ffi::panel_position_get_row_set(self.to_glib_none().0)) }
     }
@@ -110,6 +114,7 @@ impl Position {
     }
 
     #[doc(alias = "panel_position_set_area")]
+    #[doc(alias = "area")]
     pub fn set_area(&self, area: Area) {
         unsafe {
             ffi::panel_position_set_area(self.to_glib_none().0, area.into_glib());
@@ -117,6 +122,7 @@ impl Position {
     }
 
     #[doc(alias = "panel_position_set_area_set")]
+    #[doc(alias = "area-set")]
     pub fn set_area_set(&self, area_set: bool) {
         unsafe {
             ffi::panel_position_set_area_set(self.to_glib_none().0, area_set.into_glib());
@@ -124,6 +130,7 @@ impl Position {
     }
 
     #[doc(alias = "panel_position_set_column")]
+    #[doc(alias = "column")]
     pub fn set_column(&self, column: u32) {
         unsafe {
             ffi::panel_position_set_column(self.to_glib_none().0, column);
@@ -131,6 +138,7 @@ impl Position {
     }
 
     #[doc(alias = "panel_position_set_column_set")]
+    #[doc(alias = "column-set")]
     pub fn set_column_set(&self, column_set: bool) {
         unsafe {
             ffi::panel_position_set_column_set(self.to_glib_none().0, column_set.into_glib());
@@ -138,6 +146,7 @@ impl Position {
     }
 
     #[doc(alias = "panel_position_set_depth")]
+    #[doc(alias = "depth")]
     pub fn set_depth(&self, depth: u32) {
         unsafe {
             ffi::panel_position_set_depth(self.to_glib_none().0, depth);
@@ -145,6 +154,7 @@ impl Position {
     }
 
     #[doc(alias = "panel_position_set_depth_set")]
+    #[doc(alias = "depth-set")]
     pub fn set_depth_set(&self, depth_set: bool) {
         unsafe {
             ffi::panel_position_set_depth_set(self.to_glib_none().0, depth_set.into_glib());
@@ -152,6 +162,7 @@ impl Position {
     }
 
     #[doc(alias = "panel_position_set_row")]
+    #[doc(alias = "row")]
     pub fn set_row(&self, row: u32) {
         unsafe {
             ffi::panel_position_set_row(self.to_glib_none().0, row);
@@ -159,6 +170,7 @@ impl Position {
     }
 
     #[doc(alias = "panel_position_set_row_set")]
+    #[doc(alias = "row-set")]
     pub fn set_row_set(&self, row_set: bool) {
         unsafe {
             ffi::panel_position_set_row_set(self.to_glib_none().0, row_set.into_glib());
@@ -185,7 +197,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::area\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_area_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -208,7 +220,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::area-set\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_area_set_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -231,7 +243,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::column\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_column_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -254,7 +266,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::column-set\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_column_set_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -277,7 +289,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::depth\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_depth_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -300,7 +312,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::depth-set\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_depth_set_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -323,7 +335,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::row\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_row_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -346,7 +358,7 @@ impl Position {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::row-set\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_row_set_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),

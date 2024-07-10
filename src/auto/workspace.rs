@@ -3,6 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
+use crate::ffi;
 #[cfg(feature = "v1_4")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
 use crate::{Inhibitor, Workbench};
@@ -318,6 +319,7 @@ pub trait WorkspaceExt: IsA<Workspace> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_workspace_set_id")]
+    #[doc(alias = "id")]
     fn set_id(&self, id: &str) {
         unsafe {
             ffi::panel_workspace_set_id(self.as_ref().to_glib_none().0, id.to_glib_none().0);
@@ -341,7 +343,7 @@ pub trait WorkspaceExt: IsA<Workspace> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::id\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

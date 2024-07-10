@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::{Position, SaveDelegate};
+use crate::{ffi, Position, SaveDelegate};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -378,12 +378,14 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_widget_get_busy")]
     #[doc(alias = "get_busy")]
+    #[doc(alias = "busy")]
     fn is_busy(&self) -> bool {
         unsafe { from_glib(ffi::panel_widget_get_busy(self.as_ref().to_glib_none().0)) }
     }
 
     #[doc(alias = "panel_widget_get_can_maximize")]
     #[doc(alias = "get_can_maximize")]
+    #[doc(alias = "can-maximize")]
     fn can_maximize(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_widget_get_can_maximize(
@@ -416,6 +418,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_widget_get_icon_name")]
     #[doc(alias = "get_icon_name")]
+    #[doc(alias = "icon-name")]
     fn icon_name(&self) -> Option<glib::GString> {
         unsafe {
             from_glib_none(ffi::panel_widget_get_icon_name(
@@ -438,6 +441,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_widget_get_menu_model")]
     #[doc(alias = "get_menu_model")]
+    #[doc(alias = "menu-model")]
     fn menu_model(&self) -> Option<gio::MenuModel> {
         unsafe {
             from_glib_none(ffi::panel_widget_get_menu_model(
@@ -448,6 +452,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_widget_get_modified")]
     #[doc(alias = "get_modified")]
+    #[doc(alias = "modified")]
     fn is_modified(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_widget_get_modified(
@@ -458,6 +463,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_widget_get_needs_attention")]
     #[doc(alias = "get_needs_attention")]
+    #[doc(alias = "needs-attention")]
     fn needs_attention(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_widget_get_needs_attention(
@@ -478,6 +484,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_widget_get_reorderable")]
     #[doc(alias = "get_reorderable")]
+    #[doc(alias = "reorderable")]
     fn is_reorderable(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_widget_get_reorderable(
@@ -488,6 +495,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_widget_get_save_delegate")]
     #[doc(alias = "get_save_delegate")]
+    #[doc(alias = "save-delegate")]
     fn save_delegate(&self) -> Option<SaveDelegate> {
         unsafe {
             from_glib_none(ffi::panel_widget_get_save_delegate(
@@ -545,6 +553,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_widget_set_can_maximize")]
+    #[doc(alias = "can-maximize")]
     fn set_can_maximize(&self, can_maximize: bool) {
         unsafe {
             ffi::panel_widget_set_can_maximize(
@@ -555,6 +564,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_widget_set_child")]
+    #[doc(alias = "child")]
     fn set_child(&self, child: Option<&impl IsA<gtk::Widget>>) {
         unsafe {
             ffi::panel_widget_set_child(
@@ -565,6 +575,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_widget_set_icon")]
+    #[doc(alias = "icon")]
     fn set_icon(&self, icon: Option<&impl IsA<gio::Icon>>) {
         unsafe {
             ffi::panel_widget_set_icon(
@@ -575,6 +586,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_widget_set_icon_name")]
+    #[doc(alias = "icon-name")]
     fn set_icon_name(&self, icon_name: Option<&str>) {
         unsafe {
             ffi::panel_widget_set_icon_name(
@@ -585,6 +597,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_widget_set_id")]
+    #[doc(alias = "id")]
     fn set_id(&self, id: &str) {
         unsafe {
             ffi::panel_widget_set_id(self.as_ref().to_glib_none().0, id.to_glib_none().0);
@@ -592,6 +605,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_widget_set_kind")]
+    #[doc(alias = "kind")]
     fn set_kind(&self, kind: Option<&str>) {
         unsafe {
             ffi::panel_widget_set_kind(self.as_ref().to_glib_none().0, kind.to_glib_none().0);
@@ -599,6 +613,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_widget_set_menu_model")]
+    #[doc(alias = "menu-model")]
     fn set_menu_model(&self, menu_model: Option<&impl IsA<gio::MenuModel>>) {
         unsafe {
             ffi::panel_widget_set_menu_model(
@@ -609,6 +624,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_widget_set_modified")]
+    #[doc(alias = "modified")]
     fn set_modified(&self, modified: bool) {
         unsafe {
             ffi::panel_widget_set_modified(self.as_ref().to_glib_none().0, modified.into_glib());
@@ -616,6 +632,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_widget_set_needs_attention")]
+    #[doc(alias = "needs-attention")]
     fn set_needs_attention(&self, needs_attention: bool) {
         unsafe {
             ffi::panel_widget_set_needs_attention(
@@ -626,6 +643,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_widget_set_reorderable")]
+    #[doc(alias = "reorderable")]
     fn set_reorderable(&self, reorderable: bool) {
         unsafe {
             ffi::panel_widget_set_reorderable(
@@ -636,6 +654,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_widget_set_save_delegate")]
+    #[doc(alias = "save-delegate")]
     fn set_save_delegate(&self, save_delegate: Option<&impl IsA<SaveDelegate>>) {
         unsafe {
             ffi::panel_widget_set_save_delegate(
@@ -646,6 +665,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_widget_set_title")]
+    #[doc(alias = "title")]
     fn set_title(&self, title: Option<&str>) {
         unsafe {
             ffi::panel_widget_set_title(self.as_ref().to_glib_none().0, title.to_glib_none().0);
@@ -653,6 +673,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_widget_set_tooltip")]
+    #[doc(alias = "tooltip")]
     fn set_tooltip(&self, tooltip: Option<&str>) {
         unsafe {
             ffi::panel_widget_set_tooltip(self.as_ref().to_glib_none().0, tooltip.to_glib_none().0);
@@ -695,7 +716,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"get-default-focus\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     get_default_focus_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -717,7 +738,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"presented\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     presented_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -740,7 +761,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::busy\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_busy_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -763,7 +784,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::can-maximize\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_can_maximize_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -786,7 +807,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::child\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_child_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -809,7 +830,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::icon\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_icon_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -832,7 +853,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::icon-name\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_icon_name_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -855,7 +876,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::id\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -878,7 +899,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::kind\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_kind_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -901,7 +922,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::menu-model\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_menu_model_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -924,7 +945,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::modified\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_modified_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -950,7 +971,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::needs-attention\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_needs_attention_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -973,7 +994,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::reorderable\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_reorderable_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -999,7 +1020,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::save-delegate\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_save_delegate_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -1022,7 +1043,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::title\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_title_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -1047,7 +1068,7 @@ pub trait PanelWidgetExt: IsA<Widget> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::tooltip\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_tooltip_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

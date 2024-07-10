@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::{Frame, Widget};
+use crate::{ffi, Frame, Widget};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -83,6 +83,7 @@ pub trait FrameHeaderExt: IsA<FrameHeader> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_frame_header_set_frame")]
+    #[doc(alias = "frame")]
     fn set_frame(&self, frame: Option<&impl IsA<Frame>>) {
         unsafe {
             ffi::panel_frame_header_set_frame(
@@ -107,7 +108,7 @@ pub trait FrameHeaderExt: IsA<FrameHeader> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::frame\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_frame_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

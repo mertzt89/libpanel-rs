@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::{Frame, FrameHeader};
+use crate::{ffi, Frame, FrameHeader};
 use glib::{prelude::*, translate::*};
 
 glib::wrapper! {

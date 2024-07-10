@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::{Frame, FrameHeader};
+use crate::{ffi, Frame, FrameHeader};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -37,12 +37,14 @@ impl FrameTabBar {
 
     #[doc(alias = "panel_frame_tab_bar_get_autohide")]
     #[doc(alias = "get_autohide")]
+    #[doc(alias = "autohide")]
     pub fn is_autohide(&self) -> bool {
         unsafe { from_glib(ffi::panel_frame_tab_bar_get_autohide(self.to_glib_none().0)) }
     }
 
     #[doc(alias = "panel_frame_tab_bar_get_expand_tabs")]
     #[doc(alias = "get_expand_tabs")]
+    #[doc(alias = "expand-tabs")]
     pub fn expands_tabs(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_frame_tab_bar_get_expand_tabs(
@@ -53,11 +55,13 @@ impl FrameTabBar {
 
     #[doc(alias = "panel_frame_tab_bar_get_inverted")]
     #[doc(alias = "get_inverted")]
+    #[doc(alias = "inverted")]
     pub fn is_inverted(&self) -> bool {
         unsafe { from_glib(ffi::panel_frame_tab_bar_get_inverted(self.to_glib_none().0)) }
     }
 
     #[doc(alias = "panel_frame_tab_bar_set_autohide")]
+    #[doc(alias = "autohide")]
     pub fn set_autohide(&self, autohide: bool) {
         unsafe {
             ffi::panel_frame_tab_bar_set_autohide(self.to_glib_none().0, autohide.into_glib());
@@ -65,6 +69,7 @@ impl FrameTabBar {
     }
 
     #[doc(alias = "panel_frame_tab_bar_set_expand_tabs")]
+    #[doc(alias = "expand-tabs")]
     pub fn set_expand_tabs(&self, expand_tabs: bool) {
         unsafe {
             ffi::panel_frame_tab_bar_set_expand_tabs(
@@ -75,6 +80,7 @@ impl FrameTabBar {
     }
 
     #[doc(alias = "panel_frame_tab_bar_set_inverted")]
+    #[doc(alias = "inverted")]
     pub fn set_inverted(&self, inverted: bool) {
         unsafe {
             ffi::panel_frame_tab_bar_set_inverted(self.to_glib_none().0, inverted.into_glib());
@@ -96,7 +102,7 @@ impl FrameTabBar {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::autohide\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_autohide_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -119,7 +125,7 @@ impl FrameTabBar {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::expand-tabs\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_expand_tabs_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -142,7 +148,7 @@ impl FrameTabBar {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::inverted\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_inverted_trampoline::<F> as *const (),
                 )),
                 Box_::into_raw(f),

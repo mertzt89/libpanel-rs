@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::{Dock, Grid, Statusbar, Workspace};
+use crate::{ffi, Dock, Grid, Statusbar, Workspace};
 #[cfg(feature = "v1_4")]
 #[cfg_attr(docsrs, doc(cfg(feature = "v1_4")))]
 use crate::{Frame, Position, Widget};
@@ -350,15 +350,21 @@ pub trait DocumentWorkspaceExt: IsA<DocumentWorkspace> + sealed::Sealed + 'stati
         }
     }
 
-    fn get_property_dock(&self) -> Option<Dock> {
+    #[cfg(not(feature = "v1_4"))]
+    #[cfg_attr(docsrs, doc(cfg(not(feature = "v1_4"))))]
+    fn dock(&self) -> Option<Dock> {
         ObjectExt::property(self.as_ref(), "dock")
     }
 
-    fn get_property_grid(&self) -> Option<Grid> {
+    #[cfg(not(feature = "v1_4"))]
+    #[cfg_attr(docsrs, doc(cfg(not(feature = "v1_4"))))]
+    fn grid(&self) -> Option<Grid> {
         ObjectExt::property(self.as_ref(), "grid")
     }
 
-    fn get_property_statusbar(&self) -> Option<Statusbar> {
+    #[cfg(not(feature = "v1_4"))]
+    #[cfg_attr(docsrs, doc(cfg(not(feature = "v1_4"))))]
+    fn statusbar(&self) -> Option<Statusbar> {
         ObjectExt::property(self.as_ref(), "statusbar")
     }
 
@@ -391,7 +397,7 @@ pub trait DocumentWorkspaceExt: IsA<DocumentWorkspace> + sealed::Sealed + 'stati
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"add-widget\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     add_widget_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -426,7 +432,7 @@ pub trait DocumentWorkspaceExt: IsA<DocumentWorkspace> + sealed::Sealed + 'stati
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"create-frame\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     create_frame_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -452,7 +458,7 @@ pub trait DocumentWorkspaceExt: IsA<DocumentWorkspace> + sealed::Sealed + 'stati
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::dock\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_dock_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -478,7 +484,7 @@ pub trait DocumentWorkspaceExt: IsA<DocumentWorkspace> + sealed::Sealed + 'stati
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::grid\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_grid_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -504,7 +510,7 @@ pub trait DocumentWorkspaceExt: IsA<DocumentWorkspace> + sealed::Sealed + 'stati
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::statusbar\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_statusbar_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

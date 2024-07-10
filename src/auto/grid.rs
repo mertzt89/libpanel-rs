@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::{Frame, GridColumn, Widget};
+use crate::{ffi, Frame, GridColumn, Widget};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -407,7 +407,7 @@ pub trait PanelGridExt: IsA<Grid> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"create-frame\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     create_frame_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

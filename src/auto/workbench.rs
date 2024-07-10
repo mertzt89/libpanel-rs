@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::Workspace;
+use crate::{ffi, Workspace};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -185,6 +185,7 @@ pub trait WorkbenchExt: IsA<Workbench> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_workbench_set_id")]
+    #[doc(alias = "id")]
     fn set_id(&self, id: &str) {
         unsafe {
             ffi::panel_workbench_set_id(self.as_ref().to_glib_none().0, id.to_glib_none().0);
@@ -205,7 +206,7 @@ pub trait WorkbenchExt: IsA<Workbench> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"activate\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     activate_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -230,7 +231,7 @@ pub trait WorkbenchExt: IsA<Workbench> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::id\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_id_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),

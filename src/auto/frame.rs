@@ -3,7 +3,7 @@
 // from gir-files (https://github.com/gtk-rs/gir-files.git)
 // DO NOT EDIT
 
-use crate::{FrameHeader, Position, Widget};
+use crate::{ffi, FrameHeader, Position, Widget};
 use glib::{
     prelude::*,
     signal::{connect_raw, SignalHandlerId},
@@ -303,6 +303,7 @@ pub trait PanelFrameExt: IsA<Frame> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_frame_get_closeable")]
     #[doc(alias = "get_closeable")]
+    #[doc(alias = "closeable")]
     fn is_closeable(&self) -> bool {
         unsafe {
             from_glib(ffi::panel_frame_get_closeable(
@@ -313,6 +314,7 @@ pub trait PanelFrameExt: IsA<Frame> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_frame_get_empty")]
     #[doc(alias = "get_empty")]
+    #[doc(alias = "empty")]
     fn is_empty(&self) -> bool {
         unsafe { from_glib(ffi::panel_frame_get_empty(self.as_ref().to_glib_none().0)) }
     }
@@ -369,6 +371,7 @@ pub trait PanelFrameExt: IsA<Frame> + sealed::Sealed + 'static {
 
     #[doc(alias = "panel_frame_get_visible_child")]
     #[doc(alias = "get_visible_child")]
+    #[doc(alias = "visible-child")]
     fn visible_child(&self) -> Option<Widget> {
         unsafe {
             from_glib_none(ffi::panel_frame_get_visible_child(
@@ -411,6 +414,7 @@ pub trait PanelFrameExt: IsA<Frame> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_frame_set_placeholder")]
+    #[doc(alias = "placeholder")]
     fn set_placeholder(&self, placeholder: Option<&impl IsA<gtk::Widget>>) {
         unsafe {
             ffi::panel_frame_set_placeholder(
@@ -428,6 +432,7 @@ pub trait PanelFrameExt: IsA<Frame> + sealed::Sealed + 'static {
     }
 
     #[doc(alias = "panel_frame_set_visible_child")]
+    #[doc(alias = "visible-child")]
     fn set_visible_child(&self, widget: &impl IsA<Widget>) {
         unsafe {
             ffi::panel_frame_set_visible_child(
@@ -464,7 +469,7 @@ pub trait PanelFrameExt: IsA<Frame> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"adopt-widget\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     adopt_widget_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -492,7 +497,7 @@ pub trait PanelFrameExt: IsA<Frame> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"page-closed\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     page_closed_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -515,7 +520,7 @@ pub trait PanelFrameExt: IsA<Frame> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::closeable\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_closeable_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -538,7 +543,7 @@ pub trait PanelFrameExt: IsA<Frame> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::empty\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_empty_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -561,7 +566,7 @@ pub trait PanelFrameExt: IsA<Frame> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::placeholder\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_placeholder_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
@@ -584,7 +589,7 @@ pub trait PanelFrameExt: IsA<Frame> + sealed::Sealed + 'static {
             connect_raw(
                 self.as_ptr() as *mut _,
                 b"notify::visible-child\0".as_ptr() as *const _,
-                Some(std::mem::transmute::<_, unsafe extern "C" fn()>(
+                Some(std::mem::transmute::<*const (), unsafe extern "C" fn()>(
                     notify_visible_child_trampoline::<Self, F> as *const (),
                 )),
                 Box_::into_raw(f),
