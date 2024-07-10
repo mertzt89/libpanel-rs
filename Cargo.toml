@@ -1,6 +1,6 @@
 [package]
 name = "libpanel"
-version = "0.5.0"
+version = "0.6.0"
 authors = ["Jason Francis <jafrancis999@gmail.com>"]
 edition = "2021"
 homepage = "https://world.pages.gitlab.gnome.org/Rust/libpanel-rs/"
@@ -29,12 +29,12 @@ rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
 futures-core = { version = "0.3", default-features = false }
-ffi = { package = "libpanel-sys", path = "./sys", version = "0.5.0" }
-glib = { git = "https://github.com/gtk-rs/gtk-rs-core", version = "0.20", branch = "0.20"}
-gio = { git = "https://github.com/gtk-rs/gtk-rs-core", version = "0.20", branch = "0.20" }
-gdk = { git = "https://github.com/gtk-rs/gtk4-rs", package = "gdk4", version = "0.9", branch = "0.9"}
-gtk = { git = "https://github.com/gtk-rs/gtk4-rs", package = "gtk4", version = "0.9", branch = "0.9"}
-adw = { git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs", package = "libadwaita", version = "0.7", branch = "v0.7"}
+ffi = { package = "libpanel-sys", path = "./sys", version = "0.6.0" }
+glib = { git = "https://github.com/gtk-rs/gtk-rs-core", version = "0.21", branch = "master"}
+gio = { git = "https://github.com/gtk-rs/gtk-rs-core", version = "0.21", branch = "master" }
+gdk = { git = "https://github.com/gtk-rs/gtk4-rs", package = "gdk4", version = "0.10", branch = "master"}
+gtk = { git = "https://github.com/gtk-rs/gtk4-rs", package = "gtk4", version = "0.10", branch = "master"}
+adw = { git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs", package = "libadwaita", version = "0.8", branch = "master"}
 libc = "0.2.140"
 
 [workspace]
