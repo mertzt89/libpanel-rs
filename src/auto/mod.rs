@@ -9,6 +9,13 @@ pub use self::action_muxer::ActionMuxer;
 mod application;
 pub use self::application::Application;
 
+#[cfg(feature = "v1_8")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v1_8")))]
+mod changes_dialog;
+#[cfg(feature = "v1_8")]
+#[cfg_attr(docsrs, doc(cfg(feature = "v1_8")))]
+pub use self::changes_dialog::ChangesDialog;
+
 mod dock;
 pub use self::dock::Dock;
 
@@ -115,6 +122,9 @@ pub(crate) mod traits {
     pub use super::workspace::WorkspaceExt;
 }
 pub(crate) mod builders {
+    #[cfg(feature = "v1_8")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_8")))]
+    pub use super::changes_dialog::ChangesDialogBuilder;
     pub use super::dock::DockBuilder;
     pub use super::document_workspace::DocumentWorkspaceBuilder;
     pub use super::frame::FrameBuilder;

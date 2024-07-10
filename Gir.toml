@@ -105,6 +105,11 @@ status = "generate"
 trait_name = "PanelApplicationExt"
 
 [[object]]
+name = "Panel.ChangesDialog"
+status = "generate"
+version = "1.8"
+
+[[object]]
 name = "Panel.Frame"
 status = "generate"
 trait_name = "PanelFrameExt"

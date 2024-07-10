@@ -40,9 +40,9 @@ pub const PANEL_AREA_CENTER: PanelArea = 4;
 
 // Constants
 pub const PANEL_MAJOR_VERSION: c_int = 1;
-pub const PANEL_MICRO_VERSION: c_int = 0;
-pub const PANEL_MINOR_VERSION: c_int = 3;
-pub const PANEL_VERSION_S: &[u8] = b"1.3.0\0";
+pub const PANEL_MICRO_VERSION: c_int = 1;
+pub const PANEL_MINOR_VERSION: c_int = 7;
+pub const PANEL_VERSION_S: &[u8] = b"1.7.1\0";
 pub const PANEL_WIDGET_KIND_ANY: &[u8] = b"*\0";
 pub const PANEL_WIDGET_KIND_DOCUMENT: &[u8] = b"document\0";
 pub const PANEL_WIDGET_KIND_UNKNOWN: &[u8] = b"unknown\0";
@@ -87,6 +87,20 @@ pub struct PanelApplicationClass {
 impl ::std::fmt::Debug for PanelApplicationClass {
     fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
         f.debug_struct(&format!("PanelApplicationClass @ {self:p}"))
+            .field("parent_class", &self.parent_class)
+            .finish()
+    }
+}
+
+#[derive(Copy, Clone)]
+#[repr(C)]
+pub struct PanelChangesDialogClass {
+    pub parent_class: adw::AdwAlertDialogClass,
+}
+
+impl ::std::fmt::Debug for PanelChangesDialogClass {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("PanelChangesDialogClass @ {self:p}"))
             .field("parent_class", &self.parent_class)
             .finish()
     }
@@ -582,6 +596,19 @@ impl ::std::fmt::Debug for PanelApplication {
     }
 }
 
+#[repr(C)]
+pub struct PanelChangesDialog {
+    _data: [u8; 0],
+    _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+}
+
+impl ::std::fmt::Debug for PanelChangesDialog {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        f.debug_struct(&format!("PanelChangesDialog @ {self:p}"))
+            .finish()
+    }
+}
+
 #[derive(Copy, Clone)]
 #[repr(C)]
 pub struct PanelDock {
@@ -1026,6 +1053,47 @@ extern "C" {
         application_id: *const c_char,
         flags: gio::GApplicationFlags,
     ) -> *mut PanelApplication;
+
+    //=========================================================================
+    // PanelChangesDialog
+    //=========================================================================
+    #[cfg(feature = "v1_8")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_8")))]
+    pub fn panel_changes_dialog_get_type() -> GType;
+    #[cfg(feature = "v1_8")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_8")))]
+    pub fn panel_changes_dialog_new() -> *mut gtk::GtkWidget;
+    #[cfg(feature = "v1_8")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_8")))]
+    pub fn panel_changes_dialog_add_delegate(
+        self_: *mut PanelChangesDialog,
+        delegate: *mut PanelSaveDelegate,
+    );
+    #[cfg(feature = "v1_8")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_8")))]
+    pub fn panel_changes_dialog_get_close_after_save(self_: *mut PanelChangesDialog) -> gboolean;
+    #[cfg(feature = "v1_8")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_8")))]
+    pub fn panel_changes_dialog_run_async(
+        self_: *mut PanelChangesDialog,
+        parent: *mut gtk::GtkWidget,
+        cancellable: *mut gio::GCancellable,
+        callback: gio::GAsyncReadyCallback,
+        user_data: gpointer,
+    );
+    #[cfg(feature = "v1_8")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_8")))]
+    pub fn panel_changes_dialog_run_finish(
+        self_: *mut PanelChangesDialog,
+        result: *mut gio::GAsyncResult,
+        error: *mut *mut glib::GError,
+    ) -> gboolean;
+    #[cfg(feature = "v1_8")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "v1_8")))]
+    pub fn panel_changes_dialog_set_close_after_save(
+        self_: *mut PanelChangesDialog,
+        close_after_save: gboolean,
+    );
 
     //=========================================================================
     // PanelDock

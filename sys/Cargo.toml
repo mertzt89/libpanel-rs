@@ -29,12 +29,16 @@ version = "1.1"
 [package.metadata.system-deps.libpanel_1.v1_4]
 version = "1.3"
 
+[package.metadata.system-deps.libpanel_1.v1_8]
+version = "1.7"
+
 [lib]
 name = "libpanel_sys"
 
 [features]
 v1_2 = []
 v1_4 = ["v1_2"]
+v1_8 = ["v1_4"]
 
 [dependencies]
 libc = "0.2"
@@ -42,29 +46,29 @@ libc = "0.2"
 [dependencies.gio-sys]
 git = "https://github.com/gtk-rs/gtk-rs-core"
 version = "0.20"
-branch = "master"
+branch = "0.20"
 
 [dependencies.glib-sys]
 git = "https://github.com/gtk-rs/gtk-rs-core"
 version = "0.20"
-branch = "master"
+branch = "0.20"
 
 [dependencies.gobject-sys]
 git = "https://github.com/gtk-rs/gtk-rs-core"
 version = "0.20"
-branch = "master"
+branch = "0.20"
 
 [dependencies.gtk-sys]
 git = "https://github.com/gtk-rs/gtk4-rs"
 package = "gtk4-sys"
 version = "0.9"
-branch = "master"
+branch = "0.9"
 
 [dependencies.adw-sys]
 git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs"
 package = "libadwaita-sys"
 version = "0.7"
-branch = "master"
+branch = "v0.7"
 
 [build-dependencies]
 system-deps = "7"

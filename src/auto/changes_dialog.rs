@@ -11,66 +11,55 @@ use glib::{
 };
 use std::{boxed::Box as Box_, pin::Pin};
 
-#[cfg(feature = "adw_v1_2")]
-#[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
 glib::wrapper! {
-    #[doc(alias = "PanelSaveDialog")]
-    pub struct SaveDialog(Object<ffi::PanelSaveDialog, ffi::PanelSaveDialogClass>) @extends adw::MessageDialog, gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
+    #[doc(alias = "PanelChangesDialog")]
+    pub struct ChangesDialog(Object<ffi::PanelChangesDialog, ffi::PanelChangesDialogClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
 
     match fn {
-        type_ => || ffi::panel_save_dialog_get_type(),
+        type_ => || ffi::panel_changes_dialog_get_type(),
     }
 }
 
-#[cfg(not(any(feature = "adw_v1_2")))]
-glib::wrapper! {
-    #[doc(alias = "PanelSaveDialog")]
-    pub struct SaveDialog(Object<ffi::PanelSaveDialog, ffi::PanelSaveDialogClass>) @extends gtk::Widget, @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
-
-    match fn {
-        type_ => || ffi::panel_save_dialog_get_type(),
-    }
-}
-
-impl SaveDialog {
-    #[doc(alias = "panel_save_dialog_new")]
-    pub fn new() -> SaveDialog {
+impl ChangesDialog {
+    #[doc(alias = "panel_changes_dialog_new")]
+    pub fn new() -> ChangesDialog {
         assert_initialized_main_thread!();
-        unsafe { gtk::Widget::from_glib_none(ffi::panel_save_dialog_new()).unsafe_cast() }
+        unsafe { gtk::Widget::from_glib_none(ffi::panel_changes_dialog_new()).unsafe_cast() }
     }
 
     // rustdoc-stripper-ignore-next
-    /// Creates a new builder-pattern struct instance to construct [`SaveDialog`] objects.
+    /// Creates a new builder-pattern struct instance to construct [`ChangesDialog`] objects.
     ///
-    /// This method returns an instance of [`SaveDialogBuilder`](crate::builders::SaveDialogBuilder) which can be used to create [`SaveDialog`] objects.
-    pub fn builder() -> SaveDialogBuilder {
-        SaveDialogBuilder::new()
+    /// This method returns an instance of [`ChangesDialogBuilder`](crate::builders::ChangesDialogBuilder) which can be used to create [`ChangesDialog`] objects.
+    pub fn builder() -> ChangesDialogBuilder {
+        ChangesDialogBuilder::new()
     }
 
-    #[doc(alias = "panel_save_dialog_add_delegate")]
+    #[doc(alias = "panel_changes_dialog_add_delegate")]
     pub fn add_delegate(&self, delegate: &impl IsA<SaveDelegate>) {
         unsafe {
-            ffi::panel_save_dialog_add_delegate(
+            ffi::panel_changes_dialog_add_delegate(
                 self.to_glib_none().0,
                 delegate.as_ref().to_glib_none().0,
             );
         }
     }
 
-    #[doc(alias = "panel_save_dialog_get_close_after_save")]
+    #[doc(alias = "panel_changes_dialog_get_close_after_save")]
     #[doc(alias = "get_close_after_save")]
     #[doc(alias = "close-after-save")]
     pub fn closes_after_save(&self) -> bool {
         unsafe {
-            from_glib(ffi::panel_save_dialog_get_close_after_save(
+            from_glib(ffi::panel_changes_dialog_get_close_after_save(
                 self.to_glib_none().0,
             ))
         }
     }
 
-    #[doc(alias = "panel_save_dialog_run_async")]
+    #[doc(alias = "panel_changes_dialog_run_async")]
     pub fn run_async<P: FnOnce(Result<(), glib::Error>) + 'static>(
         &self,
+        parent: &impl IsA<gtk::Widget>,
         cancellable: Option<&impl IsA<gio::Cancellable>>,
         callback: P,
     ) {
@@ -92,7 +81,7 @@ impl SaveDialog {
             user_data: glib::ffi::gpointer,
         ) {
             let mut error = std::ptr::null_mut();
-            let _ = ffi::panel_save_dialog_run_finish(_source_object as *mut _, res, &mut error);
+            let _ = ffi::panel_changes_dialog_run_finish(_source_object as *mut _, res, &mut error);
             let result = if error.is_null() {
                 Ok(())
             } else {
@@ -105,8 +94,9 @@ impl SaveDialog {
         }
         let callback = run_async_trampoline::<P>;
         unsafe {
-            ffi::panel_save_dialog_run_async(
+            ffi::panel_changes_dialog_run_async(
                 self.to_glib_none().0,
+                parent.as_ref().to_glib_none().0,
                 cancellable.map(|p| p.as_ref()).to_glib_none().0,
                 Some(callback),
                 Box_::into_raw(user_data) as *mut _,
@@ -116,30 +106,45 @@ impl SaveDialog {
 
     pub fn run_future(
         &self,
+        parent: &(impl IsA<gtk::Widget> + Clone + 'static),
     ) -> Pin<Box_<dyn std::future::Future<Output = Result<(), glib::Error>> + 'static>> {
+        let parent = parent.clone();
         Box_::pin(gio::GioFuture::new(self, move |obj, cancellable, send| {
-            obj.run_async(Some(cancellable), move |res| {
+            obj.run_async(&parent, Some(cancellable), move |res| {
                 send.resolve(res);
             });
         }))
     }
 
-    #[doc(alias = "panel_save_dialog_set_close_after_save")]
+    #[doc(alias = "panel_changes_dialog_set_close_after_save")]
     #[doc(alias = "close-after-save")]
     pub fn set_close_after_save(&self, close_after_save: bool) {
         unsafe {
-            ffi::panel_save_dialog_set_close_after_save(
+            ffi::panel_changes_dialog_set_close_after_save(
                 self.to_glib_none().0,
                 close_after_save.into_glib(),
             );
         }
     }
 
-    #[cfg_attr(feature = "v1_8", deprecated = "Since 1.8")]
+    #[cfg(not(feature = "v1_8"))]
+    #[cfg_attr(docsrs, doc(cfg(not(feature = "v1_8"))))]
+    #[doc(alias = "close-after-save")]
+    pub fn closes_after_save(&self) -> bool {
+        ObjectExt::property(self, "close-after-save")
+    }
+
+    #[cfg(not(feature = "v1_8"))]
+    #[cfg_attr(docsrs, doc(cfg(not(feature = "v1_8"))))]
+    #[doc(alias = "close-after-save")]
+    pub fn set_close_after_save(&self, close_after_save: bool) {
+        ObjectExt::set_property(self, "close-after-save", close_after_save)
+    }
+
     #[doc(alias = "close-after-save")]
     pub fn connect_close_after_save_notify<F: Fn(&Self) + 'static>(&self, f: F) -> SignalHandlerId {
-        unsafe extern "C" fn notify_close_after_save_trampoline<F: Fn(&SaveDialog) + 'static>(
-            this: *mut ffi::PanelSaveDialog,
+        unsafe extern "C" fn notify_close_after_save_trampoline<F: Fn(&ChangesDialog) + 'static>(
+            this: *mut ffi::PanelChangesDialog,
             _param_spec: glib::ffi::gpointer,
             f: glib::ffi::gpointer,
         ) {
@@ -160,103 +165,31 @@ impl SaveDialog {
     }
 }
 
-impl Default for SaveDialog {
+impl Default for ChangesDialog {
     fn default() -> Self {
         Self::new()
     }
 }
 
 // rustdoc-stripper-ignore-next
-/// A [builder-pattern] type to construct [`SaveDialog`] objects.
+/// A [builder-pattern] type to construct [`ChangesDialog`] objects.
 ///
 /// [builder-pattern]: https://doc.rust-lang.org/1.0.0/style/ownership/builders.html
 #[must_use = "The builder must be built to be used"]
-pub struct SaveDialogBuilder {
-    builder: glib::object::ObjectBuilder<'static, SaveDialog>,
+pub struct ChangesDialogBuilder {
+    builder: glib::object::ObjectBuilder<'static, ChangesDialog>,
 }
 
-impl SaveDialogBuilder {
+impl ChangesDialogBuilder {
     fn new() -> Self {
         Self {
             builder: glib::object::Object::builder(),
         }
     }
 
-    #[cfg_attr(feature = "v1_8", deprecated = "Since 1.8")]
     pub fn close_after_save(self, close_after_save: bool) -> Self {
         Self {
             builder: self.builder.property("close-after-save", close_after_save),
-        }
-    }
-
-    #[cfg(feature = "adw_v1_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
-    #[cfg_attr(feature = "v1_6", deprecated = "Since 1.6")]
-    pub fn body(self, body: impl Into<glib::GString>) -> Self {
-        Self {
-            builder: self.builder.property("body", body.into()),
-        }
-    }
-
-    #[cfg(feature = "adw_v1_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
-    #[cfg_attr(feature = "v1_6", deprecated = "Since 1.6")]
-    pub fn body_use_markup(self, body_use_markup: bool) -> Self {
-        Self {
-            builder: self.builder.property("body-use-markup", body_use_markup),
-        }
-    }
-
-    #[cfg(feature = "adw_v1_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
-    #[cfg_attr(feature = "v1_6", deprecated = "Since 1.6")]
-    pub fn close_response(self, close_response: impl Into<glib::GString>) -> Self {
-        Self {
-            builder: self
-                .builder
-                .property("close-response", close_response.into()),
-        }
-    }
-
-    #[cfg(feature = "adw_v1_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
-    #[cfg_attr(feature = "v1_6", deprecated = "Since 1.6")]
-    pub fn default_response(self, default_response: impl Into<glib::GString>) -> Self {
-        Self {
-            builder: self
-                .builder
-                .property("default-response", default_response.into()),
-        }
-    }
-
-    #[cfg(feature = "adw_v1_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
-    #[cfg_attr(feature = "v1_6", deprecated = "Since 1.6")]
-    pub fn extra_child(self, extra_child: &impl IsA<gtk::Widget>) -> Self {
-        Self {
-            builder: self
-                .builder
-                .property("extra-child", extra_child.clone().upcast()),
-        }
-    }
-
-    #[cfg(feature = "adw_v1_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
-    #[cfg_attr(feature = "v1_6", deprecated = "Since 1.6")]
-    pub fn heading(self, heading: impl Into<glib::GString>) -> Self {
-        Self {
-            builder: self.builder.property("heading", heading.into()),
-        }
-    }
-
-    #[cfg(feature = "adw_v1_2")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "adw_v1_2")))]
-    #[cfg_attr(feature = "v1_6", deprecated = "Since 1.6")]
-    pub fn heading_use_markup(self, heading_use_markup: bool) -> Self {
-        Self {
-            builder: self
-                .builder
-                .property("heading-use-markup", heading_use_markup),
         }
     }
 
@@ -445,9 +378,9 @@ impl SaveDialogBuilder {
     }
 
     // rustdoc-stripper-ignore-next
-    /// Build the [`SaveDialog`].
+    /// Build the [`ChangesDialog`].
     #[must_use = "Building the object from the builder is usually expensive and is not expected to have side effects"]
-    pub fn build(self) -> SaveDialog {
+    pub fn build(self) -> ChangesDialog {
         self.builder.build()
     }
 }

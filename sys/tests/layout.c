@@ -12,6 +12,7 @@ int main() {
     printf("%s;%zu;%zu\n", "PanelApplication", sizeof(PanelApplication), alignof(PanelApplication));
     printf("%s;%zu;%zu\n", "PanelApplicationClass", sizeof(PanelApplicationClass), alignof(PanelApplicationClass));
     printf("%s;%zu;%zu\n", "PanelArea", sizeof(PanelArea), alignof(PanelArea));
+    printf("%s;%zu;%zu\n", "PanelChangesDialogClass", sizeof(PanelChangesDialogClass), alignof(PanelChangesDialogClass));
     printf("%s;%zu;%zu\n", "PanelDock", sizeof(PanelDock), alignof(PanelDock));
     printf("%s;%zu;%zu\n", "PanelDockClass", sizeof(PanelDockClass), alignof(PanelDockClass));
     printf("%s;%zu;%zu\n", "PanelDocumentWorkspace", sizeof(PanelDocumentWorkspace), alignof(PanelDocumentWorkspace));

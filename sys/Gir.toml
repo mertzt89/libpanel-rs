@@ -13,3 +13,8 @@ external_libraries = [
     "Adw",
 ]
 
+
+[[object]]
+name = "Panel.ChangesDialog"
+status = "generate"
+version = "1.8"

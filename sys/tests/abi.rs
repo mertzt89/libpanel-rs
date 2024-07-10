@@ -231,6 +231,13 @@ const RUST_LAYOUTS: &[(&str, Layout)] = &[
         },
     ),
     (
+        "PanelChangesDialogClass",
+        Layout {
+            size: size_of::<PanelChangesDialogClass>(),
+            alignment: align_of::<PanelChangesDialogClass>(),
+        },
+    ),
+    (
         "PanelDock",
         Layout {
             size: size_of::<PanelDock>(),
@@ -491,9 +498,9 @@ const RUST_CONSTANTS: &[(&str, &str)] = &[
     ("(gint) PANEL_AREA_START", "0"),
     ("(gint) PANEL_AREA_TOP", "2"),
     ("PANEL_MAJOR_VERSION", "1"),
-    ("PANEL_MICRO_VERSION", "0"),
-    ("PANEL_MINOR_VERSION", "3"),
-    ("PANEL_VERSION_S", "1.3.0"),
+    ("PANEL_MICRO_VERSION", "1"),
+    ("PANEL_MINOR_VERSION", "7"),
+    ("PANEL_VERSION_S", "1.7.1"),
     ("PANEL_WIDGET_KIND_ANY", "*"),
     ("PANEL_WIDGET_KIND_DOCUMENT", "document"),
     ("PANEL_WIDGET_KIND_UNKNOWN", "unknown"),
