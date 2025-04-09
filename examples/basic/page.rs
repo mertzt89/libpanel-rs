@@ -94,18 +94,32 @@ impl ObjectImpl for ExamplePagePrivate {
             .subtitle("~/Documents")
             .build();
         save_delegate.connect_save(|delegate, task| {
-            glib::clone!(@strong delegate, @strong task => async move {
-                loop {
-                    glib::timeout_future(Duration::from_millis(30)).await;
-                    if tick(&delegate, &task)? {
-                        break;
+            glib::clone!(
+                #[strong]
+                delegate,
+                #[strong]
+                task,
+                async move {
+                    loop {
+                        glib::timeout_future(Duration::from_millis(30)).await;
+                        if tick(&delegate, &task)? {
+                            break;
+                        }
                     }
+                    Ok(())
                 }
-                Ok(())
-            })
+            )
         });
-        save_delegate.connect_discard(glib::clone!(@weak obj => move |_| obj.force_close()));
-        save_delegate.connect_close(glib::clone!(@weak obj => move |_| obj.force_close()));
+        save_delegate.connect_discard(glib::clone!(
+            #[weak]
+            obj,
+            move |_| obj.force_close()
+        ));
+        save_delegate.connect_close(glib::clone!(
+            #[weak]
+            obj,
+            move |_| obj.force_close()
+        ));
         obj.bind_property("title", &save_delegate, "title")
             .flags(glib::BindingFlags::SYNC_CREATE)
             .build();

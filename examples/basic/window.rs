@@ -231,9 +231,13 @@ impl ObjectImpl for ExampleWindowPrivate {
         let style_manager = adw::StyleManager::default();
         style_manager.connect_notify_local(
             None,
-            glib::clone!(@weak obj => move |m, _| {
-                obj.notify_theme_cb(m);
-            }),
+            glib::clone!(
+                #[weak]
+                obj,
+                move |m, _| {
+                    obj.notify_theme_cb(m);
+                }
+            ),
         );
         obj.notify_theme_cb(&style_manager);
         obj.add_action(&gio::PropertyAction::new(
