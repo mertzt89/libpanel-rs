@@ -52,12 +52,6 @@ impl<T: PanelWidgetImpl> PanelWidgetImplExt for T {
 unsafe impl<T: PanelWidgetImpl> IsSubclassable<T> for Widget {
     fn class_init(class: &mut glib::Class<Self>) {
         Self::parent_class_init::<T>(class);
-        unsafe {
-            let mut data = T::type_data();
-            let data = data.as_mut();
-            // Used to store actions for `install_action` and `rust_builder_scope`
-            data.set_class_data(<T as ObjectSubclassType>::type_(), Internal::default());
-        }
         let klass = class.as_mut();
         klass.get_default_focus = Some(widget_get_default_focus::<T>);
         klass.presented = Some(widget_presented::<T>);
