@@ -30,11 +30,11 @@ rustdoc-args = ["--cfg", "docsrs"]
 [dependencies]
 futures-core = { version = "0.3", default-features = false }
 ffi = { package = "libpanel-sys", path = "./sys", version = "0.6.0" }
-glib = { git = "https://github.com/gtk-rs/gtk-rs-core", version = "0.21", branch = "master"}
-gio = { git = "https://github.com/gtk-rs/gtk-rs-core", version = "0.21", branch = "master" }
-gdk = { git = "https://github.com/gtk-rs/gtk4-rs", package = "gdk4", version = "0.10", branch = "master"}
-gtk = { git = "https://github.com/gtk-rs/gtk4-rs", package = "gtk4", version = "0.10", branch = "master"}
-adw = { git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs", package = "libadwaita", version = "0.8", branch = "master"}
+glib = { git = "https://github.com/gtk-rs/gtk-rs-core", version = "0.21", branch = "main" }
+gio = { git = "https://github.com/gtk-rs/gtk-rs-core", version = "0.21", branch = "main" }
+gdk = { git = "https://github.com/gtk-rs/gtk4-rs", package = "gdk4", version = "0.10", branch = "main" }
+gtk = { git = "https://github.com/gtk-rs/gtk4-rs", package = "gtk4", version = "0.10", branch = "main" }
+adw = { git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs", package = "libadwaita", version = "0.8", branch = "master" }
 libc = "0.2.140"
 
 [workspace]

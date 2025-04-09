@@ -46,23 +46,23 @@ libc = "0.2"
 [dependencies.gio-sys]
 git = "https://github.com/gtk-rs/gtk-rs-core"
 version = "0.21"
-branch = "master"
+branch = "main"
 
 [dependencies.glib-sys]
 git = "https://github.com/gtk-rs/gtk-rs-core"
 version = "0.21"
-branch = "master"
+branch = "main"
 
 [dependencies.gobject-sys]
 git = "https://github.com/gtk-rs/gtk-rs-core"
 version = "0.21"
-branch = "master"
+branch = "main"
 
 [dependencies.gtk-sys]
 git = "https://github.com/gtk-rs/gtk4-rs"
 package = "gtk4-sys"
 version = "0.10"
-branch = "master"
+branch = "main"
 
 [dependencies.adw-sys]
 git = "https://gitlab.gnome.org/World/Rust/libadwaita-rs"
